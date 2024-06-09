@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React, { MouseEventHandler, useRef, useState } from "react";
+import React, { TouchEvent, useRef, useState } from "react";
 
 type Props = {
   id: string;
@@ -31,47 +31,52 @@ export default function Exercise({
   isDone = false,
 }: Props) {
   const [touchStartX, setTouchStartX] = useState(0);
-  const deleteRef = useRef<HTMLDivElement>(null);
-  let touchEndX = 0;
+  const removeRef = useRef<HTMLDivElement>(null);
+  const doneRef = useRef<HTMLDivElement>(null);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = (e: TouchEvent) => {
     setTouchStartX(e.changedTouches[0].screenX);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    console.log("touchStartX:", touchStartX);
-    console.log(e.changedTouches[0].screenX);
+  const handleTouchMove = (e: TouchEvent) => {
+    const offsetLimit = 390;
     const offset = e.changedTouches[0].screenX - touchStartX;
-    console.log("offset:", offset);
 
-    if (offset < 0) {
-      console.log(
-        "left",
-        Number(deleteRef.current?.style.left.replace("px", ""))
+    if (offset > 0 && offset < offsetLimit) {
+      doneRef.current?.style.setProperty(
+        "transform",
+        `translateX(${offset}px)`
       );
-      deleteRef.current?.style.setProperty(
-        "left",
-        `${(
-          Number(deleteRef.current?.style.left.replace("px", "")) +
-          offset / 100
-        ).toFixed()}px`
+      removeRef.current?.style.setProperty("transform", "translateX(0)");
+    }
+    if (offset < 0 && offset > -offsetLimit) {
+      removeRef.current?.style.setProperty(
+        "transform",
+        `translateX(${offset}px)`
       );
+      doneRef.current?.style.setProperty("transform", "translateX(0)");
     }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    const triggerRange = 100;
-    touchEndX = e.changedTouches[0].screenX;
-    if (touchStartX < touchEndX + triggerRange) {
-      // Swipe right
+    const triggerRange = 125;
+    const touchEndX = e.changedTouches[0].screenX;
+    const offset = touchEndX - touchStartX;
+
+    // Swipe right
+    if (offset > triggerRange) {
       console.log("Swipe to right, MARK AS DONE");
       onSwipeRight(id);
     }
-    if (touchStartX > touchEndX + triggerRange) {
-      // Swipe left
+    // Swipe left
+    if (offset < -triggerRange) {
       console.log("Swipe to left, DELETE");
       onSwipeLeft(id);
     }
+
+    //Reset swipe position
+    removeRef.current?.style.setProperty("transform", "translateX(0)");
+    doneRef.current?.style.setProperty("transform", "translateX(0)");
   };
 
   return (
@@ -106,17 +111,22 @@ export default function Exercise({
       </div>
       <div
         className={cn(
-          "absolute h-full left-0",
+          "absolute w-full h-full right-full flex items-center justify-end ",
           isDone ? "bg-slate-300" : "bg-green-300"
         )}
+        ref={doneRef}
       >
-        {isDone ? "Undo" : "Do"}
+        <span className="mr-5 text-lg">
+          Mark as {isDone ? "undone" : "done"}
+        </span>
       </div>
       <div
-        className={cn("absolute w-full h-full left-full bg-red-400")}
-        ref={deleteRef}
+        className={cn(
+          "absolute w-full h-full left-full flex items-center bg-red-400"
+        )}
+        ref={removeRef}
       >
-        Delete
+        <span className="ml-5 text-white text-lg">Remove exercise</span>
       </div>
     </button>
   );

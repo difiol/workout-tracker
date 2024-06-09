@@ -1,12 +1,14 @@
 import { create } from "zustand";
 
 type ExerciseStore = {
+  workouts: any[];
   exercises: any[];
   deleteExercise: (id: string) => void;
   addExercise: (exercise: any) => void;
 };
 
 export const useWorkout = create<ExerciseStore>()((set) => ({
+  workouts: [],
   exercises: [
     {
       id: "1",
