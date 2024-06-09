@@ -1,5 +1,5 @@
 import { UserAvatar } from "@/components/UserAvatar";
-import Exercise from "@/components/exercises/ExerciseItem";
+import { Workout } from "@/components/Workout";
 
 export default function Home() {
   return (
@@ -16,26 +16,7 @@ export default function Home() {
           </li>
         </ul>
       </nav>
-      <section className="w-full flex flex-col items-center gap-4 py-10">
-        <Exercise
-          id="1"
-          name="Bench Press"
-          weight={100}
-          reps={10}
-          sets={3}
-          time={0}
-          material="Barbell"
-        />
-        <Exercise
-          id="2"
-          name="Deadlift"
-          weight={150}
-          reps={8}
-          sets={3}
-          time={0}
-          material="Barbell"
-        />
-      </section>
+      <Workout />
     </main>
   );
 }
