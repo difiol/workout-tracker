@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Exercise from "./exercises/ExerciseItem";
+import Exercise from "./ExerciseItem";
 import { useWorkout } from "@/store/useWorkout";
 import { cn } from "@/lib/utils";
 
 type Props = {};
 
-export function Workout() {
+export function ExercisesList() {
   const { exercises, addExercise, deleteExercise } = useWorkout();
   const [active, setActive] = useState<string>("");
   const [done, setDone] = useState<string[]>([]);

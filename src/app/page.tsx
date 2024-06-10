@@ -1,5 +1,6 @@
 import { UserAvatar } from "@/components/UserAvatar";
-import { Workout } from "@/components/Workout";
+import { ExercisesList } from "@/components/exercises/ExercisesList";
+import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 
 export default function Home() {
   return (
@@ -16,7 +17,8 @@ export default function Home() {
           </li>
         </ul>
       </nav>
-      <Workout />
+      <WorkoutsSlider />
+      <ExercisesList />
       <button>Add exercise</button>
       <footer className="w-full flex justify-center mt-auto">
         <button className="p-4 rounded-lg bg-green-500 border-2">
