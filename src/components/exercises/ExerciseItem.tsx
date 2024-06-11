@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Exercise } from "@/types/exercise";
 import React, { TouchEvent, useRef, useState } from "react";
 
 type Props = {
@@ -10,13 +11,14 @@ type Props = {
   time: number;
   material: string;
   onClick: (id: string) => void;
-  onSwipeRight: (id: string) => void;
+  onSwipeRight: (id: Exercise) => void;
   onSwipeLeft: (id: string) => void;
-  isActive: boolean;
-  isDone: boolean;
+  isActive?: boolean;
+  isDone?: boolean;
+  className?: string;
 };
 
-export default function Exercise({
+export function ExerciseItem({
   id,
   name,
   weight,
@@ -29,6 +31,7 @@ export default function Exercise({
   onSwipeLeft,
   isActive = false,
   isDone = false,
+  className,
 }: Props) {
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
@@ -66,7 +69,7 @@ export default function Exercise({
     // Swipe right
     if (offset > triggerRange) {
       console.log("Swipe to right, MARK AS DONE");
-      onSwipeRight(id);
+      onSwipeRight({ id, name, weight, reps, sets, time, material });
     }
     // Swipe left
     if (offset < -triggerRange) {
@@ -86,7 +89,8 @@ export default function Exercise({
         isDone
           ? "bg-green-300"
           : "hover:bg-slate-400 transition-colors duration-200 ease-in-out",
-        isActive && "border-2 border-slate-500"
+        isActive && "border-2 border-slate-500",
+        className
       )}
       onClick={() => onClick(id)}
       onTouchStart={handleTouchStart}

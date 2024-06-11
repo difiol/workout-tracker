@@ -3,9 +3,11 @@ import { cn } from "@/lib/utils";
 import { useWorkout } from "@/store/useWorkout";
 import React from "react";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
-export function WorkoutsSlider({}: Props) {
+export function WorkoutsSlider({ className }: Props) {
   const { workouts, activeWorkout, selectWorkout } = useWorkout();
 
   const handleClick = (id: string) => {
@@ -13,8 +15,8 @@ export function WorkoutsSlider({}: Props) {
   };
 
   return (
-    <div className="w-full overflow-x-scroll mt-8">
-      <div className="w-fit flex gap-2 ">
+    <div className={cn("w-full overflow-x-scroll", className)}>
+      <div className="w-fit flex gap-2 py-3">
         {workouts.map(({ id, name }) => (
           <button
             onClick={() => handleClick(id)}

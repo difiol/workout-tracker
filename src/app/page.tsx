@@ -17,11 +17,10 @@ export default function Home() {
           </li>
         </ul>
       </nav>
-      <WorkoutsSlider />
+      <WorkoutsSlider className="mt-8" />
       <ExercisesList />
-      <button>Add exercise</button>
       <footer className="w-full flex justify-center mt-auto">
-        <button className="p-4 rounded-lg bg-green-500 border-2">
+        <button className="p-4 rounded-lg bg-slate-100 border-2 border-slate-400">
           Save workout
         </button>
       </footer>

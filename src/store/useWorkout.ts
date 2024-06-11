@@ -3,16 +3,14 @@ import { Workout } from "@/types/workout";
 import { Exercise } from "@/types/exercise";
 import { defaultWorkouts } from "./data/workouts";
 
-type ExerciseStore = {
+type WorkoutStore = {
   workouts: Workout[];
   activeWorkout: Workout | null;
   exercises: Exercise[];
   selectWorkout: (id: string) => void;
-  deleteExercise: (id: string) => void;
-  addExercise: (exercise: any) => void;
 };
 
-export const useWorkout = create<ExerciseStore>()((set) => ({
+export const useWorkout = create<WorkoutStore>()((set) => ({
   workouts: defaultWorkouts,
   activeWorkout: defaultWorkouts[0],
   exercises: defaultWorkouts[0].exercises,
@@ -22,14 +20,11 @@ export const useWorkout = create<ExerciseStore>()((set) => ({
         (workout) => workout.id === id
       );
       return {
-        activeWorkout: slectedWorkout,
-        exercises: slectedWorkout?.exercises ?? [],
+        ...state,
+        ...(id !== state.activeWorkout?.id && {
+          activeWorkout: slectedWorkout,
+          exercises: slectedWorkout?.exercises ?? [],
+        }),
       };
     }),
-  deleteExercise: (id: string) =>
-    set((state) => ({
-      exercises: state.exercises.filter((exercise) => exercise.id !== id),
-    })),
-  addExercise: (exercise: any) =>
-    set((state) => ({ exercises: [...state.exercises, exercise] })),
 }));
