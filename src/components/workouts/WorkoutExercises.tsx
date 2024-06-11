@@ -1,16 +1,17 @@
 "use client";
 
 import React, { FocusEventHandler, useEffect, useState } from "react";
-import { ExerciseItem } from "./ExerciseItem";
+import { ExerciseItem } from "../exercises/ExerciseItem";
 import { useWorkout } from "@/store/useWorkout";
 import { cn } from "@/lib/utils";
 import { Exercise } from "@/types/exercise";
+import { InputExerciseItem } from "../elements/InputExerciseItem";
 
 type Props = {
   className?: string;
 };
 
-export function ExercisesList({ className }: Props) {
+export function WorkoutExercises({ className }: Props) {
   const { exercises, activeWorkout } = useWorkout();
   const [active, setActive] = useState<string>("");
   const [todo, setTodo] = useState<Exercise[]>(exercises);
@@ -36,13 +37,13 @@ export function ExercisesList({ className }: Props) {
     setDone((prev) => prev.filter((exercise) => exercise.id !== id));
   };
 
-  const handleAddExercise: FocusEventHandler<HTMLInputElement> = (e) => {
+  const handleAddExercise = (name: string) => {
     const id = String(Math.random());
     setTodo((prev) => [
       ...prev,
       {
         id,
-        name: e.target.value || "New Exercise",
+        name: name,
         weight: 0,
         reps: 0,
         sets: 0,
@@ -51,7 +52,6 @@ export function ExercisesList({ className }: Props) {
       },
     ]);
     setActive(id);
-    e.target.value = "";
   };
 
   useEffect(() => {
@@ -82,12 +82,7 @@ export function ExercisesList({ className }: Props) {
           isActive={active === id}
         />
       ))}
-      <input
-        type="text"
-        placeholder="Add new exercise..."
-        className="w-full flex rounded-lg py-4 text-center text-2xl font-bold bg-slate-300"
-        onBlur={handleAddExercise}
-      />
+      <InputExerciseItem onChange={handleAddExercise} />
       {done.map(({ id, name, weight, reps, sets, time, material }) => (
         <ExerciseItem
           key={id}

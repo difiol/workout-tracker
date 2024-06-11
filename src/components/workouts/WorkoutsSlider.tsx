@@ -15,8 +15,8 @@ export function WorkoutsSlider({ className }: Props) {
   };
 
   return (
-    <div className={cn("w-full overflow-x-scroll", className)}>
-      <div className="w-fit flex gap-2 py-3">
+    <div className={cn("w-full overflow-x-auto", className)}>
+      <div className="w-fit flex gap-2 mx-auto py-3">
         {workouts.map(({ id, name }) => (
           <button
             onClick={() => handleClick(id)}

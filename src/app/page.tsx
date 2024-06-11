@@ -1,5 +1,5 @@
 import { UserAvatar } from "@/components/UserAvatar";
-import { ExercisesList } from "@/components/exercises/ExercisesList";
+import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
         </ul>
       </nav>
       <WorkoutsSlider className="mt-8" />
-      <ExercisesList />
+      <WorkoutExercises />
       <footer className="w-full flex justify-center mt-auto">
         <button className="p-4 rounded-lg bg-slate-100 border-2 border-slate-400">
           Save workout

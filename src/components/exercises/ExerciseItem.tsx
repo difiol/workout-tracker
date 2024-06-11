@@ -68,12 +68,10 @@ export function ExerciseItem({
 
     // Swipe right
     if (offset > triggerRange) {
-      console.log("Swipe to right, MARK AS DONE");
       onSwipeRight({ id, name, weight, reps, sets, time, material });
     }
     // Swipe left
     if (offset < -triggerRange) {
-      console.log("Swipe to left, DELETE");
       onSwipeLeft(id);
     }
 
