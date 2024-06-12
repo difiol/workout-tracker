@@ -7,16 +7,17 @@ import React, {
 } from "react";
 
 type Props = {
-  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
+  onFocus?: () => void;
   className?: string;
 };
 
-export function InputExerciseItem({ onChange, className }: Props) {
+export function InputExerciseItem({ onSubmit, onFocus, className }: Props) {
   const ref = useRef<HTMLInputElement>(null);
 
   const handleInput: FocusEventHandler<HTMLInputElement> = (e) => {
     if (!e.target.value) return;
-    onChange(e.target.value);
+    onSubmit(e.target.value);
     e.target.value = "";
   };
 
@@ -31,12 +32,13 @@ export function InputExerciseItem({ onChange, className }: Props) {
       type="text"
       placeholder="Add new exercise..."
       className={cn(
-        "w-full flex rounded-lg p-5 text-center text-2xl font-bold bg-slate-300",
+        "w-full flex rounded-lg p-3 text-center text-lg font-semibold border-2 border-slate-200 bg-slate-100 shadow-lg",
         className
       )}
       ref={ref}
       onBlur={handleInput}
       onKeyDown={handleEnter}
+      onFocus={onFocus}
     />
   );
 }

@@ -1,31 +1,25 @@
 import { cn } from "@/lib/utils";
 import { Exercise } from "@/types/exercise";
 import React, { TouchEvent, useRef, useState } from "react";
+import { ExerciseDetailItem } from "./ExerciseDetailItem";
+import { FaWeightHanging } from "react-icons/fa6";
+import { MdSportsMartialArts } from "react-icons/md";
+import { BsArrowRepeat } from "react-icons/bs";
+import { ImAlarm } from "react-icons/im";
+import { BiDumbbell } from "react-icons/bi";
 
 type Props = {
-  id: string;
-  name: string;
-  weight: number;
-  reps: number;
-  sets: number;
-  time: number;
-  material: string;
+  exercise: Exercise;
   onClick: (id: string) => void;
-  onSwipeRight: (id: Exercise) => void;
-  onSwipeLeft: (id: string) => void;
+  onSwipeRight: (exercise: Exercise) => void;
+  onSwipeLeft: (exercise: Exercise) => void;
   isActive?: boolean;
   isDone?: boolean;
   className?: string;
 };
 
 export function ExerciseItem({
-  id,
-  name,
-  weight,
-  reps,
-  sets,
-  time,
-  material,
+  exercise,
   onClick,
   onSwipeRight,
   onSwipeLeft,
@@ -36,6 +30,12 @@ export function ExerciseItem({
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
+
+  const { id, name, weight, reps, sets, time, material } = exercise;
+
+  const handleOnClick = () => {
+    if (!isActive) onClick(id);
+  };
 
   const handleTouchStart = (e: TouchEvent) => {
     setTouchStartX(e.changedTouches[0].screenX);
@@ -68,11 +68,11 @@ export function ExerciseItem({
 
     // Swipe right
     if (offset > triggerRange) {
-      onSwipeRight({ id, name, weight, reps, sets, time, material });
+      onSwipeRight(exercise);
     }
     // Swipe left
     if (offset < -triggerRange) {
-      onSwipeLeft(id);
+      onSwipeLeft(exercise);
     }
 
     //Reset swipe position
@@ -83,32 +83,51 @@ export function ExerciseItem({
   return (
     <button
       className={cn(
-        "relative w-full h-full flex items-stretch rounded-lg bg-slate-300 overflow-hidden",
+        "relative w-full h-full flex items-stretch rounded-lg border-2 border-slate-200 bg-slate-100 shadow-lg overflow-hidden",
         isDone
           ? "bg-green-300"
-          : "hover:bg-slate-400 transition-colors duration-200 ease-in-out",
-        isActive && "border-2 border-slate-500",
+          : "hover:bg-slate-200 transition-colors duration-200 ease-in-out",
+        isActive && "border-slate-300",
         className
       )}
-      onClick={() => onClick(id)}
+      onClick={handleOnClick}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="w-full flex flex-col gap-4 p-5">
+      <div className="w-full p-3">
         <h2 className="text-2xl font-bold self-center">{name}</h2>
         {isActive && (
-          <>
+          <div className="flex flex-col gap-4 mt-4 px-2 ">
             <span className="w-full flex justify-between">
-              <p>Weight: {weight} kg</p>
-              <p>Reps: {reps}</p>
-              <p>Sets: {sets}</p>
+              <ExerciseDetailItem
+                icon={<FaWeightHanging />}
+                value={weight}
+                unit="kg"
+              />
+              <ExerciseDetailItem
+                icon={<MdSportsMartialArts size={24} />}
+                value={reps}
+                unit="reps"
+              />
+              <ExerciseDetailItem
+                icon={<BsArrowRepeat size={24} />}
+                value={sets}
+                unit="sets"
+              />
             </span>
-            <span className="w-full flex justify-between">
-              <p>Time: {time} min</p>
-              <p>Material: {material}</p>
+            <span className="w-full flex gap-10">
+              <ExerciseDetailItem
+                icon={<ImAlarm size={18} />}
+                value={time}
+                unit="min"
+              />
+              <ExerciseDetailItem
+                icon={<BiDumbbell size={24} />}
+                value={material}
+              />
             </span>
-          </>
+          </div>
         )}
       </div>
       <div

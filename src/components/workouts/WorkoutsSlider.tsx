@@ -21,8 +21,8 @@ export function WorkoutsSlider({ className }: Props) {
           <button
             onClick={() => handleClick(id)}
             className={cn(
-              "w-max py-1 px-2 rounded-full border-slate-300 border",
-              activeWorkout?.id === id && "bg-slate-300"
+              "w-max py-2 px-3 rounded-full border-slate-300 border",
+              activeWorkout?.id === id && "bg-slate-100"
             )}
             key={id}
           >
