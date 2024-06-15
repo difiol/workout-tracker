@@ -11,6 +11,7 @@ type Props = {
   todo: Exercise[];
   markAsDone: (exercise: Exercise) => void;
   addExercise: (exercise: Exercise) => void;
+  updateExercise: (exercise: Exercise) => void;
   removeExercise: (exercise: Exercise) => void;
   className?: string;
 };
@@ -21,6 +22,7 @@ export function WorkoutExercises({
   markAsDone,
   className,
   addExercise,
+  updateExercise,
   removeExercise,
 }: Props) {
   const [active, setActive] = useState<string>("");
@@ -62,6 +64,7 @@ export function WorkoutExercises({
           onClick={handleClick}
           onSwipeRight={markAsDone}
           onSwipeLeft={removeExercise}
+          updateExercise={updateExercise}
           isActive={active === exercise.id}
         />
       ))}
@@ -76,6 +79,7 @@ export function WorkoutExercises({
           onClick={handleClick}
           onSwipeRight={markAsDone}
           onSwipeLeft={removeExercise}
+          updateExercise={updateExercise}
           isActive={active === exercise.id}
           isDone
         />

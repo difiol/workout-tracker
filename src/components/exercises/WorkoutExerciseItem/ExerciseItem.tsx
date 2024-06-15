@@ -7,12 +7,14 @@ import { MdSportsMartialArts } from "react-icons/md";
 import { BsArrowRepeat } from "react-icons/bs";
 import { ImAlarm } from "react-icons/im";
 import { BiDumbbell } from "react-icons/bi";
+import { useContentEditable } from "@/hooks/useContentEditable";
 
 type Props = {
   exercise: Exercise;
   onClick: (id: string) => void;
   onSwipeRight: (exercise: Exercise) => void;
   onSwipeLeft: (exercise: Exercise) => void;
+  updateExercise: (exercise: Exercise) => void;
   isActive?: boolean;
   isDone?: boolean;
   className?: string;
@@ -23,6 +25,7 @@ export function ExerciseItem({
   onClick,
   onSwipeRight,
   onSwipeLeft,
+  updateExercise,
   isActive = false,
   isDone = false,
   className,
@@ -30,11 +33,19 @@ export function ExerciseItem({
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
+  const contentEditableProps = useContentEditable(
+    (value) => handleUpdateValue("name", value ?? name),
+    { isEditable: isActive, isMultiline: false }
+  );
 
   const { id, name, weight, reps, sets, time, material } = exercise;
 
   const handleOnClick = () => {
     if (!isActive) onClick(id);
+  };
+
+  const handleUpdateValue = (key: string, value: string | number) => {
+    updateExercise({ ...exercise, [key]: value });
   };
 
   const handleTouchStart = (e: TouchEvent) => {
@@ -96,7 +107,12 @@ export function ExerciseItem({
       onTouchEnd={handleTouchEnd}
     >
       <div className="w-full p-3">
-        <h2 className="text-2xl font-bold self-center">{name}</h2>
+        <h2
+          {...contentEditableProps}
+          className="text-2xl font-bold self-center"
+        >
+          {name}
+        </h2>
         {isActive && (
           <div className="flex flex-col gap-4 mt-4 px-2 ">
             <span className="w-full flex justify-between">
@@ -104,16 +120,19 @@ export function ExerciseItem({
                 icon={<FaWeightHanging />}
                 value={weight}
                 unit="kg"
+                onChange={(value) => handleUpdateValue("weight", value ?? 0)}
               />
               <ExerciseDetailItem
                 icon={<MdSportsMartialArts size={24} />}
                 value={reps}
                 unit="reps"
+                onChange={(value) => handleUpdateValue("reps", value ?? 0)}
               />
               <ExerciseDetailItem
                 icon={<BsArrowRepeat size={24} />}
                 value={sets}
                 unit="sets"
+                onChange={(value) => handleUpdateValue("sets", value ?? 0)}
               />
             </span>
             <span className="w-full flex gap-10">
@@ -121,10 +140,14 @@ export function ExerciseItem({
                 icon={<ImAlarm size={18} />}
                 value={time}
                 unit="min"
+                onChange={(value) => handleUpdateValue("time", value ?? 0)}
               />
               <ExerciseDetailItem
                 icon={<BiDumbbell size={24} />}
                 value={material}
+                onChange={(value) =>
+                  handleUpdateValue("material", value ?? "-")
+                }
               />
             </span>
           </div>

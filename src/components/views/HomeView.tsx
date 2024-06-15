@@ -21,6 +21,16 @@ export function HomeView({}: Props) {
   const addExercise = (exercise: Exercise) => {
     setTodo((prev) => [...prev, exercise]);
   };
+
+  const updateExercise = (exercise: Exercise) => {
+    setTodo((prev) =>
+      prev.map((ex) => (ex.id === exercise.id ? exercise : ex))
+    );
+    setDone((prev) =>
+      prev.map((ex) => (ex.id === exercise.id ? exercise : ex))
+    );
+  };
+
   const removeExercise = ({ id }: Exercise) => {
     setTodo((prev) => prev.filter((exercise) => exercise.id !== id));
     setDone((prev) => prev.filter((exercise) => exercise.id !== id));
@@ -48,6 +58,7 @@ export function HomeView({}: Props) {
         todo={todoExercises}
         done={doneExercises}
         addExercise={addExercise}
+        updateExercise={updateExercise}
         markAsDone={markAdDone}
         removeExercise={removeExercise}
       />

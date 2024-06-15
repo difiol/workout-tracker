@@ -19,7 +19,14 @@ export function WorkoutsSlider({ className }: Props) {
           <Label
             key={id}
             text={name}
-            onClick={() => selectWorkout(id)}
+            onClick={(e) => {
+              selectWorkout(id);
+              (e.target as HTMLElement).scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+                inline: "end",
+              });
+            }}
             onRemove={() => deleteWorkout(id)}
             isActive={activeWorkout?.id === id}
           />

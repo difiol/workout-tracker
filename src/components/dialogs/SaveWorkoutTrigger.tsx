@@ -10,6 +10,7 @@ import {
 import { useWorkout } from "@/store/useWorkout";
 import { Exercise } from "@/types/exercise";
 import { cn } from "@/lib/utils";
+import { Button } from "../elements/buttons/Button";
 
 type Props = {
   exercisesToSave: Exercise[];
@@ -57,12 +58,7 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
             />
             <span className="flex justify-evenly">
               <DialogClose>
-                <button
-                  className="border py-2 px-3 border-blue-500 rounded-md"
-                  type="submit"
-                >
-                  Save
-                </button>
+                <Button type="submit">Save</Button>
               </DialogClose>
             </span>
           </form>
