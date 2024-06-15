@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { ExerciseItem } from "../exercises/ExerciseItem";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Exercise } from "@/types/exercise";
 import { InputExerciseItem } from "../elements/InputExerciseItem";
+import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
 
 type Props = {
   done: Exercise[];
