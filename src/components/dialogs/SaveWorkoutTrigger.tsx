@@ -10,7 +10,7 @@ import {
 import { useWorkout } from "@/store/useWorkout";
 import { Exercise } from "@/types/exercise";
 import { cn } from "@/lib/utils";
-import { Button } from "../elements/buttons/Button";
+import { Button, buttonVariants } from "../elements/buttons/Button";
 
 type Props = {
   exercisesToSave: Exercise[];
@@ -32,10 +32,7 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
   return (
     <>
       <DialogTrigger
-        className={cn(
-          "p-4 rounded-lg border bg-neutral-50 border-slate-200 shadow-md",
-          className
-        )}
+        className={cn("shadow-md", buttonVariants.base, className)}
       >
         Save workout
       </DialogTrigger>

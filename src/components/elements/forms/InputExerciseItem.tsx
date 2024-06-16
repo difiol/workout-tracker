@@ -33,6 +33,7 @@ export function InputExerciseItem({ onSubmit, onFocus, className }: Props) {
       placeholder="Add new exercise..."
       className={cn(
         "w-full flex rounded-lg p-3 text-center text-lg font-semibold border-2 border-slate-200 bg-slate-100 shadow-lg",
+        "dark:bg-slate-800 dark:border-slate-700",
         className
       )}
       ref={ref}

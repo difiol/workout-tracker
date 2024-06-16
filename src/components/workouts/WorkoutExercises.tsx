@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Exercise } from "@/types/exercise";
-import { InputExerciseItem } from "../elements/InputExerciseItem";
+import { InputExerciseItem } from "../elements/forms/InputExerciseItem";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
 
 type Props = {

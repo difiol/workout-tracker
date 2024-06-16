@@ -7,10 +7,13 @@ import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
 import { Dialog } from "../dialogs/dialog";
 import { useWorkout } from "@/store/useWorkout";
 import { Exercise } from "@/types/exercise";
+import { cn } from "@/lib/utils";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
-export function HomeView({}: Props) {
+export function HomeView({ className }: Props) {
   const { activeWorkout } = useWorkout();
 
   const [todoExercises, setTodo] = useState<Exercise[]>(
@@ -52,21 +55,24 @@ export function HomeView({}: Props) {
   }, [activeWorkout]);
 
   return (
-    <Dialog>
-      <WorkoutsSlider className="mt-2" />
-      <WorkoutExercises
-        todo={todoExercises}
-        done={doneExercises}
-        addExercise={addExercise}
-        updateExercise={updateExercise}
-        markAsDone={markAdDone}
-        removeExercise={removeExercise}
-      />
-      <div className="w-full flex justify-center mt-auto mt-6 mb-32">
-        <SaveWorkoutTrigger
-          exercisesToSave={[...todoExercises, ...doneExercises]}
+    <section className={className}>
+      <Dialog>
+        <WorkoutsSlider className="mt-2" />
+        <WorkoutExercises
+          todo={todoExercises}
+          done={doneExercises}
+          addExercise={addExercise}
+          updateExercise={updateExercise}
+          markAsDone={markAdDone}
+          removeExercise={removeExercise}
+          className="m-auto"
         />
-      </div>
-    </Dialog>
+        <div className="w-full flex justify-center mt-auto mt-6 mb-32">
+          <SaveWorkoutTrigger
+            exercisesToSave={[...todoExercises, ...doneExercises]}
+          />
+        </div>
+      </Dialog>
+    </section>
   );
 }

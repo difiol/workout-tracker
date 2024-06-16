@@ -95,6 +95,7 @@ export function ExerciseItem({
     <button
       className={cn(
         "relative w-full h-full flex items-stretch rounded-lg border-2 border-slate-200 bg-slate-100 shadow-lg overflow-hidden",
+        "dark:bg-slate-700 dark:border-slate-600",
         isDone
           ? "bg-green-300"
           : "hover:bg-slate-200 transition-colors duration-200 ease-in-out",
