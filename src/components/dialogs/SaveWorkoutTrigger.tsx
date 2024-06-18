@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -30,7 +31,7 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
   };
 
   return (
-    <>
+    <Dialog>
       <DialogTrigger
         className={cn("shadow-md", buttonVariants.base, className)}
       >
@@ -38,29 +39,25 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
       </DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
-          <DialogTitle>
-            <h2 className="text-2xl">Save workout as</h2>
-          </DialogTitle>
+          <DialogTitle className="text-2xl">Save workout as</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          <form
-            onSubmit={handleSubmit}
-            className="max-w-80 m-auto flex flex-col w-full gap-8 py-4"
-          >
-            <input
-              type="text"
-              name="workoutName"
-              defaultValue={activeWorkout?.name}
-              className="w-full border-2 rounded-md text-xl"
-            />
-            <span className="flex justify-evenly">
-              <DialogClose>
-                <Button type="submit">Save</Button>
-              </DialogClose>
-            </span>
-          </form>
-        </DialogDescription>
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-80 m-auto flex flex-col w-full gap-8 py-4"
+        >
+          <input
+            type="text"
+            name="workoutName"
+            defaultValue={activeWorkout?.name}
+            className="w-full border-2 rounded-md text-xl"
+          />
+          <span className="flex justify-evenly">
+            <DialogClose type="submit" className={buttonVariants.base}>
+              Save
+            </DialogClose>
+          </span>
+        </form>
       </DialogContent>
-    </>
+    </Dialog>
   );
 }

@@ -1,8 +1,4 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/elements/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 
 interface UserAvatarProps {
   username: string;

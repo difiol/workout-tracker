@@ -56,23 +56,21 @@ export function HomeView({ className }: Props) {
 
   return (
     <section className={className}>
-      <Dialog>
-        <WorkoutsSlider className="mt-2" />
-        <WorkoutExercises
-          todo={todoExercises}
-          done={doneExercises}
-          addExercise={addExercise}
-          updateExercise={updateExercise}
-          markAsDone={markAdDone}
-          removeExercise={removeExercise}
-          className="m-auto"
+      <WorkoutsSlider className="mt-2" />
+      <WorkoutExercises
+        todo={todoExercises}
+        done={doneExercises}
+        addExercise={addExercise}
+        updateExercise={updateExercise}
+        markAsDone={markAdDone}
+        removeExercise={removeExercise}
+        className="m-auto"
+      />
+      <div className="w-full flex justify-center mt-auto mt-6 mb-32">
+        <SaveWorkoutTrigger
+          exercisesToSave={[...todoExercises, ...doneExercises]}
         />
-        <div className="w-full flex justify-center mt-auto mt-6 mb-32">
-          <SaveWorkoutTrigger
-            exercisesToSave={[...todoExercises, ...doneExercises]}
-          />
-        </div>
-      </Dialog>
+      </div>
     </section>
   );
 }

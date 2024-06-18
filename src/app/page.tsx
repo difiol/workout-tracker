@@ -1,6 +1,6 @@
 "use client";
-import { UserAvatar } from "@/components/UserAvatar";
 import { ThemeSwitcher } from "@/components/elements/buttons/ThemeSwitcher";
+import UserAvatarDropdown from "@/components/elements/dropdowns/UserAvatarDropdown";
 import { HomeView } from "@/components/views/HomeView";
 import { cn } from "@/lib/utils";
 import { usePreferences } from "@/store/usePreferences";
@@ -19,10 +19,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold">Workout Tracker</h1>
           <ul className="flex space-x-4 items-center">
             <li>
-              <ThemeSwitcher />
-            </li>
-            <li>
-              <UserAvatar
+              <UserAvatarDropdown
                 src="https://github.com/shadcn.png"
                 username="Jhon Doe"
               />
