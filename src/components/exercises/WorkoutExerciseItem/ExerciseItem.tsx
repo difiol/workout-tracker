@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Exercise } from "@/types/exercise";
-import React, { TouchEvent, useRef, useState } from "react";
+import React, { MouseEventHandler, TouchEvent, useRef, useState } from "react";
 import { ExerciseDetailItem } from "./ExerciseDetailItem";
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdSportsMartialArts } from "react-icons/md";
@@ -19,6 +19,9 @@ type Props = {
   isDone?: boolean;
   className?: string;
 };
+
+const offsetLimit = 390;
+const triggerRange = 125;
 
 export function ExerciseItem({
   exercise,
@@ -52,8 +55,11 @@ export function ExerciseItem({
     setTouchStartX(e.changedTouches[0].screenX);
   };
 
+  const handleMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
+    setTouchStartX(e.screenX);
+  };
+
   const handleTouchMove = (e: TouchEvent) => {
-    const offsetLimit = 390;
     const offset = e.changedTouches[0].screenX - touchStartX;
 
     if (offset > 0 && offset < offsetLimit) {
@@ -72,8 +78,27 @@ export function ExerciseItem({
     }
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const triggerRange = 125;
+  const handleMouseMove: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const offset = e.screenX - touchStartX;
+    if (e.buttons) {
+      if (offset > 0 && offset < offsetLimit) {
+        doneRef.current?.style.setProperty(
+          "transform",
+          `translateX(${offset}px)`
+        );
+        removeRef.current?.style.setProperty("transform", "translateX(0)");
+      }
+      if (offset < 0 && offset > -offsetLimit) {
+        removeRef.current?.style.setProperty(
+          "transform",
+          `translateX(${offset}px)`
+        );
+        doneRef.current?.style.setProperty("transform", "translateX(0)");
+      }
+    }
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
     const touchEndX = e.changedTouches[0].screenX;
     const offset = touchEndX - touchStartX;
 
@@ -87,6 +112,22 @@ export function ExerciseItem({
     }
 
     //Reset swipe position
+    removeRef.current?.style.setProperty("transform", "translateX(0)");
+    doneRef.current?.style.setProperty("transform", "translateX(0)");
+  };
+
+  const handleMouseUp: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const offset = e.screenX - touchStartX;
+
+    // Swipe right
+    if (offset > triggerRange) {
+      onSwipeRight(exercise);
+    }
+    // Swipe left
+    if (offset < -triggerRange) {
+      onSwipeLeft(exercise);
+    }
+
     removeRef.current?.style.setProperty("transform", "translateX(0)");
     doneRef.current?.style.setProperty("transform", "translateX(0)");
   };
@@ -106,6 +147,9 @@ export function ExerciseItem({
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       <div className="w-full p-3">
         <h2
@@ -157,7 +201,7 @@ export function ExerciseItem({
       <div
         className={cn(
           "absolute w-full h-full right-full flex items-center justify-end ",
-          isDone ? "bg-slate-300" : "bg-green-300"
+          isDone ? "bg-slate-200 dark:bg-slate-400" : "bg-green-300 text-black"
         )}
         ref={doneRef}
       >
