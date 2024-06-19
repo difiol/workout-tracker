@@ -1,5 +1,4 @@
 "use client";
-import { ThemeSwitcher } from "@/components/elements/buttons/ThemeSwitcher";
 import UserAvatarDropdown from "@/components/elements/dropdowns/UserAvatarDropdown";
 import { HomeView } from "@/components/views/HomeView";
 import { cn } from "@/lib/utils";

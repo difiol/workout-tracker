@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 
 type Props = {
   icon: ReactNode;
+  name: string;
   value: string | number;
   unit?: string;
   onChange?: (value: string | number) => void;
@@ -12,6 +13,7 @@ type Props = {
 
 export function ExerciseDetailItem({
   icon,
+  name,
   value,
   unit,
   onChange,
@@ -21,16 +23,14 @@ export function ExerciseDetailItem({
     (value) => onChange && onChange(value ?? ""),
     { isEditable: !!onChange, isMultiline: false }
   );
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
-    if (e.key === "Enter") {
-      e.currentTarget.blur();
-    }
-  };
 
   return (
-    <div className={cn("flex items-center gap-2 text-md", className)}>
-      {icon}
-      <span className="flex gap-1">
+    <div className={cn("w-fit mx-auto flex flex-col gap-2 text-md", className)}>
+      <span className="flex items-center gap-2">
+        {icon}
+        <h5 className="font-semibold">{name}</h5>
+      </span>
+      <span className="w-full flex gap-1 justify-end">
         <p {...contentEditableProps} className="w-fit">
           {value}
         </p>

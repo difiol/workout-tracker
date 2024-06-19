@@ -36,15 +36,11 @@ export function ExerciseItem({
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
-  const contentEditableProps = useContentEditable(
-    (value) => handleUpdateValue("name", value ?? name),
-    { isEditable: isActive, isMultiline: false }
-  );
 
   const { id, name, weight, reps, sets, time, material } = exercise;
 
-  const handleOnClick = () => {
-    if (!isActive) onClick(id);
+  const handleOnClick: MouseEventHandler<HTMLButtonElement> = () => {
+    onClick(id);
   };
 
   const handleUpdateValue = (key: string, value: string | number) => {
@@ -133,7 +129,7 @@ export function ExerciseItem({
   };
 
   return (
-    <button
+    <div
       className={cn(
         "relative w-full h-full flex items-stretch rounded-lg border-2 border-slate-200 bg-slate-100 shadow-lg overflow-hidden",
         "dark:bg-slate-700 dark:border-slate-600",
@@ -143,58 +139,55 @@ export function ExerciseItem({
         isActive && "border-slate-300",
         className
       )}
-      onClick={handleOnClick}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
     >
-      <div className="w-full p-3">
-        <h2
-          {...contentEditableProps}
-          className="text-2xl font-bold self-center"
+      <div className="w-full ">
+        <button
+          onClick={handleOnClick}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          className="w-full p-3 text-2xl font-bold self-center"
         >
           {name}
-        </h2>
+        </button>
         {isActive && (
-          <div className="flex flex-col gap-4 mt-4 px-2 ">
-            <span className="w-full flex justify-between">
-              <ExerciseDetailItem
-                icon={<FaWeightHanging />}
-                value={weight}
-                unit="kg"
-                onChange={(value) => handleUpdateValue("weight", value ?? 0)}
-              />
-              <ExerciseDetailItem
-                icon={<MdSportsMartialArts size={24} />}
-                value={reps}
-                unit="reps"
-                onChange={(value) => handleUpdateValue("reps", value ?? 0)}
-              />
-              <ExerciseDetailItem
-                icon={<BsArrowRepeat size={24} />}
-                value={sets}
-                unit="sets"
-                onChange={(value) => handleUpdateValue("sets", value ?? 0)}
-              />
-            </span>
-            <span className="w-full flex gap-10">
-              <ExerciseDetailItem
-                icon={<ImAlarm size={18} />}
-                value={time}
-                unit="min"
-                onChange={(value) => handleUpdateValue("time", value ?? 0)}
-              />
-              <ExerciseDetailItem
-                icon={<BiDumbbell size={24} />}
-                value={material}
-                onChange={(value) =>
-                  handleUpdateValue("material", value ?? "-")
-                }
-              />
-            </span>
+          <div className="grid grid-cols-3 align-top gap-6 px-2 pb-6 pt-2 md:px-8 md:pt-2">
+            <ExerciseDetailItem
+              name="Weight"
+              icon={<FaWeightHanging />}
+              value={weight}
+              unit="kg"
+              onChange={(value) => handleUpdateValue("weight", value ?? 0)}
+            />
+            <ExerciseDetailItem
+              name="Reps"
+              icon={<MdSportsMartialArts size={24} />}
+              value={reps}
+              onChange={(value) => handleUpdateValue("reps", value ?? 0)}
+            />
+            <ExerciseDetailItem
+              name="Sets"
+              icon={<BsArrowRepeat size={24} />}
+              value={sets}
+              onChange={(value) => handleUpdateValue("sets", value ?? 0)}
+            />
+
+            <ExerciseDetailItem
+              name="Time"
+              icon={<ImAlarm size={18} />}
+              value={time}
+              unit="min"
+              onChange={(value) => handleUpdateValue("time", value ?? 0)}
+            />
+            <ExerciseDetailItem
+              name="Material"
+              icon={<BiDumbbell size={24} />}
+              value={material}
+              onChange={(value) => handleUpdateValue("material", value ?? "-")}
+            />
           </div>
         )}
       </div>
@@ -217,6 +210,6 @@ export function ExerciseItem({
       >
         <span className="ml-5 text-white text-lg">Remove exercise</span>
       </div>
-    </button>
+    </div>
   );
 }
