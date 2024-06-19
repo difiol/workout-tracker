@@ -1,11 +1,15 @@
 "use client";
 import UserAvatarDropdown from "@/components/elements/dropdowns/UserAvatarDropdown";
-import { HomeView } from "@/components/views/HomeView";
 import { cn } from "@/lib/utils";
 import { usePreferences } from "@/store/usePreferences";
 
-export default function Home() {
+export default function Layout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const { theme } = usePreferences();
+
   return (
     <main
       className={cn(
@@ -25,7 +29,7 @@ export default function Home() {
             </li>
           </ul>
         </nav>
-        <HomeView />
+        {children}
       </div>
     </main>
   );

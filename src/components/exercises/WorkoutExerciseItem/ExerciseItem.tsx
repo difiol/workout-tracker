@@ -8,6 +8,7 @@ import { BsArrowRepeat } from "react-icons/bs";
 import { ImAlarm } from "react-icons/im";
 import { BiDumbbell } from "react-icons/bi";
 import { useContentEditable } from "@/hooks/useContentEditable";
+import { useTranslations } from "next-intl";
 
 type Props = {
   exercise: Exercise;
@@ -36,6 +37,7 @@ export function ExerciseItem({
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("Exercise");
 
   const { id, name, weight, reps, sets, time, material } = exercise;
 
@@ -156,7 +158,7 @@ export function ExerciseItem({
         {isActive && (
           <div className="grid grid-cols-3 align-top gap-6 px-2 pb-6 pt-2 md:px-8 md:pt-2">
             <ExerciseDetailItem
-              name="Weight"
+              name={t("weight")}
               icon={<FaWeightHanging />}
               value={weight}
               unit="kg"

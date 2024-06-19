@@ -12,6 +12,7 @@ import { useWorkout } from "@/store/useWorkout";
 import { Exercise } from "@/types/exercise";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../elements/buttons/Button";
+import { useTranslations } from "next-intl";
 
 type Props = {
   exercisesToSave: Exercise[];
@@ -19,7 +20,9 @@ type Props = {
 };
 
 export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
+  const t = useTranslations("Actions");
   const { activeWorkout, addWorkout } = useWorkout();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.target as HTMLFormElement;
     addWorkout({
@@ -35,11 +38,11 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
       <DialogTrigger
         className={cn("shadow-md", buttonVariants.base, className)}
       >
-        Save workout
+        {t("save-workout")}
       </DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
-          <DialogTitle className="text-2xl">Save workout as</DialogTitle>
+          <DialogTitle className="text-2xl">{t("save-workout-as")}</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit}
@@ -53,7 +56,7 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
           />
           <span className="flex justify-evenly">
             <DialogClose type="submit" className={buttonVariants.base}>
-              Save
+              {t("save")}
             </DialogClose>
           </span>
         </form>

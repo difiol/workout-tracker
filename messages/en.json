@@ -1,0 +1,15 @@
+{
+  "Exercise": {
+    "weight": "Weight",
+    "reps": "Reps",
+    "sets": "Sets",
+    "time": "Time",
+    "material": "Material"
+  },
+  "Actions": {
+    "add-new-exercise": "Add new exercise",
+    "save-workout": "Save workout",
+    "save-workout-as": "Save workout as",
+    "save": "Save"
+  }
+}
