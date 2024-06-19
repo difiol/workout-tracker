@@ -15,7 +15,7 @@ export default function Home() {
       )}
     >
       <div className="min-h-screen h-full w-full p-5 dark:bg-slate-800 dark:text-white">
-        <nav className="flex items-center justify-between w-full">
+        <nav className="flex items-center justify-between w-full max-w-xl m-auto">
           <h1 className="text-2xl font-bold">Workout Tracker</h1>
           <ul className="flex space-x-4 items-center">
             <li>

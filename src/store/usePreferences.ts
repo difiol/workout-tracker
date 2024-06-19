@@ -13,17 +13,9 @@ type PreferencesStore = {
   changeWeightUnit: (weightUnit: WeightUnits) => void;
 };
 
-const getPrefersColorScheme = () => {
-  if (typeof window !== "undefined") {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  } else return "light";
-};
-
 export const usePreferences = create<PreferencesStore>()((set) => ({
   language: "es",
-  theme: getPrefersColorScheme(),
+  theme: "light",
   weightUnit: "kg",
   changeLanguage: (language: Languages) => set({ language }),
   changeTheme: () =>
