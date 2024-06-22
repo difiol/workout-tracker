@@ -11,5 +11,12 @@
     "save-workout": "Save workout",
     "save-workout-as": "Save workout as",
     "save": "Save"
+  },
+  "Auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password"
   }
 }

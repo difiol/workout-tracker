@@ -1,11 +1,20 @@
 "use client";
-import UserAvatarDropdown from "@/components/elements/dropdowns/UserAvatarDropdown";
+import UserPreferencesDropdown from "@/components/elements/dropdowns/UserAvatarDropdown";
+import AccountAvatar from "@/components/user/AccountAvatar";
 import { HomeView } from "@/components/views/HomeView";
 import { cn } from "@/lib/utils";
 import { usePreferences } from "@/store/usePreferences";
+import { useUser } from "@/store/useUser";
+import { useEffect } from "react";
 
 export default function Home() {
   const { theme } = usePreferences();
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    console.log({ user });
+  }, [user]);
 
   return (
     <main
@@ -19,10 +28,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold">Workout Tracker</h1>
           <ul className="flex space-x-4 items-center">
             <li>
-              <UserAvatarDropdown
-                src="https://github.com/shadcn.png"
-                username="Jhon Doe"
-              />
+              <AccountAvatar />
             </li>
           </ul>
         </nav>
