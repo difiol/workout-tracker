@@ -47,7 +47,6 @@ export function WorkoutExercises({
       time: 0,
       material: "",
     };
-    console.log(newExercise);
     setActive(newExercise.id);
     addExercise(newExercise);
   };
