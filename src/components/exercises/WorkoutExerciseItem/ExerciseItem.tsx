@@ -196,21 +196,25 @@ export function ExerciseItem({
       <div
         className={cn(
           "absolute w-full h-full right-full flex items-center justify-end ",
-          isDone ? "bg-slate-200 dark:bg-slate-400" : "bg-green-300 text-black"
+          isDone
+            ? "bg-slate-200 dark:bg-slate-400"
+            : "bg-green-300 bg-opacity-95 text-black"
         )}
         ref={doneRef}
       >
-        <span className="mr-5 text-lg">
+        <span className="mr-5 text-lg font-semibold">
           Mark as {isDone ? "undone" : "done"}
         </span>
       </div>
       <div
         className={cn(
-          "absolute w-full h-full left-full flex items-center bg-red-400"
+          "absolute w-full h-full left-full flex items-center bg-red-400 bg-opacity-95"
         )}
         ref={removeRef}
       >
-        <span className="ml-5 text-white text-lg">Remove exercise</span>
+        <span className="ml-5 text-white text-lg font-semibold">
+          Remove exercise
+        </span>
       </div>
     </div>
   );

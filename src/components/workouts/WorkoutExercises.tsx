@@ -37,17 +37,17 @@ export function WorkoutExercises({
   };
 
   const handleAddExercise = async (name: string) => {
-    const createdExercise = await createSupabaseExercise(supabaseClient, name);
+    const { id } = await createSupabaseExercise(supabaseClient, name);
     const newExercise = {
-      id: String(Math.random()),
-      name,
+      id: id ?? String(Math.random()),
+      name: name,
       weight: 0,
       reps: 0,
       sets: 0,
       time: 0,
       material: "",
-      ...createdExercise,
     };
+    console.log(newExercise);
     setActive(newExercise.id);
     addExercise(newExercise);
   };

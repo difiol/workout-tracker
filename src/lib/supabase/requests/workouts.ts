@@ -1,5 +1,9 @@
 import { UUID } from "crypto";
-import { AddExerciseToWorkout, RemoveExerciseToWorkout } from "@/types/workout";
+import {
+  AddExerciseToWorkout,
+  RemoveExerciseToWorkout,
+  Workout,
+} from "@/types/workout";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export const WORKOUTS_TABLE = "workouts";
@@ -10,7 +14,7 @@ export const getSupabaseUserWorkouts = async (client: SupabaseClient) => {
     .from(WORKOUT_EXERCISES_TABLE)
     .select("workouts(id, name, created_at),exercises(id, name, created_at)");
   //TODO: Fix typing errors
-  const mappedWorkout = workouts?.data?.reduce((acc, curr) => {
+  const mappedWorkout = workouts?.data?.reduce((acc: Workout[], curr: any) => {
     const existingWorkout = acc.find((w) => w.id === curr.workouts.id);
     if (existingWorkout) {
       existingWorkout.exercises.push(curr.exercises);

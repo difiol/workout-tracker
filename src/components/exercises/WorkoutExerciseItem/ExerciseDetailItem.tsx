@@ -11,6 +11,8 @@ type Props = {
   className?: string;
 };
 
+const fallbackValue = "-";
+
 export function ExerciseDetailItem({
   icon,
   name,
@@ -20,9 +22,11 @@ export function ExerciseDetailItem({
   className,
 }: Props) {
   const contentEditableProps = useContentEditable(
-    (value) => onChange && onChange(value ?? ""),
+    (value) => onChange && onChange(value ?? fallbackValue),
     { isEditable: !!onChange, isMultiline: false }
   );
+
+  const checkValue = value && value !== fallbackValue;
 
   return (
     <div className={cn("w-fit mx-auto flex flex-col gap-2 text-md", className)}>
@@ -32,9 +36,9 @@ export function ExerciseDetailItem({
       </span>
       <span className="w-full flex gap-1 justify-end">
         <p {...contentEditableProps} className="w-fit">
-          {value}
+          {value ?? fallbackValue}
         </p>
-        {unit && <p>{unit}</p>}
+        {checkValue && unit && <p>{unit}</p>}
       </span>
     </div>
   );
