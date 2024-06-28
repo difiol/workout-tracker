@@ -1,0 +1,46 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { usePreferences } from "@/store/usePreferences";
+import { useUser } from "@/store/useUser";
+import { useWorkout } from "@/store/useWorkout";
+import { Preferences } from "@/types/preferences";
+import { getPreferredTheme } from "@/utils/theme";
+import { AuthUser } from "@supabase/supabase-js";
+import { useEffect } from "react";
+
+type Props = {
+  user: AuthUser | null;
+  preferences?: Preferences;
+  workouts: any;
+  children: React.ReactNode;
+};
+
+export function AppInitializer({
+  user,
+  preferences,
+  workouts,
+  children,
+}: Readonly<Props>) {
+  useUser.setState({ user, isLoggedIn: !!user });
+  usePreferences.setState({ ...preferences });
+  if (workouts) useWorkout.setState({ workouts, activeWorkout: workouts[0] });
+
+  useEffect(() => {
+    if (!preferences?.theme) {
+      //If user is not logged in, or does not have any theme preferences yet, use the browser's theme
+      usePreferences.setState({
+        theme: getPreferredTheme(),
+      });
+    }
+    usePreferences.subscribe((state) => {
+      document.body.className = state.theme === "dark" ? "dark" : "";
+    });
+  }, [preferences?.theme]);
+
+  return (
+    <body className={cn({ dark: preferences?.theme === "dark" })}>
+      {children}
+    </body>
+  );
+}

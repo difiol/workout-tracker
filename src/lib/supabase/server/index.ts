@@ -32,3 +32,8 @@ export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
     }
   );
 };
+
+export const createSSRClient = () => {
+  const cookieStore = cookies();
+  return createClient(cookieStore);
+};

@@ -1,5 +1,7 @@
+import { UUID } from "crypto";
+
 export interface Exercise {
-  id: string;
+  id: UUID;
   name: string;
   weight: number;
   reps: number;

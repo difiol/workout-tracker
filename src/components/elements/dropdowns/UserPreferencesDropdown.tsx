@@ -14,24 +14,26 @@ import { LoginTrigger } from "@/components/dialogs/LoginTrigger";
 import { useUser } from "@/store/useUser";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../buttons/Button";
+import { useTranslations } from "next-intl";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function UserPreferencesDropdown({ children }: Props) {
-  const { isLoggedIn, user } = useUser();
+  const { isLoggedIn } = useUser();
+  const t = useTranslations("Auth");
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent>
-        {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+        <DropdownMenuLabel>Preferences</DropdownMenuLabel>
         {isLoggedIn ? (
           <LogoutButton variant="link" className="text-red-500 text-sm" />
         ) : (
           <LoginTrigger className={cn(buttonVariants.link, "text-sm")}>
-            Login
+            {t("login")}
           </LoginTrigger>
         )}
         <DropdownMenuSeparator />

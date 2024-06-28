@@ -6,6 +6,9 @@
     "time": "Tiempo",
     "material": "Material"
   },
+  "Workout": {
+    "no-workouts": "No tienes ninguna rutina guardada"
+  },
   "Actions": {
     "add-new-exercise": "Añadir nuevo ejercicio",
     "save-workout": "Guardar rutina",

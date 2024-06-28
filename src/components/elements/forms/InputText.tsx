@@ -1,11 +1,9 @@
 import { cn } from "@/lib/utils";
-import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 
-type Props = {
-  name: string;
-  type: HTMLInputTypeAttribute;
-  label: string;
-  register: any;
+type Props = InputHTMLAttributes<HTMLInputElement> & {
+  label?: string;
+  register?: any;
   required?: boolean;
   minLength?: number;
   maxLength?: number;
@@ -27,20 +25,32 @@ export default function InputText({
   regExp,
   validate,
   className,
+  ...rest
 }: Props) {
-  return (
-    <div className={cn("flex flex-col gap-1", className)}>
-      <label className="font-semibold">{label}</label>
-      <input
-        type={type}
-        className={cn("border border-neutral-400 rounded-md px-2")}
-        {...register(name, {
+  const input = (
+    <input
+      type={type}
+      className={cn(
+        "border border-neutral-400 rounded-md px-2",
+        "dark:bg-slate-700"
+      )}
+      {...(register && {
+        ...register(name, {
           minLength,
           maxLength,
           pattern: regExp,
           validate,
-        })}
-      />
+        }),
+      })}
+      {...rest}
+    />
+  );
+  return !label ? (
+    input
+  ) : (
+    <div className={cn("flex flex-col gap-1", className)}>
+      {input}
+      <label className="font-semibold">{label}</label>
     </div>
   );
 }

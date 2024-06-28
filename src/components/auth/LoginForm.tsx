@@ -1,10 +1,12 @@
-import { createClient } from "@/lib/supabase/client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../elements/buttons/Button";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import InputText from "../elements/forms/InputText";
+import { useUser } from "@/store/useUser";
+import { usePreferences } from "@/store/usePreferences";
+import { useWorkout } from "@/store/useWorkout";
 
 type Props = {
   onAfterLogin?: () => void;
@@ -18,20 +20,21 @@ interface LoginInputs {
 
 export function LoginForm({ className, onAfterLogin }: Props) {
   const t = useTranslations("Auth");
+  const { login } = useUser();
+  const { loadUserPreferences } = usePreferences();
+  const { loadWorkouts } = useWorkout();
   const { register, handleSubmit } = useForm<LoginInputs>();
-  const [error, setError] = React.useState<string | null>(null);
-  const supabase = createClient();
+  const [error, setError] = useState<string>("");
 
   const onLogin = async (data: LoginInputs) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const result = await login({
       email: data.email,
       password: data.password,
     });
-    if (error) {
-      setError(error.message);
-    } else {
+    if (result.isSuccess) {
+      await Promise.allSettled([loadUserPreferences(), loadWorkouts()]);
       onAfterLogin?.();
-    }
+    } else setError(result.error || "An error occurred");
   };
 
   return (

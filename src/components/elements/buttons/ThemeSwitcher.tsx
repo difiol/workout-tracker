@@ -10,8 +10,13 @@ type Props = {
 
 export function ThemeSwitcher({ size = 18 }: Props) {
   const { theme, changeTheme } = usePreferences();
+
+  const handleChangeTheme = () => {
+    changeTheme(theme === "dark" ? "light" : "dark");
+  };
   const icon =
     theme === "dark" ? <MdSunny size={size} /> : <FaMoon size={size} />;
+
   return (
     <button
       className={cn(
@@ -19,7 +24,7 @@ export function ThemeSwitcher({ size = 18 }: Props) {
         "dark:bg-slate-700 dark:border-slate-600",
         "hover:scale-95 hover:bg-slate-100 dark:hover:bg-slate-600"
       )}
-      onClick={changeTheme}
+      onClick={handleChangeTheme}
     >
       {icon}
     </button>

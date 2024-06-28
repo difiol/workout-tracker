@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { Exercise } from "@/types/exercise";
 import { InputExerciseItem } from "../elements/forms/InputExerciseItem";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
+import { createSupabaseExercise } from "@/lib/supabase/requests/exercises";
+import { createClient } from "@/lib/supabase/client";
 
 type Props = {
   done: Exercise[];
@@ -15,6 +17,8 @@ type Props = {
   removeExercise: (exercise: Exercise) => void;
   className?: string;
 };
+
+const supabaseClient = createClient();
 
 export function WorkoutExercises({
   done,
@@ -32,7 +36,8 @@ export function WorkoutExercises({
     else setActive(id);
   };
 
-  const handleAddExercise = (name: string) => {
+  const handleAddExercise = async (name: string) => {
+    const createdExercise = await createSupabaseExercise(supabaseClient, name);
     const newExercise = {
       id: String(Math.random()),
       name,
@@ -41,6 +46,7 @@ export function WorkoutExercises({
       sets: 0,
       time: 0,
       material: "",
+      ...createdExercise,
     };
     setActive(newExercise.id);
     addExercise(newExercise);

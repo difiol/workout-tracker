@@ -6,6 +6,9 @@
     "time": "Time",
     "material": "Material"
   },
+  "Workout": {
+    "no-workouts": "You don't have stored workouts"
+  },
   "Actions": {
     "add-new-exercise": "Add new exercise",
     "save-workout": "Save workout",

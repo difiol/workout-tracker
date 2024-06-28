@@ -136,7 +136,7 @@ export function ExerciseItem({
         "relative w-full h-full flex items-stretch rounded-lg border-2 border-slate-200 bg-slate-100 shadow-lg overflow-hidden",
         "dark:bg-slate-700 dark:border-slate-600",
         isDone
-          ? "bg-green-300"
+          ? "bg-green-300 dark:bg-green-300 dark:bg-opacity-80"
           : "hover:bg-slate-200 transition-colors duration-200 ease-in-out",
         isActive && "border-slate-300",
         className

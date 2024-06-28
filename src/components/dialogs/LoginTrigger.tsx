@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +15,10 @@ type Props = {
 
 export function LoginTrigger({ children, className }: Props) {
   const t = useTranslations("Auth");
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className={className}>{children}</DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
@@ -24,7 +26,7 @@ export function LoginTrigger({ children, className }: Props) {
         </DialogHeader>
         <LoginForm
           onAfterLogin={() => {
-            window.location.reload();
+            setOpen(false);
           }}
         />
       </DialogContent>
