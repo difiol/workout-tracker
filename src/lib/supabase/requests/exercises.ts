@@ -1,5 +1,5 @@
-import { UUID } from "crypto";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { AddExerciseLog } from "@/types/exercise";
 
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
@@ -21,21 +21,29 @@ export const createSupabaseExercise = async (
   return response.data;
 };
 
-// export const removeSupabaseExercise = async (
-//   client: SupabaseClient,
-//   id: UUID
-// ) => {
-//   return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", id);
-// };
+export const removeSupabaseExercise = async (
+  client: SupabaseClient,
+  id: string
+) => {
+  return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", id);
+};
 
-// export const createSupabaseExerciseLog = async (
-//   client: SupabaseClient,
-//   { exercisesId, workoutId }: AddExerciseToWorkout
-// ) => {
-//   const exercisesToAdd = exercisesId.map((exerciseId) => ({
-//     workout_id: workoutId,
-//     exercise_id: exerciseId,
-//   }));
+export const createSupabaseExerciseLogs = async (
+  client: SupabaseClient,
+  params: AddExerciseLog[]
+) => {
+  const mappedLogs = params.map(({ id, workoutId, ...logData }) => ({
+    workout_id: workoutId,
+    exercise_id: id,
+    ...logData,
+  }));
 
-//   return client.from(EXERCISE_LOGS_TABLE).insert(exercisesToAdd);
-// };
+  return client.from(EXERCISE_LOGS_TABLE).insert(mappedLogs).select("id");
+};
+
+export const removeSupabaseExerciseLogs = async (
+  client: SupabaseClient,
+  logIds: string[]
+) => {
+  return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", logIds);
+};

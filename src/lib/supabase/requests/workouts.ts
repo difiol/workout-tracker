@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import {
   AddExerciseToWorkout,
   RemoveExerciseToWorkout,
@@ -46,7 +45,7 @@ export const createSupabaseWorkout = async (
 
 export const removeSupabaseWorkout = async (
   client: SupabaseClient,
-  id: UUID
+  id: string
 ) => {
   return client.from(WORKOUTS_TABLE).delete().eq("id", id);
 };

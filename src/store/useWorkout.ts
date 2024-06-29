@@ -8,15 +8,14 @@ import {
   removeSupabaseWorkout,
 } from "@/lib/supabase/requests/workouts";
 import { createClient } from "@/lib/supabase/client";
-import { UUID } from "crypto";
 import { getClientUser } from "@/utils/cookies/client";
 
 type WorkoutStore = {
   workouts: Workout[];
   activeWorkout: Workout | null;
   addWorkout: (params: CreateWorkout) => void;
-  deleteWorkout: (id: UUID) => void;
-  selectWorkout: (id: UUID) => void;
+  deleteWorkout: (id: string) => void;
+  selectWorkout: (id: string) => void;
   loadWorkouts: () => void;
 };
 

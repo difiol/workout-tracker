@@ -1,8 +1,7 @@
-import { UUID } from "crypto";
 import { Exercise } from "./exercise";
 
 export interface Workout {
-  id: UUID;
+  id: string;
   name: string;
   exercises: Exercise[];
 }
@@ -13,11 +12,11 @@ export interface CreateWorkout {
 }
 
 export interface AddExerciseToWorkout {
-  workoutId: UUID;
-  exercisesId: UUID[];
+  workoutId: string;
+  exercisesId: string[];
 }
 
 export interface RemoveExerciseToWorkout {
-  workoutId: UUID;
-  exerciseId: UUID;
+  workoutId: string;
+  exerciseId: string;
 }

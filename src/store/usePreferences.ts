@@ -10,11 +10,10 @@ import {
   WeightUnits,
 } from "@/types/preferences";
 import { getPreferredTheme } from "@/utils/theme";
-import { UUID } from "crypto";
 import { create } from "zustand";
 
 interface PreferencesStore extends Omit<Preferences, "id"> {
-  id?: UUID;
+  id?: string;
   changeLanguage: (language: Languages) => void;
   changeTheme: (theme: Themes) => void;
   changeWeightUnit: (weightUnit: WeightUnits) => void;

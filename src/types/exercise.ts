@@ -1,7 +1,5 @@
-import { UUID } from "crypto";
-
 export interface Exercise {
-  id: UUID;
+  id: string;
   name: string;
   weight: number;
   reps: number;
@@ -9,3 +7,5 @@ export interface Exercise {
   time: number;
   material: string;
 }
+
+export type AddExerciseLog = Exercise & { workoutId: string };

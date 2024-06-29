@@ -1,12 +1,13 @@
 import { Workout } from "@/types/workout";
+import { v4 as uuidv4 } from "uuid";
 
 export const defaultWorkouts: Workout[] = [
   {
-    id: "1",
+    id: uuidv4(),
     name: "Full body",
     exercises: [
       {
-        id: "1",
+        id: uuidv4(),
         name: "Bench Press",
         sets: 3,
         reps: 10,
@@ -15,7 +16,7 @@ export const defaultWorkouts: Workout[] = [
         material: "barbell",
       },
       {
-        id: "2",
+        id: uuidv4(),
         name: "Squat",
         sets: 3,
         reps: 10,
@@ -24,7 +25,7 @@ export const defaultWorkouts: Workout[] = [
         material: "barbell",
       },
       {
-        id: "3",
+        id: uuidv4(),
         name: "Deadlift",
         sets: 3,
         reps: 10,
@@ -33,7 +34,7 @@ export const defaultWorkouts: Workout[] = [
         material: "barbell",
       },
       {
-        id: "4",
+        id: uuidv4(),
         name: "Pull Up",
         sets: 3,
         reps: 10,
@@ -42,7 +43,7 @@ export const defaultWorkouts: Workout[] = [
         material: "body weight",
       },
       {
-        id: "5",
+        id: uuidv4(),
         name: "Push Up",
         sets: 3,
         reps: 10,
@@ -51,7 +52,7 @@ export const defaultWorkouts: Workout[] = [
         material: "body weight",
       },
       {
-        id: "6",
+        id: uuidv4(),
         name: "Sit Up",
         sets: 3,
         reps: 10,
@@ -62,11 +63,11 @@ export const defaultWorkouts: Workout[] = [
     ],
   },
   {
-    id: "2",
+    id: uuidv4(),
     name: "Upper body",
     exercises: [
       {
-        id: "1",
+        id: uuidv4(),
         name: "Bench Press",
         sets: 3,
         reps: 10,
@@ -75,7 +76,7 @@ export const defaultWorkouts: Workout[] = [
         material: "barbell",
       },
       {
-        id: "4",
+        id: uuidv4(),
         name: "Pull Up",
         sets: 3,
         reps: 10,
@@ -84,7 +85,7 @@ export const defaultWorkouts: Workout[] = [
         material: "body weight",
       },
       {
-        id: "5",
+        id: uuidv4(),
         name: "Push Up",
         sets: 3,
         reps: 10,
@@ -93,7 +94,7 @@ export const defaultWorkouts: Workout[] = [
         material: "body weight",
       },
       {
-        id: "6",
+        id: uuidv4(),
         name: "Sit Up",
         sets: 3,
         reps: 10,
@@ -104,11 +105,11 @@ export const defaultWorkouts: Workout[] = [
     ],
   },
   {
-    id: "3",
+    id: uuidv4(),
     name: "Lower body",
     exercises: [
       {
-        id: "2",
+        id: uuidv4(),
         name: "Squat",
         sets: 3,
         reps: 10,
@@ -117,7 +118,7 @@ export const defaultWorkouts: Workout[] = [
         material: "barbell",
       },
       {
-        id: "3",
+        id: uuidv4(),
         name: "Deadlift",
         sets: 3,
         reps: 10,
@@ -128,7 +129,7 @@ export const defaultWorkouts: Workout[] = [
     ],
   },
   {
-    id: "4",
+    id: uuidv4(),
     name: "Core",
     exercises: [
       {
