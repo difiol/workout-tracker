@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { UserAvatar } from "../avatars/UserAvatar";
 import {
   DropdownMenu,
@@ -23,16 +23,28 @@ type Props = {
 export default function UserPreferencesDropdown({ children }: Props) {
   const { isLoggedIn } = useUser();
   const t = useTranslations("Auth");
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Preferences</DropdownMenuLabel>
         {isLoggedIn ? (
-          <LogoutButton variant="link" className="text-red-500 text-sm" />
+          <LogoutButton
+            onAfterLogout={handleClose}
+            variant="link"
+            className="text-red-500 text-sm"
+          />
         ) : (
-          <LoginTrigger className={cn(buttonVariants.link, "text-sm")}>
+          <LoginTrigger
+            onAfterLogin={handleClose}
+            className={cn(buttonVariants.link, "text-sm")}
+          >
             {t("login")}
           </LoginTrigger>
         )}

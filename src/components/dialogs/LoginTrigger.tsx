@@ -11,11 +11,17 @@ import { useTranslations } from "next-intl";
 type Props = {
   children: React.ReactNode;
   className?: string;
+  onAfterLogin?: () => void;
 };
 
-export function LoginTrigger({ children, className }: Props) {
+export function LoginTrigger({ children, className, onAfterLogin }: Props) {
   const t = useTranslations("Auth");
   const [open, setOpen] = useState(false);
+
+  const handleAfterLogin = () => {
+    setOpen(false);
+    if (onAfterLogin) onAfterLogin();
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -24,11 +30,7 @@ export function LoginTrigger({ children, className }: Props) {
         <DialogHeader>
           <DialogTitle className="text-2xl">{t("login")}</DialogTitle>
         </DialogHeader>
-        <LoginForm
-          onAfterLogin={() => {
-            setOpen(false);
-          }}
-        />
+        <LoginForm onAfterLogin={handleAfterLogin} />
       </DialogContent>
     </Dialog>
   );
