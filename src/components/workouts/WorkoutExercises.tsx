@@ -2,19 +2,18 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Exercise } from "@/types/exercise";
-import { InputExerciseItem } from "../elements/forms/InputExerciseItem";
+import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
-import { createSupabaseExercise } from "@/lib/supabase/requests/exercises";
 import { createClient } from "@/lib/supabase/client";
+import { ExerciseAutocomplete } from "../elements/forms/ExerciseAutocomplete";
 
 type Props = {
-  done: Exercise[];
-  todo: Exercise[];
-  markAsDone: (exercise: Exercise) => void;
-  addExercise: (exercise: Exercise) => void;
-  updateExercise: (exercise: Exercise) => void;
-  removeExercise: (exercise: Exercise) => void;
+  done: WorkoutExercise[];
+  todo: WorkoutExercise[];
+  markAsDone: (exercise: WorkoutExercise) => void;
+  addExercise: (exercise: WorkoutExercise) => void;
+  updateExercise: (exercise: WorkoutExercise) => void;
+  removeExercise: (exercise: WorkoutExercise) => void;
   className?: string;
 };
 
@@ -36,11 +35,10 @@ export function WorkoutExercises({
     else setActive(id);
   };
 
-  const handleAddExercise = async (name: string) => {
-    const { id } = await createSupabaseExercise(supabaseClient, name);
+  const handleAddExercise = async ({ id, name }: Exercise) => {
     const newExercise = {
-      id: id ?? String(Math.random()),
-      name: name,
+      id,
+      name,
       weight: 0,
       reps: 0,
       sets: 0,
@@ -73,10 +71,11 @@ export function WorkoutExercises({
           isActive={active === exercise.id}
         />
       ))}
-      <InputExerciseItem
+      <ExerciseAutocomplete
         onSubmit={handleAddExercise}
         onFocus={handleInputFocus}
       />
+
       {done.map((exercise) => (
         <ExerciseItem
           key={exercise.id}

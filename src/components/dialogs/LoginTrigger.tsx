@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./dialog";
+} from "../elements/shadcn/dialog";
 import { LoginForm } from "../auth/LoginForm";
 import { useTranslations } from "next-intl";
 type Props = {

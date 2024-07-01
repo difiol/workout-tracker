@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Exercise } from "@/types/exercise";
+import { WorkoutExercise } from "@/types/exercise";
 import React, { MouseEventHandler, TouchEvent, useRef, useState } from "react";
 import { ExerciseDetailItem } from "./ExerciseDetailItem";
 import { FaWeightHanging } from "react-icons/fa6";
@@ -11,11 +11,11 @@ import { useContentEditable } from "@/hooks/useContentEditable";
 import { useTranslations } from "next-intl";
 
 type Props = {
-  exercise: Exercise;
+  exercise: WorkoutExercise;
   onClick: (id: string) => void;
-  onSwipeRight: (exercise: Exercise) => void;
-  onSwipeLeft: (exercise: Exercise) => void;
-  updateExercise: (exercise: Exercise) => void;
+  onSwipeRight: (exercise: WorkoutExercise) => void;
+  onSwipeLeft: (exercise: WorkoutExercise) => void;
+  updateExercise: (exercise: WorkoutExercise) => void;
   isActive?: boolean;
   isDone?: boolean;
   className?: string;

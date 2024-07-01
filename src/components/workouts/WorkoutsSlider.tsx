@@ -1,9 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useWorkout } from "@/store/useWorkout";
 import React from "react";
 import { Label } from "../elements/buttons/Label";
 import { useTranslations } from "next-intl";
+import { useWorkouts } from "@/store/useWorkouts";
 
 type Props = {
   className?: string;
@@ -12,7 +12,7 @@ type Props = {
 export function WorkoutsSlider({ className }: Props) {
   const t = useTranslations("Workout");
   const { workouts, activeWorkout, selectWorkout, deleteWorkout } =
-    useWorkout();
+    useWorkouts();
 
   return (
     <div className={cn("w-full overflow-x-auto", className)}>

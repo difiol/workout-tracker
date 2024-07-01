@@ -7,17 +7,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./dialog";
-import { useWorkout } from "@/store/useWorkout";
-import { Exercise } from "@/types/exercise";
+} from "../elements/shadcn/dialog";
+import { WorkoutExercise } from "@/types/exercise";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../elements/buttons/Button";
 import { useTranslations } from "next-intl";
 import InputText from "../elements/forms/InputText";
 import { useForm } from "react-hook-form";
+import { useWorkouts } from "@/store/useWorkouts";
 
 type Props = {
-  exercisesToSave: Exercise[];
+  exercisesToSave: WorkoutExercise[];
   className?: string;
 };
 
@@ -28,7 +28,7 @@ interface SaveWorkoutInputs {
 export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
   const t = useTranslations("Actions");
   const { register, handleSubmit } = useForm<SaveWorkoutInputs>();
-  const { activeWorkout, addWorkout } = useWorkout();
+  const { activeWorkout, addWorkout } = useWorkouts();
   const [open, setOpen] = useState(false);
 
   const onSaveWorkout = ({ workoutName }: SaveWorkoutInputs) => {

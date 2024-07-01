@@ -10,6 +10,7 @@
     "no-workouts": "No tienes ninguna rutina guardada"
   },
   "Actions": {
+    "add-exercise-to-workout": "Añadir ejercicio a la rutina",
     "add-new-exercise": "Añadir nuevo ejercicio",
     "save-workout": "Guardar rutina",
     "save-workout-as": "Guardar rutina como",
@@ -21,5 +22,8 @@
     "register": "Registrarse",
     "email": "Correo electrónico",
     "password": "Contraseña"
+  },
+  "Errors": {
+    "exercise-not-found": "Ejercicio no encontrado"
   }
 }

@@ -10,6 +10,7 @@
     "no-workouts": "You don't have stored workouts"
   },
   "Actions": {
+    "add-exercise-to-workout": "Add exercise to workout",
     "add-new-exercise": "Add new exercise",
     "save-workout": "Save workout",
     "save-workout-as": "Save workout as",
@@ -21,5 +22,8 @@
     "register": "Register",
     "email": "Email",
     "password": "Password"
+  },
+  "Errors": {
+    "exercise-not-found": "Exercise not found"
   }
 }

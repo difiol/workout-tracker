@@ -1,11 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import React, {
-  FocusEventHandler,
-  KeyboardEventHandler,
-  useRef,
-  useState,
-} from "react";
+import React, { FocusEventHandler, KeyboardEventHandler, useRef } from "react";
 
 type Props = {
   onSubmit: (value: string) => void;
@@ -15,6 +10,7 @@ type Props = {
 
 export function InputExerciseItem({ onSubmit, onFocus, className }: Props) {
   const t = useTranslations("Actions");
+
   const ref = useRef<HTMLInputElement>(null);
 
   const handleInput: FocusEventHandler<HTMLInputElement> = (e) => {

@@ -1,9 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useExercises } from "@/store/useExercises";
 import { usePreferences } from "@/store/usePreferences";
 import { useUser } from "@/store/useUser";
-import { useWorkout } from "@/store/useWorkout";
+import { useWorkouts } from "@/store/useWorkouts";
+import { Exercise } from "@/types/exercise";
 import { Preferences } from "@/types/preferences";
 import { getPreferredTheme } from "@/utils/theme";
 import { AuthUser } from "@supabase/supabase-js";
@@ -12,7 +14,8 @@ import { useEffect } from "react";
 type Props = {
   user: AuthUser | null;
   preferences?: Preferences;
-  workouts: any;
+  workouts?: any;
+  exercises?: Exercise[] | null;
   children: React.ReactNode;
 };
 
@@ -20,11 +23,13 @@ export function AppInitializer({
   user,
   preferences,
   workouts,
+  exercises,
   children,
 }: Readonly<Props>) {
   useUser.setState({ user, isLoggedIn: !!user });
   usePreferences.setState({ ...preferences });
-  if (workouts) useWorkout.setState({ workouts, activeWorkout: workouts[0] });
+  if (workouts) useWorkouts.setState({ workouts, activeWorkout: workouts[0] });
+  useExercises.setState({ exercises: exercises ?? [] });
 
   useEffect(() => {
     if (!preferences?.theme) {

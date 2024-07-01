@@ -21,7 +21,7 @@ type WorkoutStore = {
 
 const supabaseClient = createClient();
 
-export const useWorkout = create<WorkoutStore>()((set) => ({
+export const useWorkouts = create<WorkoutStore>()((set) => ({
   workouts: defaultWorkouts,
   activeWorkout: defaultWorkouts[0],
   addWorkout: async ({ name, exercises }: CreateWorkout) => {

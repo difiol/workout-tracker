@@ -6,7 +6,8 @@ import { useTranslations } from "next-intl";
 import InputText from "../elements/forms/InputText";
 import { useUser } from "@/store/useUser";
 import { usePreferences } from "@/store/usePreferences";
-import { useWorkout } from "@/store/useWorkout";
+import { useWorkouts } from "@/store/useWorkouts";
+import { useExercises } from "@/store/useExercises";
 
 type Props = {
   onAfterLogin?: () => void;
@@ -22,7 +23,8 @@ export function LoginForm({ className, onAfterLogin }: Props) {
   const t = useTranslations("Auth");
   const { login } = useUser();
   const { loadUserPreferences } = usePreferences();
-  const { loadWorkouts } = useWorkout();
+  const { loadWorkouts } = useWorkouts();
+  const { loadExercises } = useExercises();
   const { register, handleSubmit } = useForm<LoginInputs>();
   const [error, setError] = useState<string>("");
 
@@ -32,7 +34,11 @@ export function LoginForm({ className, onAfterLogin }: Props) {
       password: data.password,
     });
     if (result.isSuccess) {
-      await Promise.allSettled([loadUserPreferences(), loadWorkouts()]);
+      await Promise.allSettled([
+        loadUserPreferences(),
+        loadWorkouts(),
+        loadExercises(),
+      ]);
       onAfterLogin?.();
     } else setError(result.error || "An error occurred");
   };

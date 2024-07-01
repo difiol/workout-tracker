@@ -1,12 +1,12 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { AddExerciseLog } from "@/types/exercise";
+import { AddExerciseLog, Exercise } from "@/types/exercise";
 
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
 
 export const getSupabaseExercises = async (client: SupabaseClient) => {
   const exercises = await client.from(EXERCISES_TABLE).select();
-  return exercises.data;
+  return exercises.data as Exercise[];
 };
 
 export const createSupabaseExercise = async (
@@ -21,7 +21,7 @@ export const createSupabaseExercise = async (
   return response.data;
 };
 
-export const removeSupabaseExercise = async (
+export const deleteSupabaseExercise = async (
   client: SupabaseClient,
   id: string
 ) => {

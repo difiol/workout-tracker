@@ -4,28 +4,25 @@ import React, { useEffect, useState } from "react";
 import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
-import { Dialog } from "../dialogs/dialog";
-import { useWorkout } from "@/store/useWorkout";
-import { Exercise } from "@/types/exercise";
-import { cn } from "@/lib/utils";
-
+import { WorkoutExercise } from "@/types/exercise";
+import { useWorkouts } from "@/store/useWorkouts";
 type Props = {
   className?: string;
 };
 
 export function HomeView({ className }: Props) {
-  const { activeWorkout } = useWorkout();
+  const { activeWorkout } = useWorkouts();
 
-  const [todoExercises, setTodo] = useState<Exercise[]>(
+  const [todoExercises, setTodo] = useState<WorkoutExercise[]>(
     activeWorkout?.exercises ?? []
   );
-  const [doneExercises, setDone] = useState<Exercise[]>([]);
+  const [doneExercises, setDone] = useState<WorkoutExercise[]>([]);
 
-  const addExercise = (exercise: Exercise) => {
+  const addExercise = (exercise: WorkoutExercise) => {
     setTodo((prev) => [...prev, exercise]);
   };
 
-  const updateExercise = (exercise: Exercise) => {
+  const updateExercise = (exercise: WorkoutExercise) => {
     setTodo((prev) =>
       prev.map((ex) => (ex.id === exercise.id ? exercise : ex))
     );
@@ -34,12 +31,12 @@ export function HomeView({ className }: Props) {
     );
   };
 
-  const removeExercise = ({ id }: Exercise) => {
+  const removeExercise = ({ id }: WorkoutExercise) => {
     setTodo((prev) => prev.filter((exercise) => exercise.id !== id));
     setDone((prev) => prev.filter((exercise) => exercise.id !== id));
   };
 
-  const markAdDone = (exercise: Exercise) => {
+  const markAdDone = (exercise: WorkoutExercise) => {
     if (doneExercises.filter(({ id }) => id === exercise.id).length) {
       setDone((prev) => prev.filter(({ id }) => id !== exercise.id));
       setTodo((prev) => [exercise, ...prev]);
