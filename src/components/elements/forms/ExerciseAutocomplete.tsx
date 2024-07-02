@@ -25,11 +25,12 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
   );
 
   const handleValueChange = async ({ label, value }: Option) => {
+    const trimmedLabel = label.trim();
     let selectedExercise = exercises.find(
-      ({ name }) => name.toLowerCase() === label.toLowerCase()
+      ({ name }) => name.toLowerCase() === trimmedLabel.toLowerCase()
     );
     if (!selectedExercise) {
-      selectedExercise = await createExercise(label);
+      selectedExercise = await createExercise(trimmedLabel);
     }
     onSubmit(selectedExercise);
   };
@@ -47,7 +48,10 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
           "dark:bg-slate-800 dark:border-slate-700",
           className
         ),
-        input: "w-full text-center text-xl font-semibold border-none",
+        input: cn(
+          "w-full text-center text-xl font-semibold border-none",
+          "max-w-[calc(100%-90px)] ml-[45px]"
+        ),
         item: "text-lg",
       }}
       allowNotMatchingValue
@@ -56,7 +60,7 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
       inputIcon={false}
       onFocus={onFocus}
       inputButton={
-        <div className="h-fit absolute top-0 bottom-0 right-6 m-auto underline text-blue-400">
+        <div className="h-fit absolute top-0 bottom-0 right-2 m-auto underline text-blue-400">
           {t("Actions.create")}
         </div>
       }
