@@ -39,13 +39,8 @@ export function WorkoutExercises({
     const newExercise = {
       id,
       name,
-      weight: 0,
-      reps: 0,
-      sets: 0,
-      time: 0,
-      material: "",
     };
-    setActive(newExercise.id);
+    setActive(id);
     addExercise(newExercise);
   };
 

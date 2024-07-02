@@ -28,11 +28,22 @@ interface SaveWorkoutInputs {
 export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
   const t = useTranslations("Actions");
   const { register, handleSubmit } = useForm<SaveWorkoutInputs>();
-  const { activeWorkout, addWorkout } = useWorkouts();
+  const { workouts, activeWorkout, addWorkout, updateWorkoutExercises } =
+    useWorkouts();
   const [open, setOpen] = useState(false);
 
   const onSaveWorkout = ({ workoutName }: SaveWorkoutInputs) => {
-    if (exercisesToSave.length)
+    if (!exercisesToSave.length) setOpen(false);
+
+    const workoutExist = workouts.find(
+      (workout) => workout.name === workoutName
+    );
+    if (workoutExist?.id)
+      updateWorkoutExercises({
+        workoutId: workoutExist.id,
+        exercises: exercisesToSave,
+      });
+    else
       addWorkout({
         name: workoutName,
         exercises: exercisesToSave,
@@ -58,7 +69,7 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
           <InputText
             name="workoutName"
             type="text"
-            placeholder={activeWorkout?.name ?? ""}
+            defaultValue={activeWorkout?.name}
             register={register}
           />
           <span className="flex justify-evenly">

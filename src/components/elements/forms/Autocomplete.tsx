@@ -11,6 +11,7 @@ import {
   useCallback,
   type KeyboardEvent,
   ReactNode,
+  useEffect,
 } from "react";
 
 import { Check } from "lucide-react";
@@ -30,13 +31,15 @@ type Classes = {
 type AutoCompleteProps = {
   options: Option[];
   emptyMessage: string;
+  name?: string;
   value?: Option;
   isLoading?: boolean;
   disabled?: boolean;
   placeholder?: string;
   inputIcon?: ReactNode | boolean;
+  inputButton?: ReactNode;
   classes?: Classes;
-  allowNotMatchingValue?: boolean;
+  allowNotMatchingValue?: boolean; //Allows the input value to be different from the options when submitting
   noBorder?: boolean;
   clearAfterSubmit?: boolean;
   onValueChange?: (value: Option) => void;
@@ -47,10 +50,12 @@ export const AutoComplete = ({
   options,
   placeholder,
   emptyMessage,
+  name,
   value,
   disabled,
   classes,
-  inputIcon: icon,
+  inputIcon,
+  inputButton,
   isLoading = false,
   allowNotMatchingValue = false,
   noBorder = false,
@@ -61,38 +66,44 @@ export const AutoComplete = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<Option>(value as Option);
+  const [selected, setSelected] = useState<Option | null>(value as Option);
   const [inputValue, setInputValue] = useState<string>(value?.label || "");
+
+  const submitValue = () => {
+    const input = inputRef.current;
+    if (!input || !input.value) {
+      return;
+    }
+
+    const optionToSelect = options.find(
+      (option) => option.label === input.value
+    );
+    if (optionToSelect) {
+      onValueChange?.(optionToSelect);
+    } else if (allowNotMatchingValue) {
+      setSelected(null);
+      onValueChange?.({ value: input.value, label: input.value });
+    }
+    if (clearAfterSubmit) setInputValue("");
+  };
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
-      const input = inputRef.current;
-      if (!input) {
-        return;
-      }
-
       // Keep the options displayed when the user is typing
       if (!open) {
         setOpen(true);
       }
 
       // This is not a default behaviour of the <input /> field
-      if (event.key === "Enter" && input.value !== "") {
-        const optionToSelect = options.find(
-          (option) => option.label === input.value
-        );
-        if (optionToSelect) {
-          setSelected(optionToSelect);
-          onValueChange?.(optionToSelect);
-        } else if (allowNotMatchingValue) {
-          setSelected({ value: input.value, label: input.value });
-          onValueChange?.({ value: input.value, label: input.value });
-        }
-        if (clearAfterSubmit) setInputValue("");
+      if (event.key === "Enter") {
+        //Hack to ensure submitValue executes after the user selects an option
+        setTimeout(() => {
+          submitValue();
+        }, 0);
       }
 
       if (event.key === "Escape") {
-        input.blur();
+        inputRef?.current?.blur();
       }
     },
     [open, options, onValueChange]
@@ -105,7 +116,7 @@ export const AutoComplete = ({
 
   const handleBlur = useCallback(() => {
     setOpen(false);
-    if (!clearAfterSubmit) setInputValue(selected?.label);
+    if (!clearAfterSubmit) setInputValue(selected?.label ?? "");
   }, [selected]);
 
   const handleSelectOption = useCallback(
@@ -114,22 +125,29 @@ export const AutoComplete = ({
 
       setSelected(selectedOption);
       onValueChange?.(selectedOption);
+      if (clearAfterSubmit) {
+        setInputValue("");
+      }
 
       // This is a hack to prevent the input from being focused after the user selects an option
       // We can call this hack: "The next tick"
       setTimeout(() => {
         inputRef?.current?.blur();
-        if (clearAfterSubmit) setInputValue("");
       }, 0);
     },
     [onValueChange]
   );
 
+  const handleButtonClick = () => {
+    submitValue();
+  };
+
   return (
     <CommandPrimitive onKeyDown={handleKeyDown} className={classes?.container}>
-      <div>
+      <div className="relative">
         <CommandInput
           ref={inputRef}
+          name={name}
           value={inputValue}
           onValueChange={isLoading ? undefined : setInputValue}
           onBlur={handleBlur}
@@ -138,8 +156,12 @@ export const AutoComplete = ({
           disabled={disabled}
           className={cn("text-base border-b-2", classes?.input)}
           noBorder={noBorder}
-          icon={icon}
+          icon={inputIcon}
         />
+
+        {inputButton && inputValue !== "" && (
+          <button onClick={handleButtonClick}>{inputButton}</button>
+        )}
       </div>
       <div className={cn("relative mt-1")}>
         <div

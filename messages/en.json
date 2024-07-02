@@ -14,7 +14,8 @@
     "add-new-exercise": "Add new exercise",
     "save-workout": "Save workout",
     "save-workout-as": "Save workout as",
-    "save": "Save"
+    "save": "Save",
+    "create": "Create"
   },
   "Auth": {
     "login": "Login",

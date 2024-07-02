@@ -5,11 +5,11 @@ export interface Exercise {
 }
 
 export type WorkoutExercise = Omit<Exercise, "created_at"> & {
-  weight: number;
-  reps: number;
-  sets: number;
-  time: number;
-  material: string;
+  weight?: number;
+  reps?: number;
+  sets?: number;
+  time?: number;
+  material?: string;
 };
 
 export type AddExerciseLog = WorkoutExercise & { workoutId: string };

@@ -11,14 +11,8 @@ type Props = {
   className?: string;
 };
 
-export function ExerciseAutocomplete({
-  onSubmit,
-  onFocus,
-  className,
-  ...props
-}: Props) {
+export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
   const t = useTranslations();
-
   const { exercises, createExercise } = useExercises();
 
   const mappedExercises = useMemo(
@@ -31,7 +25,6 @@ export function ExerciseAutocomplete({
   );
 
   const handleValueChange = async ({ label, value }: Option) => {
-    console.log("Selected exercise: ", label, value);
     let selectedExercise = exercises.find(
       ({ name }) => name.toLowerCase() === label.toLowerCase()
     );
@@ -43,6 +36,7 @@ export function ExerciseAutocomplete({
 
   return (
     <AutoComplete
+      name="exercise"
       placeholder={`${t("Actions.add-exercise-to-workout")}...`}
       emptyMessage={t("Errors.exercise-not-found")}
       options={mappedExercises}
@@ -61,6 +55,11 @@ export function ExerciseAutocomplete({
       noBorder
       inputIcon={false}
       onFocus={onFocus}
+      inputButton={
+        <div className="h-fit absolute top-0 bottom-0 right-6 m-auto underline text-blue-400">
+          {t("Actions.create")}
+        </div>
+      }
     />
   );
 }

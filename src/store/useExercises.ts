@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Exercise } from "@/types/exercise";
 import { createSupabaseWorkout } from "@/lib/supabase/requests/workouts";
 import {
+  createSupabaseExercise,
   deleteSupabaseExercise,
   getSupabaseExercises,
 } from "@/lib/supabase/requests/exercises";
@@ -23,7 +24,7 @@ export const useExercises = create<ExercisesStore>()((set) => ({
   createExercise: async (name) => {
     let exercise;
     if (getClientUser())
-      exercise = await createSupabaseWorkout(supabaseClient, name);
+      exercise = await createSupabaseExercise(supabaseClient, name);
 
     if (!exercise) {
       const localExercise: Exercise = {

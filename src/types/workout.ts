@@ -11,12 +11,17 @@ export interface CreateWorkout {
   exercises: WorkoutExercise[];
 }
 
+export type UpdateWorkoutExercises = {
+  workoutId: string;
+  exercises: WorkoutExercise[];
+};
+
 export interface AddExerciseToWorkout {
   workoutId: string;
-  exercisesId: string[];
+  exercises: WorkoutExercise[];
 }
 
-export interface RemoveExerciseToWorkout {
+export interface RemoveExerciseFromWorkout {
   workoutId: string;
   exerciseId: string;
 }

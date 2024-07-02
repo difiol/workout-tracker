@@ -14,7 +14,8 @@
     "add-new-exercise": "Añadir nuevo ejercicio",
     "save-workout": "Guardar rutina",
     "save-workout-as": "Guardar rutina como",
-    "save": "Guardar"
+    "save": "Guardar",
+    "create": "Crear"
   },
   "Auth": {
     "login": "Iniciar sesión",
