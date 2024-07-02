@@ -1,21 +1,28 @@
 import { cn } from "@/lib/utils";
 import { WorkoutExercise } from "@/types/exercise";
-import React, { MouseEventHandler, TouchEvent, useRef, useState } from "react";
+import React, {
+  MouseEventHandler,
+  ReactNode,
+  TouchEvent,
+  useRef,
+  useState,
+} from "react";
 import { ExerciseDetailItem } from "./ExerciseDetailItem";
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdSportsMartialArts } from "react-icons/md";
 import { BsArrowRepeat } from "react-icons/bs";
 import { ImAlarm } from "react-icons/im";
 import { BiDumbbell } from "react-icons/bi";
-import { useContentEditable } from "@/hooks/useContentEditable";
 import { useTranslations } from "next-intl";
 
 type Props = {
   exercise: WorkoutExercise;
-  onClick: (id: string) => void;
-  onSwipeRight: (exercise: WorkoutExercise) => void;
-  onSwipeLeft: (exercise: WorkoutExercise) => void;
-  updateExercise: (exercise: WorkoutExercise) => void;
+  onClick?: (id: string) => void;
+  swipeRightElement?: ReactNode;
+  swipeLeftElement?: ReactNode;
+  onSwipeRight?: (exercise: WorkoutExercise) => void;
+  onSwipeLeft?: (exercise: WorkoutExercise) => void;
+  updateExercise?: (exercise: WorkoutExercise) => void;
   isActive?: boolean;
   isDone?: boolean;
   className?: string;
@@ -28,6 +35,8 @@ export function ExerciseItem({
   exercise,
   onClick,
   onSwipeRight,
+  swipeLeftElement,
+  swipeRightElement,
   onSwipeLeft,
   updateExercise,
   isActive = false,
@@ -42,11 +51,11 @@ export function ExerciseItem({
   const { id, name, weight, reps, sets, time, material } = exercise;
 
   const handleOnClick: MouseEventHandler<HTMLButtonElement> = () => {
-    onClick(id);
+    onClick?.(id);
   };
 
   const handleUpdateValue = (key: string, value: string | number) => {
-    updateExercise({ ...exercise, [key]: value });
+    updateExercise?.({ ...exercise, [key]: value });
   };
 
   const handleTouchStart = (e: TouchEvent) => {
@@ -102,11 +111,11 @@ export function ExerciseItem({
 
     // Swipe right
     if (offset > triggerRange) {
-      onSwipeRight(exercise);
+      onSwipeRight?.(exercise);
     }
     // Swipe left
     if (offset < -triggerRange) {
-      onSwipeLeft(exercise);
+      onSwipeLeft?.(exercise);
     }
 
     //Reset swipe position
@@ -119,11 +128,11 @@ export function ExerciseItem({
 
     // Swipe right
     if (offset > triggerRange) {
-      onSwipeRight(exercise);
+      onSwipeRight?.(exercise);
     }
     // Swipe left
     if (offset < -triggerRange) {
-      onSwipeLeft(exercise);
+      onSwipeLeft?.(exercise);
     }
 
     removeRef.current?.style.setProperty("transform", "translateX(0)");
@@ -193,28 +202,11 @@ export function ExerciseItem({
           </div>
         )}
       </div>
-      <div
-        className={cn(
-          "absolute w-full h-full right-full flex items-center justify-end ",
-          isDone
-            ? "bg-slate-200 dark:bg-slate-400"
-            : "bg-green-300 bg-opacity-95 text-black"
-        )}
-        ref={doneRef}
-      >
-        <span className="mr-5 text-lg font-semibold">
-          Mark as {isDone ? "undone" : "done"}
-        </span>
+      <div className={cn("absolute w-full h-full right-full")} ref={doneRef}>
+        {swipeRightElement}
       </div>
-      <div
-        className={cn(
-          "absolute w-full h-full left-full flex items-center bg-red-400 bg-opacity-95"
-        )}
-        ref={removeRef}
-      >
-        <span className="ml-5 text-white text-lg font-semibold">
-          Remove exercise
-        </span>
+      <div className={cn("absolute w-full h-full left-full")} ref={removeRef}>
+        {swipeLeftElement}
       </div>
     </div>
   );

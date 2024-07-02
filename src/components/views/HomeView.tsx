@@ -36,14 +36,14 @@ export function HomeView({ className }: Props) {
     setDone((prev) => prev.filter((exercise) => exercise.id !== id));
   };
 
-  const markAdDone = (exercise: WorkoutExercise) => {
-    if (doneExercises.filter(({ id }) => id === exercise.id).length) {
-      setDone((prev) => prev.filter(({ id }) => id !== exercise.id));
-      setTodo((prev) => [exercise, ...prev]);
-    } else {
-      setTodo((prev) => prev.filter(({ id }) => id !== exercise.id));
-      setDone((prev) => [...prev, exercise]);
-    }
+  const markAsDone = (exercise: WorkoutExercise) => {
+    setTodo((prev) => prev.filter(({ id }) => id !== exercise.id));
+    setDone((prev) => [...prev, exercise]);
+  };
+
+  const markAsUndone = (exercise: WorkoutExercise) => {
+    setDone((prev) => prev.filter(({ id }) => id !== exercise.id));
+    setTodo((prev) => [exercise, ...prev]);
   };
 
   useEffect(() => {
@@ -59,7 +59,8 @@ export function HomeView({ className }: Props) {
         done={doneExercises}
         addExercise={addExercise}
         updateExercise={updateExercise}
-        markAsDone={markAdDone}
+        markAsDone={markAsDone}
+        markAsUndone={markAsUndone}
         removeExercise={removeExercise}
         className="m-auto"
       />

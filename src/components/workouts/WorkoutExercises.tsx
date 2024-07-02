@@ -1,34 +1,75 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
-import { createClient } from "@/lib/supabase/client";
 import { ExerciseAutocomplete } from "../elements/forms/ExerciseAutocomplete";
+import { useTranslations } from "next-intl";
 
 type Props = {
   done: WorkoutExercise[];
   todo: WorkoutExercise[];
   markAsDone: (exercise: WorkoutExercise) => void;
+  markAsUndone: (exercise: WorkoutExercise) => void;
   addExercise: (exercise: WorkoutExercise) => void;
   updateExercise: (exercise: WorkoutExercise) => void;
   removeExercise: (exercise: WorkoutExercise) => void;
   className?: string;
 };
 
-const supabaseClient = createClient();
+const commonSwipeElementClasses =
+  "w-full h-full flex items-center text-lg font-semibold bg-opacity-90";
 
 export function WorkoutExercises({
   done,
   todo,
-  markAsDone,
   className,
   addExercise,
+  markAsDone,
+  markAsUndone,
   updateExercise,
   removeExercise,
 }: Props) {
+  const t = useTranslations("Actions");
   const [active, setActive] = useState<string>("");
+
+  const removeExerciseSwipeElement = useMemo(
+    () => (
+      <span
+        className={cn(commonSwipeElementClasses, "pl-5 text-white bg-red-400")}
+      >
+        {t("remove-from-workout")}
+      </span>
+    ),
+    [t]
+  );
+  const markDoneExerciseSwipeElement = useMemo(
+    () => (
+      <span
+        className={cn(
+          commonSwipeElementClasses,
+          "justify-end pr-5 text-black bg-green-300"
+        )}
+      >
+        {t("mark-as-done")}
+      </span>
+    ),
+    [t]
+  );
+  const markUndoneExerciseSwipeElement = useMemo(
+    () => (
+      <span
+        className={cn(
+          commonSwipeElementClasses,
+          "pl-5 text-white bg-orange-300"
+        )}
+      >
+        {t("mark-as-undone")}
+      </span>
+    ),
+    [t]
+  );
 
   const handleClick = (id: string) => {
     if (active === id) setActive("");
@@ -44,7 +85,7 @@ export function WorkoutExercises({
     addExercise(newExercise);
   };
 
-  const handleInputFocus = () => {
+  const clearActiveExercise = () => {
     setActive("");
   };
 
@@ -60,7 +101,9 @@ export function WorkoutExercises({
           key={exercise.id}
           exercise={exercise}
           onClick={handleClick}
+          swipeRightElement={markDoneExerciseSwipeElement}
           onSwipeRight={markAsDone}
+          swipeLeftElement={removeExerciseSwipeElement}
           onSwipeLeft={removeExercise}
           updateExercise={updateExercise}
           isActive={active === exercise.id}
@@ -68,18 +111,15 @@ export function WorkoutExercises({
       ))}
       <ExerciseAutocomplete
         onSubmit={handleAddExercise}
-        onFocus={handleInputFocus}
+        onFocus={clearActiveExercise}
       />
 
       {done.map((exercise) => (
         <ExerciseItem
           key={exercise.id}
           exercise={exercise}
-          onClick={handleClick}
-          onSwipeRight={markAsDone}
-          onSwipeLeft={removeExercise}
-          updateExercise={updateExercise}
-          isActive={active === exercise.id}
+          swipeLeftElement={markUndoneExerciseSwipeElement}
+          onSwipeLeft={markAsUndone}
           isDone
         />
       ))}

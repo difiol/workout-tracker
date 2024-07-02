@@ -10,6 +10,9 @@
     "no-workouts": "You don't have stored workouts"
   },
   "Actions": {
+    "mark-as-done": "Mark as done",
+    "mark-as-undone": "Mark as undone",
+    "remove-from-workout": "Remove from workout",
     "add-exercise-to-workout": "Add exercise to workout",
     "add-new-exercise": "Add new exercise",
     "save-workout": "Save workout",

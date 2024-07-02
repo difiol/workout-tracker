@@ -10,6 +10,9 @@
     "no-workouts": "No tienes ninguna rutina guardada"
   },
   "Actions": {
+    "mark-as-done": "Marcar como hecho",
+    "mark-as-undone": "Marcar como no hecho",
+    "remove-from-workout": "Eliminar de la rutina",
     "add-exercise-to-workout": "Añadir ejercicio a la rutina",
     "add-new-exercise": "Añadir nuevo ejercicio",
     "save-workout": "Guardar rutina",
