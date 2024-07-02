@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 type Props = {
   icon: ReactNode;
   name: string;
-  value: string | number;
+  value?: string | number;
   unit?: string;
   onChange?: (value: string | number) => void;
   className?: string;
