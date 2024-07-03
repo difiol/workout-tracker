@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "../elements/buttons/Button";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import InputText from "../elements/forms/InputText";
+import InputText from "@/components/elements/forms/InputText";
 import { useUser } from "@/store/useUser";
 import { usePreferences } from "@/store/usePreferences";
 import { useWorkouts } from "@/store/useWorkouts";
 import { useExercises } from "@/store/useExercises";
+import { Button } from "@/components/elements/shadcn/button";
 
 type Props = {
   onAfterLogin?: () => void;

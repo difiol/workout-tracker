@@ -1,26 +1,26 @@
 import { cn } from "@/lib/utils";
-import React, { MouseEvent } from "react";
-import { IoCloseOutline } from "react-icons/io5";
+import React, { MouseEvent, ReactNode } from "react";
 
 type Props = {
   text: string;
   onClick: (e: MouseEvent<HTMLElement>) => void;
   onRemove?: () => void;
-  isActive?: boolean;
+  labelButton?: ReactNode;
+  className?: string;
 };
 
-export function Label({ text, onClick, onRemove, isActive = false }: Props) {
+export function Label({ text, onClick, labelButton, className }: Props) {
   return (
     <button
       onClick={onClick}
       className={cn(
-        "w-max flex items-center gap-1 py-2 px-3 rounded-full border-slate-300 border capitalize-first transition-all duration-200 ease-in select-none",
+        "w-max flex items-center gap-1 py-2 px-3 rounded-full border-slate-300 border transition-all duration-200 ease-in select-none",
         "dark:border-slate-600",
-        isActive && "bg-slate-100 dark:bg-slate-600"
+        className
       )}
     >
-      <p>{text}</p>
-      {isActive && onRemove && <IoCloseOutline size={18} onClick={onRemove} />}
+      <p className="capitalize-first">{text}</p>
+      {labelButton}
     </button>
   );
 }

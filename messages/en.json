@@ -18,7 +18,9 @@
     "save-workout": "Save workout",
     "save-workout-as": "Save workout as",
     "save": "Save",
-    "create": "Create"
+    "create": "Create",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "Auth": {
     "login": "Login",
@@ -26,6 +28,20 @@
     "register": "Register",
     "email": "Email",
     "password": "Password"
+  },
+  "Alerts": {
+    "action-title": "Continue with this action?",
+    "action-description": "This action will apply irreversible changes",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "override-workout": {
+      "title": "Override workout",
+      "description": "This workout already exists. Are you sure you want to override it?"
+    },
+    "remove-workout": {
+      "title": "Delete workout",
+      "description": "This action will permanently delete the workout. The exercise records related to this workout will not be deleted."
+    }
   },
   "Errors": {
     "exercise-not-found": "Exercise not found"

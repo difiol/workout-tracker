@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEventHandler, use, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -10,11 +10,12 @@ import {
 } from "../elements/shadcn/dialog";
 import { WorkoutExercise } from "@/types/exercise";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../elements/buttons/Button";
 import { useTranslations } from "next-intl";
 import InputText from "../elements/forms/InputText";
 import { useForm } from "react-hook-form";
 import { useWorkouts } from "@/store/useWorkouts";
+import { Button, buttonVariants } from "@/components/elements/shadcn/button";
+import { ActionAlertDialog } from "../elements/alerts/ActionAlertDialog";
 
 type Props = {
   exercisesToSave: WorkoutExercise[];
@@ -26,11 +27,22 @@ interface SaveWorkoutInputs {
 }
 
 export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
-  const t = useTranslations("Actions");
+  const t = useTranslations();
   const { register, handleSubmit } = useForm<SaveWorkoutInputs>();
   const { workouts, activeWorkout, addWorkout, updateWorkoutExercises } =
     useWorkouts();
   const [open, setOpen] = useState(false);
+  const [alertIsDisabled, setAlertIsDisabled] = useState(false);
+
+  const closeDialog = () => setOpen(false);
+
+  const checkIfWorkoutNameExists: ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    const value = e.target.value.trim().toLowerCase();
+    const exists = workouts.find(({ name }) => name.toLowerCase() === value);
+    setAlertIsDisabled(!exists);
+  };
 
   const onSaveWorkout = ({ workoutName }: SaveWorkoutInputs) => {
     if (!exercisesToSave.length) setOpen(false);
@@ -49,19 +61,24 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
         name: normalizedWorkoutName,
         exercises: exercisesToSave,
       });
-    setOpen(false);
+    closeDialog();
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
-        className={cn("shadow-md", buttonVariants.base, className)}
+        className={cn(
+          buttonVariants({ variant: "default", shadow: "md" }),
+          className
+        )}
       >
-        {t("save-workout")}
+        {t("Actions.save-workout")}
       </DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
-          <DialogTitle className="text-2xl">{t("save-workout-as")}</DialogTitle>
+          <DialogTitle className="text-2xl">
+            {t("Actions.save-workout-as")}
+          </DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(onSaveWorkout)}
@@ -72,9 +89,17 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
             type="text"
             defaultValue={activeWorkout?.name}
             register={register}
+            onChange={checkIfWorkoutNameExists}
           />
           <span className="flex justify-evenly">
-            <Button type="submit">{t("save")}</Button>
+            <ActionAlertDialog
+              title={t("Alerts.override-workout.title")}
+              description={t("Alerts.override-workout.description")}
+              disabled={alertIsDisabled}
+              onConfirm={handleSubmit(onSaveWorkout)}
+            >
+              <Button type="button">{t("Actions.save")}</Button>
+            </ActionAlertDialog>
           </span>
         </form>
       </DialogContent>

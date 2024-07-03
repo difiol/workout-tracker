@@ -18,7 +18,9 @@
     "save-workout": "Guardar rutina",
     "save-workout-as": "Guardar rutina como",
     "save": "Guardar",
-    "create": "Crear"
+    "create": "Crear",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   },
   "Auth": {
     "login": "Iniciar sesión",
@@ -26,6 +28,20 @@
     "register": "Registrarse",
     "email": "Correo electrónico",
     "password": "Contraseña"
+  },
+  "Alerts": {
+    "action-title": "¿Continuar con esta acción?",
+    "action-description": "Realizar esta acción aplicará cambios irreversibles",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "override-workout": {
+      "title": "Sobreescribir rutina",
+      "description": "Esta rutina ya existe. ¿Estás seguro de que quieres sobrescribirla?"
+    },
+    "remove-workout": {
+      "title": "Eliminar rutina",
+      "description": "Esta acción eliminará la rutina de forma permanente. No se borrarán los registros de ejercicios relacionados con esta rutina."
+    }
   },
   "Errors": {
     "exercise-not-found": "Ejercicio no encontrado"

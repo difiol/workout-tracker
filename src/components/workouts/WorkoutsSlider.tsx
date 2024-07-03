@@ -1,9 +1,11 @@
-"use client";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Label } from "../elements/buttons/Label";
 import { useTranslations } from "next-intl";
 import { useWorkouts } from "@/store/useWorkouts";
+import { IoCloseOutline } from "react-icons/io5";
+import { ActionAlertDialog } from "../elements/alerts/ActionAlertDialog";
+import WorkoutLabel from "./WorkoutLabel";
 
 type Props = {
   className?: string;
@@ -23,9 +25,9 @@ export function WorkoutsSlider({ className }: Props) {
           </p>
         ) : (
           workouts.map(({ id, name }) => (
-            <Label
+            <WorkoutLabel
               key={id}
-              text={name}
+              name={name}
               onClick={(e) => {
                 selectWorkout(id);
                 (e.target as HTMLElement).scrollIntoView({
@@ -34,8 +36,8 @@ export function WorkoutsSlider({ className }: Props) {
                   inline: "end",
                 });
               }}
-              onRemove={() => deleteWorkout(id)}
               isActive={activeWorkout?.id === id}
+              onRemove={() => deleteWorkout(id)}
             />
           ))
         )}

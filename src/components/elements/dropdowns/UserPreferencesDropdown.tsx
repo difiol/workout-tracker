@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { UserAvatar } from "../avatars/UserAvatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +12,8 @@ import { LogoutButton } from "@/components/auth/LogoutButton";
 import { LoginTrigger } from "@/components/dialogs/LoginTrigger";
 import { useUser } from "@/store/useUser";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../buttons/Button";
 import { useTranslations } from "next-intl";
+import { buttonVariants } from "../shadcn/button";
 
 type Props = {
   children: React.ReactNode;
@@ -43,7 +42,7 @@ export default function UserPreferencesDropdown({ children }: Props) {
         ) : (
           <LoginTrigger
             onAfterLogin={handleClose}
-            className={cn(buttonVariants.link, "text-sm")}
+            className={cn(buttonVariants({ variant: "link" }), "text-sm")}
           >
             {t("login")}
           </LoginTrigger>
