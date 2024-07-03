@@ -11,7 +11,6 @@ import {
   useCallback,
   type KeyboardEvent,
   ReactNode,
-  useEffect,
 } from "react";
 
 import { Check } from "lucide-react";
@@ -195,12 +194,11 @@ export const AutoComplete = ({
                       onSelect={() => handleSelectOption(option)}
                       className={cn(
                         "flex w-full items-center gap-2",
-                        !isSelected ? "pl-8" : null,
-                        classes?.item
+                        !isSelected ? "pl-8" : null
                       )}
                     >
                       {isSelected ? <Check className="w-4" /> : null}
-                      {option.label}
+                      <p className={classes?.item}>{option.label}</p>
                     </CommandItem>
                   );
                 })}

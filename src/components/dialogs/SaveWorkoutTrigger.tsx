@@ -35,8 +35,9 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
   const onSaveWorkout = ({ workoutName }: SaveWorkoutInputs) => {
     if (!exercisesToSave.length) setOpen(false);
 
+    const normalizedWorkoutName = workoutName.trim().toLowerCase();
     const workoutExist = workouts.find(
-      (workout) => workout.name === workoutName
+      (workout) => workout.name.toLowerCase() === normalizedWorkoutName
     );
     if (workoutExist?.id)
       updateWorkoutExercises({
@@ -45,7 +46,7 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
       });
     else
       addWorkout({
-        name: workoutName,
+        name: normalizedWorkoutName,
         exercises: exercisesToSave,
       });
     setOpen(false);

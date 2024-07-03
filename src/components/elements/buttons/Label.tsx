@@ -14,7 +14,7 @@ export function Label({ text, onClick, onRemove, isActive = false }: Props) {
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-1 w-max py-2 px-3 rounded-full border-slate-300 border transition-all duration-200 ease-in select-none",
+        "w-max flex items-center gap-1 py-2 px-3 rounded-full border-slate-300 border capitalize-first transition-all duration-200 ease-in select-none",
         "dark:border-slate-600",
         isActive && "bg-slate-100 dark:bg-slate-600"
       )}

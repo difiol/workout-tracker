@@ -160,7 +160,7 @@ export function ExerciseItem({
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          className="w-full p-3 text-2xl font-bold self-center"
+          className="w-full p-3 text-2xl font-bold self-center capitalize-first"
         >
           {name}
         </button>

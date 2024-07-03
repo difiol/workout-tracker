@@ -25,12 +25,12 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
   );
 
   const handleValueChange = async ({ label, value }: Option) => {
-    const trimmedLabel = label.trim();
+    const normalizedLabel = label.trim().toLowerCase();
     let selectedExercise = exercises.find(
-      ({ name }) => name.toLowerCase() === trimmedLabel.toLowerCase()
+      ({ name }) => name.toLowerCase() === normalizedLabel
     );
     if (!selectedExercise) {
-      selectedExercise = await createExercise(trimmedLabel);
+      selectedExercise = await createExercise(normalizedLabel);
     }
     onSubmit(selectedExercise);
   };
@@ -52,7 +52,7 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
           "w-full text-center text-xl font-semibold border-none",
           "max-w-[calc(100%-90px)] ml-[45px]"
         ),
-        item: "text-lg",
+        item: "text-lg capitalize-first",
       }}
       allowNotMatchingValue
       clearAfterSubmit
