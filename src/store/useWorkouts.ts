@@ -18,6 +18,7 @@ import { WorkoutExercise } from "@/types/exercise";
 import {
   createSupabaseExerciseLogs,
   deleteSupabaseExerciseLogs,
+  getSupabaseDoneExercisesByDay,
 } from "@/lib/supabase/requests/exercises";
 
 type WorkoutStore = {
@@ -104,11 +105,19 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
     }),
   loadWorkouts: async () => {
     if (!getClientUser()) return;
-    const workouts = await getSupabaseUserWorkouts(supabaseClient);
-    if (!workouts) {
-      return set({ workouts: [], activeWorkout: null });
-    }
-    set({ workouts, activeWorkout: workouts[0] });
+    const [workoutsResponse, doneResponse] = await Promise.allSettled([
+      getSupabaseUserWorkouts(supabaseClient),
+      getSupabaseDoneExercisesByDay(supabaseClient, new Date()),
+    ]);
+    set({
+      workouts:
+        workoutsResponse.status === "fulfilled" ? workoutsResponse.value : [],
+      done: doneResponse.status === "fulfilled" ? doneResponse.value : [],
+      activeWorkout:
+        workoutsResponse.status === "fulfilled"
+          ? workoutsResponse?.value?.at(0)
+          : null,
+    });
   },
   addExerciseToDone: async (exercise, workoutId) => {
     const exerciseLog = {
