@@ -14,6 +14,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 135,
         time: 0,
         material: "barbell",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -23,6 +24,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 135,
         time: 0,
         material: "barbell",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -32,6 +34,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 135,
         time: 0,
         material: "barbell",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -41,6 +44,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -50,6 +54,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -59,6 +64,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
     ],
   },
@@ -74,6 +80,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 135,
         time: 0,
         material: "barbell",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -83,6 +90,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -92,6 +100,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -101,6 +110,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
     ],
   },
@@ -116,6 +126,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 135,
         time: 0,
         material: "barbell",
+        created_at: new Date().toISOString(),
       },
       {
         id: uuidv4(),
@@ -125,6 +136,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 135,
         time: 0,
         material: "barbell",
+        created_at: new Date().toISOString(),
       },
     ],
   },
@@ -140,6 +152,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
     ],
   },
@@ -155,6 +168,7 @@ export const defaultWorkouts: Workout[] = [
         weight: 0,
         time: 0,
         material: "body weight",
+        created_at: new Date().toISOString(),
       },
     ],
   },
