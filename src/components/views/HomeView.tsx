@@ -4,51 +4,60 @@ import React, { useEffect, useState } from "react";
 import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
-import { WorkoutExercise } from "@/types/exercise";
+import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { useWorkouts } from "@/store/useWorkouts";
 type Props = {
   className?: string;
 };
 
-export function HomeView({ className }: Props) {
-  const { activeWorkout } = useWorkouts();
-
-  const [todoExercises, setTodo] = useState<WorkoutExercise[]>(
-    activeWorkout?.exercises ?? []
+const generateTodoExercises = (
+  workoutExercises: WorkoutExercise[],
+  done: WorkoutExercise[]
+) => {
+  const result = workoutExercises.filter(
+    (exercise) => !done.find((doneExercise) => doneExercise.id === exercise.id)
   );
-  const [doneExercises, setDone] = useState<WorkoutExercise[]>([]);
+  return result;
+};
 
-  const addExercise = (exercise: WorkoutExercise) => {
-    setTodo((prev) => [...prev, exercise]);
+export function HomeView({ className }: Props) {
+  const { done, activeWorkout, addExerciseToDone, removeExerciseFromDone } =
+    useWorkouts();
+
+  const [todoExercises, setTodo] = useState<WorkoutExercise[]>([]);
+
+  const addExercise = ({ id, name }: Exercise) => {
+    const exerciseToAdd: WorkoutExercise = {
+      id,
+      name,
+      created_at: new Date().toISOString(),
+    };
+
+    setTodo((prev) => [...prev, exerciseToAdd]);
   };
 
   const updateExercise = (exercise: WorkoutExercise) => {
     setTodo((prev) =>
       prev.map((ex) => (ex.id === exercise.id ? exercise : ex))
     );
-    setDone((prev) =>
-      prev.map((ex) => (ex.id === exercise.id ? exercise : ex))
-    );
   };
 
   const removeExercise = ({ id }: WorkoutExercise) => {
     setTodo((prev) => prev.filter((exercise) => exercise.id !== id));
-    setDone((prev) => prev.filter((exercise) => exercise.id !== id));
   };
 
   const markAsDone = (exercise: WorkoutExercise) => {
     setTodo((prev) => prev.filter(({ id }) => id !== exercise.id));
-    setDone((prev) => [...prev, exercise]);
+    addExerciseToDone(exercise, activeWorkout?.id);
   };
 
   const markAsUndone = (exercise: WorkoutExercise) => {
-    setDone((prev) => prev.filter(({ id }) => id !== exercise.id));
     setTodo((prev) => [exercise, ...prev]);
+    removeExerciseFromDone(exercise.logId ?? exercise.id);
   };
 
   useEffect(() => {
-    setTodo(activeWorkout?.exercises ?? []);
-    setDone([]);
+    setTodo(generateTodoExercises(activeWorkout?.exercises ?? [], done));
   }, [activeWorkout]);
 
   return (
@@ -56,7 +65,7 @@ export function HomeView({ className }: Props) {
       <WorkoutsSlider className="mt-2" />
       <WorkoutExercises
         todo={todoExercises}
-        done={doneExercises}
+        done={done}
         addExercise={addExercise}
         updateExercise={updateExercise}
         markAsDone={markAsDone}
@@ -65,9 +74,7 @@ export function HomeView({ className }: Props) {
         className="m-auto"
       />
       <div className="w-full flex justify-center mt-auto mt-6 mb-32">
-        <SaveWorkoutTrigger
-          exercisesToSave={[...todoExercises, ...doneExercises]}
-        />
+        <SaveWorkoutTrigger exercisesToSave={[...todoExercises, ...done]} />
       </div>
     </section>
   );

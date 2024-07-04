@@ -14,7 +14,6 @@ export const getSupabaseUserWorkouts = async (client: SupabaseClient) => {
     .from(WORKOUT_EXERCISES_TABLE)
     .select("workouts(id, name, created_at),exercises(id, name, created_at)")
     .order("created_at", { ascending: false });
-  //TODO: Fix typing errors
   const mappedWorkout = workouts?.data?.reduce((acc: Workout[], curr: any) => {
     const existingWorkout = acc.find((w) => w.id === curr.workouts.id);
     if (existingWorkout) {

@@ -14,15 +14,23 @@ import {
 } from "@/lib/supabase/requests/workouts";
 import { createClient } from "@/lib/supabase/client";
 import { getClientUser } from "@/utils/cookies/client";
+import { WorkoutExercise } from "@/types/exercise";
+import {
+  createSupabaseExerciseLogs,
+  deleteSupabaseExerciseLogs,
+} from "@/lib/supabase/requests/exercises";
 
 type WorkoutStore = {
   workouts: Workout[];
   activeWorkout: Workout | null;
+  done: WorkoutExercise[];
   addWorkout: (params: CreateWorkout) => void;
   updateWorkoutExercises: (params: UpdateWorkoutExercises) => void;
   deleteWorkout: (id: string) => void;
   selectWorkout: (id: string) => void;
   loadWorkouts: () => void;
+  addExerciseToDone: (exercise: WorkoutExercise, workoutId?: string) => void;
+  removeExerciseFromDone: (id: string) => void;
 };
 
 const supabaseClient = createClient();
@@ -30,6 +38,7 @@ const supabaseClient = createClient();
 export const useWorkouts = create<WorkoutStore>()((set) => ({
   workouts: defaultWorkouts,
   activeWorkout: defaultWorkouts[0],
+  done: [],
   addWorkout: async ({ name, exercises }: CreateWorkout) => {
     //Create the workout in the database only if it doesn't exist
     const workout = await createSupabaseWorkout(supabaseClient, name);
@@ -48,7 +57,6 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
   },
   updateWorkoutExercises: async ({ workoutId, exercises }) => {
     if (getClientUser()) {
-      console.log(workoutId, exercises);
       //Remove all workout exercises
       await removeAllSupabaseExercisesFromWorkout(supabaseClient, workoutId);
       //Add new workout exercises
@@ -90,6 +98,7 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       return {
         ...(id !== state.activeWorkout?.id && {
           activeWorkout: slectedWorkout,
+          todo: slectedWorkout?.exercises ?? [],
         }),
       };
     }),
@@ -100,5 +109,43 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       return set({ workouts: [], activeWorkout: null });
     }
     set({ workouts, activeWorkout: workouts[0] });
+  },
+  addExerciseToDone: async (exercise, workoutId) => {
+    const exerciseLog = {
+      exerciseId: exercise.id,
+      workoutId,
+      weight: exercise.weight,
+      reps: exercise.reps,
+      sets: exercise.sets,
+      time: exercise.time,
+      material: exercise.material,
+    };
+    let logId: string;
+    if (getClientUser()) {
+      const response = await createSupabaseExerciseLogs(supabaseClient, [
+        exerciseLog,
+      ]);
+      logId = response.id;
+    }
+    set((state) => ({
+      done: [
+        ...state.done,
+        {
+          ...exerciseLog,
+          id: exercise.id,
+          name: exercise.name,
+          logId,
+          created_at: exercise.created_at,
+        },
+      ],
+    }));
+  },
+  removeExerciseFromDone: async (id) => {
+    set((state) => ({
+      done: state.done.filter(
+        (exercise) => exercise.logId !== id && exercise.id !== id
+      ),
+    }));
+    if (getClientUser()) await deleteSupabaseExerciseLogs(supabaseClient, [id]);
   },
 }));

@@ -1,8 +1,7 @@
 import { create } from "zustand";
 
 import { createClient } from "@/lib/supabase/client";
-import { Exercise } from "@/types/exercise";
-import { createSupabaseWorkout } from "@/lib/supabase/requests/workouts";
+import { Exercise, WorkoutExercise } from "@/types/exercise";
 import {
   createSupabaseExercise,
   deleteSupabaseExercise,

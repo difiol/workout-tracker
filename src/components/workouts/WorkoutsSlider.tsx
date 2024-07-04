@@ -1,11 +1,9 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Label } from "../elements/buttons/Label";
 import { useTranslations } from "next-intl";
 import { useWorkouts } from "@/store/useWorkouts";
-import { IoCloseOutline } from "react-icons/io5";
-import { ActionAlertDialog } from "../elements/alerts/ActionAlertDialog";
 import WorkoutLabel from "./WorkoutLabel";
+import { toast } from "sonner";
 
 type Props = {
   className?: string;

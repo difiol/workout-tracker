@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Exercise, WorkoutExercise } from "@/types/exercise";
+import { AddExerciseLog, Exercise, WorkoutExercise } from "@/types/exercise";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
 import { ExerciseAutocomplete } from "../elements/forms/ExerciseAutocomplete";
 import { useTranslations } from "next-intl";
@@ -10,9 +10,9 @@ import { useTranslations } from "next-intl";
 type Props = {
   done: WorkoutExercise[];
   todo: WorkoutExercise[];
-  markAsDone: (exercise: WorkoutExercise) => void;
+  markAsDone: (exerciseLog: WorkoutExercise) => void;
   markAsUndone: (exercise: WorkoutExercise) => void;
-  addExercise: (exercise: WorkoutExercise) => void;
+  addExercise: (exercise: Exercise) => void;
   updateExercise: (exercise: WorkoutExercise) => void;
   removeExercise: (exercise: WorkoutExercise) => void;
   className?: string;
@@ -76,13 +76,9 @@ export function WorkoutExercises({
     else setActive(id);
   };
 
-  const handleAddExercise = async ({ id, name }: Exercise) => {
-    const newExercise = {
-      id,
-      name,
-    };
-    setActive(id);
-    addExercise(newExercise);
+  const handleAddExercise = async (exercise: Exercise) => {
+    setActive(exercise.id);
+    addExercise(exercise);
   };
 
   const clearActiveExercise = () => {

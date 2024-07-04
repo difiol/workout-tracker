@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { AddExerciseLog, Exercise } from "@/types/exercise";
+import { AddExerciseLog, Exercise, WorkoutExercise } from "@/types/exercise";
 
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
@@ -28,20 +28,47 @@ export const deleteSupabaseExercise = async (
   return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", id);
 };
 
+export const getSupabaseDoneExercisesByDay = async (
+  client: SupabaseClient,
+  day: Date
+) => {
+  const startRange = new Date(day);
+  startRange.setHours(0, 0, 0, 0);
+  const endRange = new Date(day);
+  endRange.setHours(23, 59, 59, 999);
+  const logs = await client
+    .from(EXERCISE_LOGS_TABLE)
+    .select("*, exercises(id, name, created_at)")
+    .gte("created_at", startRange.toISOString())
+    .lte("created_at", endRange.toISOString());
+
+  return logs.data?.map((log) => ({
+    ...log,
+    id: log.exercises.id,
+    logId: log.id,
+    name: log.exercises.name,
+  }));
+};
+
 export const createSupabaseExerciseLogs = async (
   client: SupabaseClient,
   params: AddExerciseLog[]
 ) => {
-  const mappedLogs = params.map(({ id, workoutId, ...logData }) => ({
+  const mappedLogs = params.map(({ workoutId, exerciseId, ...logData }) => ({
     workout_id: workoutId,
-    exercise_id: id,
+    exercise_id: exerciseId,
     ...logData,
   }));
 
-  return client.from(EXERCISE_LOGS_TABLE).insert(mappedLogs).select("id");
+  const result = await client
+    .from(EXERCISE_LOGS_TABLE)
+    .insert(mappedLogs)
+    .select()
+    .single();
+  return result.data;
 };
 
-export const removeSupabaseExerciseLogs = async (
+export const deleteSupabaseExerciseLogs = async (
   client: SupabaseClient,
   logIds: string[]
 ) => {

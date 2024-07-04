@@ -5,18 +5,20 @@ import { useExercises } from "@/store/useExercises";
 import { usePreferences } from "@/store/usePreferences";
 import { useUser } from "@/store/useUser";
 import { useWorkouts } from "@/store/useWorkouts";
-import { Exercise } from "@/types/exercise";
+import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { Preferences } from "@/types/preferences";
+import { Workout } from "@/types/workout";
 import { getPreferredTheme } from "@/utils/theme";
 import { AuthUser } from "@supabase/supabase-js";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 
 type Props = {
   user: AuthUser | null;
   preferences?: Preferences;
-  workouts?: any;
+  workouts?: Workout[];
   exercises?: Exercise[] | null;
-  children: React.ReactNode;
+  doneExercises?: WorkoutExercise[];
+  children: ReactNode;
 };
 
 export function AppInitializer({
@@ -24,11 +26,17 @@ export function AppInitializer({
   preferences,
   workouts,
   exercises,
+  doneExercises,
   children,
 }: Readonly<Props>) {
   useUser.setState({ user, isLoggedIn: !!user });
   usePreferences.setState({ ...preferences });
-  if (workouts) useWorkouts.setState({ workouts, activeWorkout: workouts[0] });
+  if (workouts)
+    useWorkouts.setState({
+      workouts,
+      activeWorkout: workouts[0],
+      done: doneExercises,
+    });
   useExercises.setState({ exercises: exercises ?? [] });
 
   useEffect(() => {
