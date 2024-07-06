@@ -1,8 +1,8 @@
 {
   "Exercise": {
     "weight": "Peso",
-    "reps": "Reps",
-    "sets": "Sets",
+    "reps": "Repeticiones",
+    "sets": "Series",
     "time": "Tiempo",
     "material": "Material"
   },

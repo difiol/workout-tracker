@@ -174,27 +174,27 @@ export function ExerciseItem({
               onChange={(value) => handleUpdateValue("weight", value ?? 0)}
             />
             <ExerciseDetailItem
-              name="Reps"
+              name={t("reps")}
               icon={<MdSportsMartialArts size={24} />}
               value={reps}
               onChange={(value) => handleUpdateValue("reps", value ?? 0)}
             />
             <ExerciseDetailItem
-              name="Sets"
+              name={t("sets")}
               icon={<BsArrowRepeat size={24} />}
               value={sets}
               onChange={(value) => handleUpdateValue("sets", value ?? 0)}
             />
 
             <ExerciseDetailItem
-              name="Time"
+              name={t("time")}
               icon={<ImAlarm size={18} />}
               value={time}
               unit="min"
               onChange={(value) => handleUpdateValue("time", value ?? 0)}
             />
             <ExerciseDetailItem
-              name="Material"
+              name={t("material")}
               icon={<BiDumbbell size={24} />}
               value={material}
               onChange={(value) => handleUpdateValue("material", value ?? "-")}
