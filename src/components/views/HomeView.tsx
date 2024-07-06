@@ -30,7 +30,8 @@ export function HomeView({ className }: Props) {
     const exerciseToAdd: WorkoutExercise = {
       id,
       name,
-      created_at: new Date().toISOString(),
+      order: (todoExercises.at(-1)?.order ?? todoExercises.length) + 1,
+      createdAt: new Date().toISOString(),
     };
 
     setTodo((prev) => [...prev, exerciseToAdd]);
@@ -48,7 +49,7 @@ export function HomeView({ className }: Props) {
 
   const markAsDone = (exercise: WorkoutExercise) => {
     setTodo((prev) => prev.filter(({ id }) => id !== exercise.id));
-    addExerciseToDone(exercise, activeWorkout?.id);
+    addExerciseToDone({ ...exercise, order: done.length }, activeWorkout?.id);
   };
 
   const markAsUndone = (exercise: WorkoutExercise) => {

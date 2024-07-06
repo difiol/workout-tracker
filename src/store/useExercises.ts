@@ -29,7 +29,7 @@ export const useExercises = create<ExercisesStore>()((set) => ({
       const localExercise: Exercise = {
         id: Math.random().toString(36).substring(7),
         name,
-        created_at: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
       };
       set((state) => ({ exercises: [...state.exercises, localExercise] }));
       return localExercise;

@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { AddExerciseLog, Exercise, WorkoutExercise } from "@/types/exercise";
+import { AddExerciseLog, Exercise } from "@/types/exercise";
+import { mapSupabaseExerciseLogs } from "../adapters/exercises";
 
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
@@ -10,7 +11,7 @@ export const getSupabaseExercises = async (client: SupabaseClient) => {
 };
 
 export const createSupabaseExercise = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   name: string
 ) => {
   const response = await client
@@ -22,36 +23,35 @@ export const createSupabaseExercise = async (
 };
 
 export const deleteSupabaseExercise = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   id: string
 ) => {
   return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", id);
 };
 
 export const getSupabaseDoneExercisesByDay = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   day: Date
 ) => {
   const startRange = new Date(day);
   startRange.setHours(0, 0, 0, 0);
   const endRange = new Date(day);
   endRange.setHours(23, 59, 59, 999);
-  const logs = await client
+  const { data, error } = await client
     .from(EXERCISE_LOGS_TABLE)
     .select("*, exercises(id, name, created_at)")
     .gte("created_at", startRange.toISOString())
     .lte("created_at", endRange.toISOString());
 
-  return logs.data?.map((log) => ({
-    ...log,
-    id: log.exercises.id,
-    logId: log.id,
-    name: log.exercises.name,
-  }));
+  if (error) {
+    throw error;
+  }
+
+  return mapSupabaseExerciseLogs(data);
 };
 
 export const createSupabaseExerciseLogs = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   params: AddExerciseLog[]
 ) => {
   const mappedLogs = params.map(({ workoutId, exerciseId, ...logData }) => ({
@@ -69,7 +69,7 @@ export const createSupabaseExerciseLogs = async (
 };
 
 export const deleteSupabaseExerciseLogs = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   logIds: string[]
 ) => {
   return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", logIds);

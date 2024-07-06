@@ -44,6 +44,12 @@
     }
   },
   "Errors": {
-    "exercise-not-found": "Exercise not found"
+    "exercise-not-found": "Exercise not found",
+    "workout-not-created": "Something went wrong while saving the workout",
+    "workout-not-deleted": "Something went wrong while deleting the workout"
+  },
+  "Success": {
+    "workout-created": "Workout created successfully",
+    "workout-deleted": "Workout deleted successfully"
   }
 }

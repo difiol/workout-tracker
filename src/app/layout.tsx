@@ -68,15 +68,17 @@ export default async function RootLayout({
       {children}
       <Toaster
         toastOptions={{
-          className: "shadow-md",
           classNames: {
             default:
-              "dark:text-white dark:bg-slate-700/90 dark:border-slate-600",
+              "dark:text-white dark:bg-slate-700/90 border-slate-100/90 dark:border-slate-700/90",
             error:
-              "text-red-500 dark:text-red-200 bg-red-100 dark:bg-red-950/70 dark:border-slate-600",
-            success: "text-green-400",
-            warning: "text-yellow-400",
-            info: "bg-blue-400",
+              "text-red-500 dark:text-red-300 bg-red-100 dark:bg-red-700/30",
+            success:
+              "text-green-700 dark:text-green-200 bg-green-200 dark:bg-green-800/40",
+
+            warning:
+              "text-yellow-500 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-800/40",
+            info: "text-blue-500 dark:text-blue-200 bg-blue-100 dark:bg-blue-800/40",
           },
         }}
       />

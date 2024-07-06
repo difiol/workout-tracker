@@ -44,6 +44,12 @@
     }
   },
   "Errors": {
-    "exercise-not-found": "Ejercicio no encontrado"
+    "exercise-not-found": "Ejercicio no encontrado",
+    "workout-not-created": "No se pudo crear la rutina correctamente",
+    "workout-not-deleted": "No se pudo borrar la rutina correctamente"
+  },
+  "Success": {
+    "workout-created": "Rutina creada correctamente",
+    "workout-deleted": "Rutina eliminada correctamente"
   }
 }

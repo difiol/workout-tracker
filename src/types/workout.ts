@@ -4,6 +4,7 @@ export interface Workout {
   id: string;
   name: string;
   exercises: WorkoutExercise[];
+  createdAt: string;
 }
 
 export interface CreateWorkout {

@@ -5,61 +5,57 @@ import {
 } from "@/types/workout";
 import { mapExercisesToAdd } from "@/utils/supabase/mapToSupabase";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { mapSupabaseWorkoutsWithExercises } from "../adapters/workouts";
+import { SupabaseWorkoutsData } from "../types/entity.types";
 
 export const WORKOUTS_TABLE = "workouts";
 export const WORKOUT_EXERCISES_TABLE = "workout_exercises";
 
-export const getSupabaseUserWorkouts = async (client: SupabaseClient) => {
-  const workouts = await client
+export const getSupabaseUserWorkouts = async (
+  client: SupabaseClient<SupabaseDatabase>
+) => {
+  const { data, error } = await client
     .from(WORKOUT_EXERCISES_TABLE)
-    .select("workouts(id, name, created_at),exercises(id, name, created_at)")
-    .order("created_at", { ascending: false });
-  const mappedWorkout = workouts?.data?.reduce((acc: Workout[], curr: any) => {
-    const existingWorkout = acc.find((w) => w.id === curr.workouts.id);
-    if (existingWorkout) {
-      existingWorkout.exercises.push(curr.exercises);
-      return acc;
-    } else {
-      acc.push({
-        ...curr.workouts,
-        exercises: [curr.exercises],
-      });
-    }
+    .select("order,workouts(*),exercises(*)")
+    .order("order", { ascending: false })
+    .returns<SupabaseWorkoutsData>();
 
-    return acc;
-  }, []);
+  if (error) throw error;
 
-  return mappedWorkout;
+  return mapSupabaseWorkoutsWithExercises(data);
 };
 
 export const createSupabaseWorkout = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   name: string
 ) => {
-  const response = await client
+  const { data, error } = await client
     .from(WORKOUTS_TABLE)
     .insert({ name })
     .select()
     .single();
-  return response.data;
+
+  if (error) throw error;
+
+  return data;
 };
 
 export const updateSupabaseWorkout = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   workout: Omit<Workout, "exercises">
 ) => {
   return client.from(WORKOUTS_TABLE).update(workout).eq("id", workout.id);
 };
 
 export const removeSupabaseWorkout = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   id: string
 ) => {
   return client.from(WORKOUTS_TABLE).delete().eq("id", id);
 };
 
 export const addSupabaseExercisesToWorkout = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   { exercises, workoutId }: AddExerciseToWorkout
 ) => {
   const exercisesToAdd = mapExercisesToAdd(exercises, workoutId);
@@ -68,7 +64,7 @@ export const addSupabaseExercisesToWorkout = async (
 };
 
 export const removeSupabaseExerciseFromWorkout = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   { exerciseId, workoutId }: RemoveExerciseFromWorkout
 ) => {
   return client
@@ -78,7 +74,7 @@ export const removeSupabaseExerciseFromWorkout = async (
     .eq("exercise_id", exerciseId);
 };
 export const removeAllSupabaseExercisesFromWorkout = async (
-  client: SupabaseClient,
+  client: SupabaseClient<SupabaseDatabase>,
   workoutId: string
 ) => {
   return client

@@ -57,10 +57,18 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
         exercises: exercisesToSave,
       });
     else
-      addWorkout({
-        name: normalizedWorkoutName,
-        exercises: exercisesToSave,
-      });
+      addWorkout(
+        {
+          name: normalizedWorkoutName,
+          exercises: exercisesToSave,
+        },
+        {
+          messages: {
+            success: t("Success.workout-created"),
+            error: t("Errors.workout-not-created"),
+          },
+        }
+      );
     closeDialog();
   };
 

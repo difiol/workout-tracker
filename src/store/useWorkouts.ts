@@ -20,14 +20,22 @@ import {
   deleteSupabaseExerciseLogs,
   getSupabaseDoneExercisesByDay,
 } from "@/lib/supabase/requests/exercises";
+import { toast } from "sonner";
+
+interface Options {
+  messages?: {
+    success: string;
+    error: string;
+  };
+}
 
 type WorkoutStore = {
   workouts: Workout[];
   activeWorkout: Workout | null;
   done: WorkoutExercise[];
-  addWorkout: (params: CreateWorkout) => void;
+  addWorkout: (params: CreateWorkout, options?: Options) => void;
   updateWorkoutExercises: (params: UpdateWorkoutExercises) => void;
-  deleteWorkout: (id: string) => void;
+  deleteWorkout: (id: string, options?: Options) => void;
   selectWorkout: (id: string) => void;
   loadWorkouts: () => void;
   addExerciseToDone: (exercise: WorkoutExercise, workoutId?: string) => void;
@@ -40,15 +48,20 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
   workouts: defaultWorkouts,
   activeWorkout: defaultWorkouts[0],
   done: [],
-  addWorkout: async ({ name, exercises }: CreateWorkout) => {
+  addWorkout: async ({ name, exercises }, options) => {
     //Create the workout in the database only if it doesn't exist
     const workout = await createSupabaseWorkout(supabaseClient, name);
-    if (!workout) return;
+    if (!workout) {
+      options?.messages?.error && toast.error(options.messages.error);
+      return;
+    }
     //Add the exercises to the workout in the database
     await addSupabaseExercisesToWorkout(supabaseClient, {
       workoutId: workout?.id,
       exercises,
     });
+
+    options?.messages?.success && toast.success(options.messages.success);
 
     const newWorkout = { ...workout, exercises };
     set((state) => ({
@@ -56,6 +69,7 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       activeWorkout: newWorkout,
     }));
   },
+
   updateWorkoutExercises: async ({ workoutId, exercises }) => {
     if (getClientUser()) {
       //Remove all workout exercises
@@ -77,7 +91,8 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       };
     });
   },
-  deleteWorkout: async (id) => {
+
+  deleteWorkout: async (id, options) => {
     if (getClientUser()) await removeSupabaseWorkout(supabaseClient, id);
     set((state) => {
       const newWorkouts = state.workouts.filter(
@@ -89,6 +104,7 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
           id === state.activeWorkout?.id ? null : state.activeWorkout,
       };
     });
+    options?.messages?.success && toast.success(options.messages.success);
   },
 
   selectWorkout: (id) =>
@@ -128,6 +144,7 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       sets: exercise.sets,
       time: exercise.time,
       material: exercise.material,
+      order: exercise.order,
     };
     let logId: string;
     if (getClientUser()) {
@@ -144,7 +161,7 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
           id: exercise.id,
           name: exercise.name,
           logId,
-          created_at: exercise.created_at,
+          createdAt: exercise.createdAt,
         },
       ],
     }));
