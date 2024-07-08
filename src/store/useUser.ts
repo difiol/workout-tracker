@@ -1,18 +1,15 @@
 import { createClient } from "@/lib/supabase/client";
-import { AuthUser } from "@supabase/supabase-js";
+import { AuthUser, Session, User, WeakPassword } from "@supabase/supabase-js";
 import { create } from "zustand";
 
 type UserStore = {
   user: AuthUser | null;
   isLoggedIn: boolean;
-  error: string | null;
-  login: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<{ isSuccess: boolean; error: string | undefined }>;
+  login: ({ email, password }: { email: string; password: string }) => Promise<{
+    user: User;
+    session: Session;
+    weakPassword?: WeakPassword | undefined;
+  }>;
   logout: () => Promise<void>;
 };
 
@@ -28,14 +25,15 @@ export const useUser = create<UserStore>()((set) => ({
       password,
     });
     if (error) {
-      set({ user: null, isLoggedIn: false, error: error.message });
+      set({ user: null, isLoggedIn: false });
+      throw error;
     } else {
-      set({ user: data?.user, isLoggedIn: true, error: null });
+      set({ user: data?.user, isLoggedIn: true });
     }
-    return { isSuccess: !!data.user, error: error?.message };
+    return data;
   },
   logout: async () => {
     const { error } = await supabaseClient.auth.signOut();
-    if (!error) set({ user: null, isLoggedIn: false, error: null });
+    if (!error) set({ user: null, isLoggedIn: false });
   },
 }));

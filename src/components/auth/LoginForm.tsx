@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -8,6 +8,7 @@ import { usePreferences } from "@/store/usePreferences";
 import { useWorkouts } from "@/store/useWorkouts";
 import { useExercises } from "@/store/useExercises";
 import { Button } from "@/components/elements/shadcn/button";
+import { useMutation } from "@tanstack/react-query";
 
 type Props = {
   onAfterLogin?: () => void;
@@ -26,21 +27,26 @@ export function LoginForm({ className, onAfterLogin }: Props) {
   const { loadWorkouts } = useWorkouts();
   const { loadExercises } = useExercises();
   const { register, handleSubmit } = useForm<LoginInputs>();
-  const [error, setError] = useState<string>("");
 
-  const onLogin = async (data: LoginInputs) => {
-    const result = await login({
+  const handleAfterLogin = async () => {
+    await Promise.allSettled([
+      loadUserPreferences(),
+      loadWorkouts(),
+      loadExercises(),
+    ]);
+    onAfterLogin?.();
+  };
+
+  const { mutate, error, isPending } = useMutation({
+    mutationFn: login,
+    onSuccess: handleAfterLogin,
+  });
+
+  const onLogin = (data: LoginInputs) => {
+    mutate({
       email: data.email,
       password: data.password,
     });
-    if (result.isSuccess) {
-      await Promise.allSettled([
-        loadUserPreferences(),
-        loadWorkouts(),
-        loadExercises(),
-      ]);
-      onAfterLogin?.();
-    } else setError(result.error || "An error occurred");
   };
 
   return (
@@ -60,8 +66,10 @@ export function LoginForm({ className, onAfterLogin }: Props) {
         type="password"
         register={register}
       />
-      <p className="text-red-500">{error}</p>
-      <Button type="submit">{t("login")}</Button>
+      <p className="text-red-500">{error?.message}</p>
+      <Button type="submit" disabled={isPending}>
+        {t("login")}
+      </Button>
     </form>
   );
 }

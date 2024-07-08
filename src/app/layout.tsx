@@ -7,7 +7,7 @@ import { getSupabaseUserWorkouts } from "@/lib/supabase/requests/workouts";
 import { getSupabaseUserPreferences } from "@/lib/supabase/requests/preferences";
 import { createSSRClient } from "@/lib/supabase/server";
 import {
-  getSupabaseDoneExercisesByDay,
+  getSupabaseDoneExercisesBySession,
   getSupabaseExercises,
 } from "@/lib/supabase/requests/exercises";
 
@@ -37,7 +37,7 @@ export default async function RootLayout({
       getSupabaseUserPreferences(supabaseClient),
       getSupabaseUserWorkouts(supabaseClient),
       getSupabaseExercises(supabaseClient),
-      getSupabaseDoneExercisesByDay(supabaseClient, new Date()),
+      getSupabaseDoneExercisesBySession(supabaseClient),
     ]);
     preferences =
       preferencesResponse.status === "fulfilled"

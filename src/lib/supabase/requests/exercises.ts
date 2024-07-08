@@ -1,6 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { AddExerciseLog, Exercise } from "@/types/exercise";
 import { mapSupabaseExerciseLogs } from "../adapters/exercises";
+import dayjs from "dayjs";
 
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
@@ -37,11 +38,11 @@ export const getSupabaseDoneExercisesByDay = async (
   startRange.setHours(0, 0, 0, 0);
   const endRange = new Date(day);
   endRange.setHours(23, 59, 59, 999);
-  const { data, error } = await client
-    .from(EXERCISE_LOGS_TABLE)
-    .select("*, exercises(id, name, created_at)")
-    .gte("created_at", startRange.toISOString())
-    .lte("created_at", endRange.toISOString());
+  const { data, error } = await getSupabaseDoneExercisesByRange(
+    client,
+    startRange,
+    endRange
+  );
 
   if (error) {
     throw error;
@@ -49,6 +50,37 @@ export const getSupabaseDoneExercisesByDay = async (
 
   return mapSupabaseExerciseLogs(data);
 };
+
+export const getSupabaseDoneExercisesBySession = async (
+  client: SupabaseClient<SupabaseDatabase>,
+  durationInHours: number = 1
+) => {
+  const startRange = dayjs().subtract(durationInHours, "hours").toDate();
+  const endRange = dayjs().add(durationInHours, "hours").toDate();
+
+  const { data, error } = await getSupabaseDoneExercisesByRange(
+    client,
+    startRange,
+    endRange
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  return mapSupabaseExerciseLogs(data);
+};
+
+const getSupabaseDoneExercisesByRange = async (
+  client: SupabaseClient<SupabaseDatabase>,
+  start: Date,
+  end: Date
+) =>
+  client
+    .from(EXERCISE_LOGS_TABLE)
+    .select("*, exercises(id, name, created_at)")
+    .gte("created_at", start.toISOString())
+    .lte("created_at", end.toISOString());
 
 export const createSupabaseExerciseLogs = async (
   client: SupabaseClient<SupabaseDatabase>,

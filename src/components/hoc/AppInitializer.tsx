@@ -10,6 +10,7 @@ import { Preferences } from "@/types/preferences";
 import { Workout } from "@/types/workout";
 import { getPreferredTheme } from "@/utils/theme";
 import { AuthUser } from "@supabase/supabase-js";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
 
 type Props = {
@@ -20,6 +21,8 @@ type Props = {
   doneExercises?: WorkoutExercise[];
   children: ReactNode;
 };
+
+const queryClient = new QueryClient();
 
 export function AppInitializer({
   user,
@@ -53,7 +56,7 @@ export function AppInitializer({
 
   return (
     <body className={cn({ dark: preferences?.theme === "dark" })}>
-      {children}
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </body>
   );
 }

@@ -18,7 +18,7 @@ import { WorkoutExercise } from "@/types/exercise";
 import {
   createSupabaseExerciseLogs,
   deleteSupabaseExerciseLogs,
-  getSupabaseDoneExercisesByDay,
+  getSupabaseDoneExercisesBySession,
 } from "@/lib/supabase/requests/exercises";
 import { toast } from "sonner";
 
@@ -123,7 +123,7 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
     if (!getClientUser()) return;
     const [workoutsResponse, doneResponse] = await Promise.allSettled([
       getSupabaseUserWorkouts(supabaseClient),
-      getSupabaseDoneExercisesByDay(supabaseClient, new Date()),
+      getSupabaseDoneExercisesBySession(supabaseClient),
     ]);
     set({
       workouts:
