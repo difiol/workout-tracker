@@ -10,12 +10,16 @@ import {
   getSupabaseDoneExercisesBySession,
   getSupabaseExercises,
 } from "@/lib/supabase/requests/exercises";
+import pkg from "../../package.json";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Workout Tracker",
   description: "Control you exercise routine with ease",
+  other: {
+    version: pkg.version,
+  },
 };
 
 export default async function RootLayout({
