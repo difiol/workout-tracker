@@ -21,6 +21,7 @@ const supabaseClient = createClient();
 export const useExercises = create<ExercisesStore>()((set) => ({
   exercises: [],
   createExercise: async (name) => {
+    console.log("Creating exercise", getClientUser());
     let exercise;
     if (getClientUser())
       exercise = await createSupabaseExercise(supabaseClient, name);

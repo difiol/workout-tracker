@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function WorkoutsSlider({ className }: Props) {
-  const t = useTranslations();
+  const t = useTranslations("Workout");
   const { workouts, activeWorkout, selectWorkout, deleteWorkout } =
     useWorkouts();
 
@@ -25,8 +25,10 @@ export function WorkoutsSlider({ className }: Props) {
   return (
     <div className={cn("w-full overflow-x-auto", className)}>
       <div className="w-fit flex gap-2 mx-auto py-3">
-        {workouts.length === 0 ? (
-          <p className="text-neutral-600 dark:text-neutral-400 font-light"></p>
+        {workouts?.length === 0 ? (
+          <p className="text-neutral-600 dark:text-neutral-400 font-light">
+            {t("no-workouts")}
+          </p>
         ) : (
           workouts.map(({ id, name }) => (
             <WorkoutLabel

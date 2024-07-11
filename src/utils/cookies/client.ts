@@ -1,7 +1,7 @@
-const SUPABASE_COOKIES_NAME = "sb-iklssztmeskqgmwifeqq-auth-token";
+const DEFAULT_SUPABASE_COOKIES = "sb-127-auth-token";
 
 export const getClientUser = (): string | null => {
-  const rawCookie = getCookie(SUPABASE_COOKIES_NAME);
+  const rawCookie = getCookie(process.env.NEXT_PUBLIC_SUPABASE_COOKIE_NAME ?? DEFAULT_SUPABASE_COOKIES);
   if (!rawCookie) return null;
   const decodedCookies = decodeURIComponent(rawCookie);
   const cookies = JSON.parse(decodedCookies);

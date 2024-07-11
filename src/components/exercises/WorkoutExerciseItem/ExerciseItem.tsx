@@ -8,12 +8,15 @@ import React, {
   useState,
 } from "react";
 import { ExerciseDetailItem } from "./ExerciseDetailItem";
+import { getLastExerciseLogs } from "@/lib/supabase/requests/exercises";
+import { createClient } from "@/lib/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdSportsMartialArts } from "react-icons/md";
 import { BsArrowRepeat } from "react-icons/bs";
 import { ImAlarm } from "react-icons/im";
 import { BiDumbbell } from "react-icons/bi";
-import { useTranslations } from "next-intl";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -28,6 +31,7 @@ type Props = {
   className?: string;
 };
 
+const supabase = createClient();
 const offsetLimit = 390;
 const triggerRange = 125;
 
@@ -46,7 +50,11 @@ export function ExerciseItem({
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations("Exercise");
+  const { data: lastLogs } = useQuery({
+    queryKey: ["lastLogs"],
+    queryFn: () => getLastExerciseLogs(supabase, exercise.id),
+    enabled: isActive,
+  });
 
   const { id, name, weight, reps, sets, time, material } = exercise;
 
@@ -167,36 +175,41 @@ export function ExerciseItem({
         {isActive && (
           <div className="grid grid-cols-3 align-top gap-6 px-2 pb-6 pt-2 md:px-8 md:pt-2">
             <ExerciseDetailItem
-              name={t("weight")}
+              property="weight"
               icon={<FaWeightHanging />}
               value={weight}
               unit="kg"
+              exerciseLogs={lastLogs}
               onChange={(value) => handleUpdateValue("weight", value ?? 0)}
             />
             <ExerciseDetailItem
-              name={t("reps")}
+              property="reps"
               icon={<MdSportsMartialArts size={24} />}
               value={reps}
+              exerciseLogs={lastLogs}
               onChange={(value) => handleUpdateValue("reps", value ?? 0)}
             />
             <ExerciseDetailItem
-              name={t("sets")}
+              property="sets"
               icon={<BsArrowRepeat size={24} />}
               value={sets}
+              exerciseLogs={lastLogs}
               onChange={(value) => handleUpdateValue("sets", value ?? 0)}
             />
 
             <ExerciseDetailItem
-              name={t("time")}
+              property="time"
               icon={<ImAlarm size={18} />}
               value={time}
               unit="min"
+              exerciseLogs={lastLogs}
               onChange={(value) => handleUpdateValue("time", value ?? 0)}
             />
             <ExerciseDetailItem
-              name={t("material")}
+              property="material"
               icon={<BiDumbbell size={24} />}
               value={material}
+              exerciseLogs={lastLogs}
               onChange={(value) => handleUpdateValue("material", value ?? "-")}
             />
           </div>

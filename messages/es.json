@@ -6,8 +6,12 @@
     "time": "Tiempo",
     "material": "Material"
   },
+  "ExerciseLogs": {
+    "last-logs": "Últimos registros",
+    "no-logs": "No hay registros aún"
+  },
   "Workout": {
-    "no-workouts": "No tienes ninguna rutina guardada"
+    "no-workouts": "No tienes ninguna rutina guardada aún"
   },
   "Actions": {
     "mark-as-done": "Marcar como hecho",

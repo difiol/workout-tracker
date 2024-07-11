@@ -106,3 +106,15 @@ export const deleteSupabaseExerciseLogs = async (
 ) => {
   return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", logIds);
 };
+
+export const getLastExerciseLogs = async (
+  client: SupabaseClient<SupabaseDatabase>,
+  exerciseId:string,
+  limit:number = 3
+) => {
+  const {data, error} = await client.from(EXERCISE_LOGS_TABLE).select("*, exercises(id, name)").eq('exercise_id',exerciseId).order("created_at", { ascending: false }).limit(limit);
+  if (error) {
+    throw error;
+  }
+  return mapSupabaseExerciseLogs(data);
+}

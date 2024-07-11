@@ -13,6 +13,10 @@ import { AuthUser } from "@supabase/supabase-js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
 
+import relativeTime from "dayjs/plugin/relativeTime";
+import updateLocale from "dayjs/plugin/updateLocale";
+import dayjs from "dayjs";
+
 type Props = {
   user: AuthUser | null;
   preferences?: Preferences;
@@ -23,6 +27,26 @@ type Props = {
 };
 
 const queryClient = new QueryClient();
+
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+dayjs.updateLocale("es", {
+  relativeTime: {
+    future: "en %s",
+    past: "hace %s",
+    s: "hace unos segundos",
+    m: "un minuto",
+    mm: "%d minutos",
+    h: "an hora",
+    hh: "%d horas",
+    d: "a día",
+    dd: "%d días",
+    M: "un mes",
+    MM: "%d meses",
+    y: "un año",
+    yy: "%d años",
+  },
+});
 
 export function AppInitializer({
   user,
