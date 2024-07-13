@@ -5,6 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/elements/dropdowns/dropdown-menu";
 import { ExerciseLog } from "@/types/exercise";
 import dayjs from "dayjs";
@@ -18,7 +19,7 @@ type Props = {
   className?: string;
 };
 
-export function DropdownExerciseLastLogs({
+export function ExerciseLastLogsDropdown({
   children,
   exerciseLogs,
   exerciseProperty,
@@ -36,6 +37,7 @@ export function DropdownExerciseLastLogs({
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className={className}>
         <DropdownMenuLabel>{t("last-logs")}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         {!propertyLogs.length ? (
           <DropdownMenuItem className="opacity-80">
             {t("no-logs")}

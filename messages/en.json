@@ -4,7 +4,9 @@
     "reps": "Reps",
     "sets": "Sets",
     "time": "Time",
-    "material": "Material"
+    "material": "Material",
+    "properties": "Properties",
+    "no-properties": "No more properties"
   },
   "ExerciseLogs": {
     "last-logs": "Last logs",

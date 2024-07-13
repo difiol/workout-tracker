@@ -4,7 +4,9 @@
     "reps": "Repeticiones",
     "sets": "Series",
     "time": "Tiempo",
-    "material": "Material"
+    "material": "Material",
+    "properties": "Propiedades",
+    "no-properties": "No hay más propiedades"
   },
   "ExerciseLogs": {
     "last-logs": "Últimos registros",

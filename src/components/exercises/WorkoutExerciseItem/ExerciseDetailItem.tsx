@@ -2,7 +2,7 @@ import { useContentEditable } from "@/hooks/useContentEditable";
 import { cn } from "@/lib/utils";
 import { ExerciseLog } from "@/types/exercise";
 import React, { ReactNode } from "react";
-import { DropdownExerciseLastLogs } from "./DropdownExerciseLastLogs";
+import { ExerciseLastLogsDropdown } from "./DropdownExerciseLastLogs";
 import { useTranslations } from "next-intl";
 
 import { MdHistory } from "react-icons/md";
@@ -13,6 +13,7 @@ type Props = {
   value?: string | number | null;
   unit?: string;
   exerciseLogs?: ExerciseLog[];
+  hide?: boolean;
   onChange?: (value: string | number) => void;
   className?: string;
 };
@@ -25,6 +26,7 @@ export function ExerciseDetailItem({
   value,
   unit,
   exerciseLogs = [],
+  hide = false,
   onChange,
   className,
 }: Props) {
@@ -35,6 +37,8 @@ export function ExerciseDetailItem({
   );
 
   const checkValue = value && value !== fallbackValue;
+
+  if (hide) return null;
 
   return (
     <div
@@ -54,13 +58,13 @@ export function ExerciseDetailItem({
         {checkValue && unit && <p>{unit}</p>}
       </span>
       <div className="absolute top-0 -right-3 ">
-        <DropdownExerciseLastLogs
+        <ExerciseLastLogsDropdown
           exerciseLogs={exerciseLogs}
           exerciseProperty={property}
           unit={unit}
         >
           <MdHistory size={12} className="align-bottom text-green-500" />
-        </DropdownExerciseLastLogs>
+        </ExerciseLastLogsDropdown>
       </div>
     </div>
   );

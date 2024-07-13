@@ -6,9 +6,16 @@ import dayjs from "dayjs";
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
 
-export const getSupabaseExercises = async (client: SupabaseClient) => {
+export const getSupabaseExercises = async (client: SupabaseClient<SupabaseDatabase>) => {
   const exercises = await client.from(EXERCISES_TABLE).select();
   return exercises.data as Exercise[];
+};
+
+export const getSupabaseExercise = async (client: SupabaseClient<SupabaseDatabase>, id: string) => {
+  const {data, error} = await client.from(EXERCISES_TABLE).select('*, exercise_logs(*)').eq('id', id).single();
+  if (error) throw error;
+
+  return data;
 };
 
 export const createSupabaseExercise = async (
