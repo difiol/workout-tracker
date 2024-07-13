@@ -7,23 +7,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
-import { ThemeToggle } from "../buttons/ThemeToggle";
+} from "../elements/shadcn/dropdown-menu";
+import { ThemeToggle } from "../elements/buttons/ThemeToggle";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { LoginTrigger } from "@/components/dialogs/LoginTrigger";
 import { useUser } from "@/store/useUser";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { buttonVariants } from "../shadcn/button";
-import { ThemeSwitch } from "../switch/ThemeSwitch";
-import { LangSwitch } from "../switch/LangSwitch";
-import { WeightUnitSwitch } from "../switch/WeightUnitSwitch";
+import { buttonVariants } from "../elements/shadcn/button";
+import { ThemeSwitch } from "../elements/switch/ThemeSwitch";
+import { LangSwitch } from "../elements/switch/LangSwitch";
+import { WeightUnitSwitch } from "../elements/switch/WeightUnitSwitch";
 
 type Props = {
   children: React.ReactNode;
+  classes?: {
+    trigger?: string;
+    content?: string;
+  };
 };
 
-export default function UserPreferencesDropdown({ children }: Props) {
+export default function UserPreferencesDropdown({ children, classes }: Props) {
   const { isLoggedIn } = useUser();
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -34,8 +38,10 @@ export default function UserPreferencesDropdown({ children }: Props) {
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuTrigger className={classes?.trigger}>
+        {children}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className={classes?.content}>
         {isLoggedIn ? (
           <LogoutButton
             onAfterLogout={handleClose}

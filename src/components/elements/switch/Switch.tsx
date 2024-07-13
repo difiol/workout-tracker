@@ -61,10 +61,9 @@ export function Switch({
           key={option.value}
           onClick={(e) => handleClick(e, option.value)}
           className={cn(
-            "flex items-center justify-center text-xs p-2 z-10 font-thin grow text-slate-600 dark:text-slate-400",
+            "flex items-center justify-center text-xs p-2 z-10 grow text-slate-500",
             {
-              "font-semibold text-black dark:text-white":
-                option.value === selectedValue,
+              "text-black dark:text-white": option.value === selectedValue,
             },
             classes?.option
           )}

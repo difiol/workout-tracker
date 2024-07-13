@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../elements/dropdowns/dropdown-menu";
+} from "../../elements/shadcn/dropdown-menu";
 import { useTranslations } from "next-intl";
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
 
 const properties = ["weight", "reps", "sets", "time", "material"];
 
-export default function AddPropertyDropdown({
+export function AddPropertyDropdown({
   children,
   displayedProperties,
   onSelect,

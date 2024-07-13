@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuItem,
-} from "@/components/elements/dropdowns/dropdown-menu";
+} from "@/components/elements/shadcn/dropdown-menu";
 import { ExerciseLog } from "@/types/exercise";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";

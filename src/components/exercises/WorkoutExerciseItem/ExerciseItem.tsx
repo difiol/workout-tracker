@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { ExerciseDetailItem } from "./ExerciseDetailItem";
+import { AddPropertyDropdown } from "./AddPropertyDropdown";
 import { getLastExerciseLogs } from "@/lib/supabase/requests/exercises";
 import { createClient } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
@@ -19,9 +20,8 @@ import { MdSportsMartialArts } from "react-icons/md";
 import { BsArrowRepeat } from "react-icons/bs";
 import { ImAlarm } from "react-icons/im";
 import { BiDumbbell } from "react-icons/bi";
-import { BiSolidDetail } from "react-icons/bi";
-import { IoMdAddCircle } from "react-icons/io";
-import AddPropertyDropdown from "./AddPropertyDropdown";
+import { IoIosAdd } from "react-icons/io";
+import { CgDetailsMore } from "react-icons/cg";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -187,49 +187,73 @@ export function ExerciseItem({
           {name}
         </button>
         {isActive && (
-          <div className="grid grid-cols-3 align-top gap-6 px-2 pb-6 pt-2 md:px-8 md:pt-2">
-            <ExerciseDetailItem
-              property="weight"
-              icon={<FaWeightHanging />}
-              value={weight}
-              unit="kg"
-              exerciseLogs={lastLogs}
-              onChange={(value) => handleUpdateValue("weight", value ?? 0)}
-              hide={!detailsToShow.includes("weight")}
-            />
-            <ExerciseDetailItem
-              property="reps"
-              icon={<MdSportsMartialArts size={24} />}
-              value={reps}
-              exerciseLogs={lastLogs}
-              onChange={(value) => handleUpdateValue("reps", value ?? 0)}
-              hide={!detailsToShow.includes("reps")}
-            />
-            <ExerciseDetailItem
-              property="sets"
-              icon={<BsArrowRepeat size={24} />}
-              value={sets}
-              exerciseLogs={lastLogs}
-              onChange={(value) => handleUpdateValue("sets", value ?? 0)}
-              hide={!detailsToShow.includes("sets")}
-            />
-            <ExerciseDetailItem
-              property="time"
-              icon={<ImAlarm size={18} />}
-              value={time}
-              unit="min"
-              exerciseLogs={lastLogs}
-              onChange={(value) => handleUpdateValue("time", value ?? 0)}
-              hide={!detailsToShow.includes("time")}
-            />
-            <ExerciseDetailItem
-              property="material"
-              icon={<BiDumbbell size={24} />}
-              value={material}
-              exerciseLogs={lastLogs}
-              onChange={(value) => handleUpdateValue("material", value ?? "-")}
-              hide={!detailsToShow.includes("material")}
-            />
+          <div>
+            <div className="grid grid-cols-3 align-top gap-6 p-2 md:px-8 md:pt-2">
+              <ExerciseDetailItem
+                property="weight"
+                icon={<FaWeightHanging />}
+                value={weight}
+                unit="kg"
+                exerciseLogs={lastLogs}
+                onChange={(value) => handleUpdateValue("weight", value ?? 0)}
+                hide={!detailsToShow.includes("weight")}
+              />
+              <ExerciseDetailItem
+                property="reps"
+                icon={<MdSportsMartialArts size={24} />}
+                value={reps}
+                exerciseLogs={lastLogs}
+                onChange={(value) => handleUpdateValue("reps", value ?? 0)}
+                hide={!detailsToShow.includes("reps")}
+              />
+              <ExerciseDetailItem
+                property="sets"
+                icon={<BsArrowRepeat size={24} />}
+                value={sets}
+                exerciseLogs={lastLogs}
+                onChange={(value) => handleUpdateValue("sets", value ?? 0)}
+                hide={!detailsToShow.includes("sets")}
+              />
+              <ExerciseDetailItem
+                property="time"
+                icon={<ImAlarm size={18} />}
+                value={time}
+                unit="min"
+                exerciseLogs={lastLogs}
+                onChange={(value) => handleUpdateValue("time", value ?? 0)}
+                hide={!detailsToShow.includes("time")}
+              />
+              <ExerciseDetailItem
+                property="material"
+                icon={<BiDumbbell size={24} />}
+                value={material}
+                exerciseLogs={lastLogs}
+                onChange={(value) =>
+                  handleUpdateValue("material", value ?? "-")
+                }
+                hide={!detailsToShow.includes("material")}
+              />
+            </div>
+            <div
+              className={cn(
+                "w-full flex justify-end items-center gap-2 mt-2 pb-5 px-5 text-lg",
+                {
+                  hidden: !isActive,
+                }
+              )}
+            >
+              <Link href={`${pathname}/exercises/${id}`}>
+                <CgDetailsMore />
+              </Link>
+              <AddPropertyDropdown
+                displayedProperties={detailsToShow}
+                onSelect={(value) =>
+                  setDetailsToShow([...detailsToShow, value])
+                }
+              >
+                <IoIosAdd />
+              </AddPropertyDropdown>
+            </div>
           </div>
         )}
       </div>
@@ -238,22 +262,6 @@ export function ExerciseItem({
       </div>
       <div className={cn("absolute w-full h-full left-full")} ref={removeRef}>
         {swipeLeftElement}
-      </div>
-      <div
-        className={cn(
-          "flex items-center gap-2 absolute z-10 top-0 right-0 p-5 text-lg",
-          { hidden: !isActive }
-        )}
-      >
-        <Link href={`${pathname}/exercises/${id}`}>
-          <BiSolidDetail />
-        </Link>
-        <AddPropertyDropdown
-          displayedProperties={detailsToShow}
-          onSelect={(value) => setDetailsToShow([...detailsToShow, value])}
-        >
-          <IoMdAddCircle />
-        </AddPropertyDropdown>
       </div>
     </div>
   );
