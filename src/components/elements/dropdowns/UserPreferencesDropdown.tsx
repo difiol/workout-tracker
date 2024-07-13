@@ -7,13 +7,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { ThemeSwitcher } from "../buttons/ThemeSwitcher";
+import { ThemeToggle } from "../buttons/ThemeToggle";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { LoginTrigger } from "@/components/dialogs/LoginTrigger";
 import { useUser } from "@/store/useUser";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "../shadcn/button";
+import { Switch } from "../switch/Switch";
+import { ThemeSwitch } from "../switch/ThemeSwitch";
 
 type Props = {
   children: React.ReactNode;
@@ -48,7 +50,7 @@ export default function UserPreferencesDropdown({ children }: Props) {
           </LoginTrigger>
         )}
         <DropdownMenuSeparator />
-        <ThemeSwitcher />
+        <ThemeSwitch />
       </DropdownMenuContent>
     </DropdownMenu>
   );

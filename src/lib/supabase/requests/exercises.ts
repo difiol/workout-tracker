@@ -1,6 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { AddExerciseLog, Exercise } from "@/types/exercise";
-import { mapSupabaseExerciseLogs } from "../adapters/exercises";
+import { mapSupabaseExercise, mapSupabaseExerciseLogs } from "../adapters/exercises";
 import dayjs from "dayjs";
 
 export const EXERCISES_TABLE = "exercises";
@@ -15,7 +15,7 @@ export const getSupabaseExercise = async (client: SupabaseClient<SupabaseDatabas
   const {data, error} = await client.from(EXERCISES_TABLE).select('*, exercise_logs(*)').eq('id', id).single();
   if (error) throw error;
 
-  return data;
+  return mapSupabaseExercise(data);
 };
 
 export const createSupabaseExercise = async (

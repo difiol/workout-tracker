@@ -2,8 +2,11 @@
 import React from "react";
 
 import Navbar from "../navbar/Navbar";
+import { Exercise, ExerciseLog } from "@/types/exercise";
 type Props = {
-  data: any;
+  data: Exercise & {
+    logs: ExerciseLog[];
+  };
   className?: string;
 };
 

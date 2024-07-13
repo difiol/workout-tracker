@@ -8,14 +8,13 @@ type Props = {
   };
 };
 
-export default async function Exercise({ params }: Props) {
+export default async function Exercise({ params }: Readonly<Props>) {
   const supabaseClient = createSSRClient();
-
-  const exercises = await getSupabaseExercise(supabaseClient, params.id);
+  const exercise = await getSupabaseExercise(supabaseClient, params.id);
 
   return (
     <main className="flex flex-col items-center justify-start">
-      <ExerciseView data={exercises} />
+      <ExerciseView data={exercise} />
     </main>
   );
 }
