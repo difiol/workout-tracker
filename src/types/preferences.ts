@@ -1,6 +1,6 @@
 export type Languages = "en" | "es";
 export type Themes = "light" | "dark";
-export type WeightUnits = "kg" | "lbs";
+export type WeightUnits = "kg" | "lb";
 
 export type Preferences = {
   id: string;

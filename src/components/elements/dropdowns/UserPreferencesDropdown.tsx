@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -14,8 +15,9 @@ import { useUser } from "@/store/useUser";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "../shadcn/button";
-import { Switch } from "../switch/Switch";
 import { ThemeSwitch } from "../switch/ThemeSwitch";
+import { LangSwitch } from "../switch/LangSwitch";
+import { WeightUnitSwitch } from "../switch/WeightUnitSwitch";
 
 type Props = {
   children: React.ReactNode;
@@ -23,7 +25,7 @@ type Props = {
 
 export default function UserPreferencesDropdown({ children }: Props) {
   const { isLoggedIn } = useUser();
-  const t = useTranslations("Auth");
+  const t = useTranslations();
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -34,7 +36,7 @@ export default function UserPreferencesDropdown({ children }: Props) {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Preferences</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("Preferences.preferences")}</DropdownMenuLabel>
         {isLoggedIn ? (
           <LogoutButton
             onAfterLogout={handleClose}
@@ -46,11 +48,24 @@ export default function UserPreferencesDropdown({ children }: Props) {
             onAfterLogin={handleClose}
             className={cn(buttonVariants({ variant: "link" }), "text-sm")}
           >
-            {t("login")}
+            {t("Auth.login")}
           </LoginTrigger>
         )}
         <DropdownMenuSeparator />
-        <ThemeSwitch />
+        <DropdownMenuGroup className="flex flex-col gap-3 p-2">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-xs">{t("Preferences.weight-unit")}</p>
+            <WeightUnitSwitch />
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-xs">{t("Preferences.language")}</p>
+            <LangSwitch />
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-xs">{t("Preferences.theme")}</p>
+            <ThemeSwitch />
+          </div>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

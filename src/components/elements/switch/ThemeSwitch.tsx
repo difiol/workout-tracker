@@ -9,7 +9,7 @@ type Props = {
   size?: number;
 };
 
-export function ThemeSwitch({ size = 18 }: Props) {
+export function ThemeSwitch({ size = 14 }: Props) {
   const { theme, changeTheme } = usePreferences();
 
   const handleChangeTheme = (value: string) => {

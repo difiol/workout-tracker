@@ -1,4 +1,10 @@
 {
+  "Preferences": {
+    "preferences": "Preferences",
+    "language": "Language",
+    "theme": "Theme",
+    "weight-unit": "Weight unit"
+  },
   "Exercise": {
     "weight": "Weight",
     "reps": "Reps",

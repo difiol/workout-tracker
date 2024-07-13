@@ -50,15 +50,21 @@ export function Switch({
   }, [selectedValue]);
 
   return (
-    <div className={cn("relative flex rounded-md border", classes?.container)}>
+    <div
+      className={cn(
+        "relative flex rounded-md border-none bg-slate-100 dark:bg-slate-700 shadow-inner shadow-slate-300 dark:shadow-slate-900",
+        classes?.container
+      )}
+    >
       {options.map((option) => (
         <button
           key={option.value}
           onClick={(e) => handleClick(e, option.value)}
           className={cn(
-            "flex items-center justify-center text-xs p-2 z-10 font-thin opacity-70 grow",
+            "flex items-center justify-center text-xs p-2 z-10 font-thin grow text-slate-600 dark:text-slate-400",
             {
-              "font-semibold opacity-100": option.value === selectedValue,
+              "font-semibold text-black dark:text-white":
+                option.value === selectedValue,
             },
             classes?.option
           )}
@@ -69,7 +75,7 @@ export function Switch({
       <span
         ref={selectorRef}
         className={cn(
-          "absolute h-full w-10 rounded-md border-none bg-slate-200 dark:bg-slate-600 transition-all duration-200",
+          "absolute h-full w-10 rounded-md border-none bg-white dark:bg-slate-800 transition-all duration-200 shadow shadow-slate-900/20 dark:shadow-slate-900/80",
           classes?.selector
         )}
       />
