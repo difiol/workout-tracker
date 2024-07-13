@@ -36,22 +36,25 @@ export default function UserPreferencesDropdown({ children }: Props) {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>{t("Preferences.preferences")}</DropdownMenuLabel>
         {isLoggedIn ? (
           <LogoutButton
             onAfterLogout={handleClose}
             variant="link"
-            className="text-red-500 text-sm"
+            className="w-full text-red-500 text-sm"
           />
         ) : (
           <LoginTrigger
             onAfterLogin={handleClose}
-            className={cn(buttonVariants({ variant: "link" }), "text-sm")}
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "w-full text-sm m-auto"
+            )}
           >
             {t("Auth.login")}
           </LoginTrigger>
         )}
         <DropdownMenuSeparator />
+        <DropdownMenuLabel>{t("Preferences.preferences")}</DropdownMenuLabel>
         <DropdownMenuGroup className="flex flex-col gap-3 p-2">
           <div className="flex items-center justify-between gap-4">
             <p className="text-xs">{t("Preferences.weight-unit")}</p>
