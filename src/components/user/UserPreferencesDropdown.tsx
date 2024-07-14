@@ -3,12 +3,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../elements/shadcn/dropdown-menu";
-import { ThemeToggle } from "../elements/buttons/ThemeToggle";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { LoginTrigger } from "@/components/dialogs/LoginTrigger";
 import { useUser } from "@/store/useUser";
