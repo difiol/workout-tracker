@@ -12,7 +12,7 @@ type Props = {
 export function ThemeSwitch({ size = 14 }: Props) {
   const { theme, changeTheme } = usePreferences();
 
-  const handleChangeTheme = (value: string) => {
+  const handleChangeTheme = async (value: string) => {
     changeTheme(value as Themes);
   };
 

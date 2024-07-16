@@ -6,16 +6,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../elements/shadcn/dropdown-menu";
+} from "../../elements/shadcn/dropdown-menu";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { LoginTrigger } from "@/components/dialogs/LoginTrigger";
 import { useUser } from "@/store/useUser";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { buttonVariants } from "../elements/shadcn/button";
-import { ThemeSwitch } from "../elements/switch/ThemeSwitch";
-import { LangSwitch } from "../elements/switch/LangSwitch";
-import { WeightUnitSwitch } from "../elements/switch/WeightUnitSwitch";
+import { buttonVariants } from "../../elements/shadcn/button";
+import { ThemeSwitch } from "../../elements/switch/ThemeSwitch";
+import { LangSwitch } from "../../elements/switch/LangSwitch";
+import { WeightUnitSwitch } from "../../elements/switch/WeightUnitSwitch";
+import { PreferencesDropdownItem } from "./PreferencesDropdownItem";
 
 type Props = {
   children: React.ReactNode;
@@ -60,18 +61,15 @@ export default function UserPreferencesDropdown({ children, classes }: Props) {
         <DropdownMenuSeparator />
         <DropdownMenuLabel>{t("Preferences.preferences")}</DropdownMenuLabel>
         <DropdownMenuGroup className="flex flex-col gap-3 p-2">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-xs">{t("Preferences.weight-unit")}</p>
+          <PreferencesDropdownItem label={t("Preferences.weight-unit")}>
             <WeightUnitSwitch />
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-xs">{t("Preferences.language")}</p>
+          </PreferencesDropdownItem>
+          <PreferencesDropdownItem label={t("Preferences.language")}>
             <LangSwitch />
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-xs">{t("Preferences.theme")}</p>
+          </PreferencesDropdownItem>
+          <PreferencesDropdownItem label={t("Preferences.theme")}>
             <ThemeSwitch />
-          </div>
+          </PreferencesDropdownItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

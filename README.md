@@ -61,4 +61,4 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
     ```
     ***Note**: change $REMOTE_DB_URL to your supabase remote db url access (similar to `postgresql://postgres.[YOUR-PROJECT]:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:[PORT]/postgres`)*
 
-2. Run the outcome of this SQL files in your supabase local dashboard SQL Editor to load schemas, roles, data and more.
+2. Run the content of this SQL files in your supabase local dashboard SQL Editor to load schemas, roles, data and more.
