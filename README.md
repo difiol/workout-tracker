@@ -1,36 +1,64 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Development
 
-First, run the development server:
+## Set up
+- Install [pnpm](https://pnpm.io/installation).
+- Install dependencies: `pnpm i`.
+- Install [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started?queryGroups=platform&platform=windows)
+- Install [Docker](https://docs.docker.com/engine/install/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Environment variables
+> Use `.env.local_template` as reference and update it when a new variable is added.
+> Keys values should never be stored in this file.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+|Name                               |Description                                       |
+|-----------------------------------|--------------------------------------------------|
+| `NEXT_PUBLIC_SUPABASE_URL`          | Supabase url to call endpoints                   |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`     | Supabase key to be able to call the endpoints    |
+| `NEXT_PUBLIC_SUPABASE_COOKIES`      | Cookies used by supabase to store the user token |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
+> After running the project open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+|Description                            |Command                  |
+|---------------------------------------|-------------------------|
+| Run development server                | `pnpm dev`              |
+| Generate build                        | `pnpm build`            |
+| Run build locally                     | `pnpm start`            |
+| Lint project                          | `pnpm lint`             |
+| Run supabase local instance           | `pnpm supa:start`       |
+| Check supabase instance status        | `pnpm supa:status`      |
+| Stop supabase local instance          | `pnpm supa:stop`        |
 
-## Learn More
+## Supabase local development
 
-To learn more about Next.js, take a look at the following resources:
+> **Requirements**
+> - Install [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started?queryGroups=platform&platform=windows)
+> - Install [Docker](https://docs.docker.com/engine/install/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+|Description                           |Command             |
+|--------------------------------------|--------------------|
+| Run docker instances                 | `supabase start`   |
+| Check local supabase url and keys    | `supabase status`  |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Note*: update in env file all the `SUPABASE` variables with the local values (most of them given by the status command).*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Migrate database from remote to local
+> **Requirements**
+> - Install [Postgres](https://www.postgresql.org/download/) so you can run `psql` and `pg_dump`
+> - Install [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started?queryGroups=platform&platform=windows)
+> - Install [Docker](https://docs.docker.com/engine/install/)
+> - Login to your remote supabase project: `supabase login`
+
+1. Run the following commands to create the migration files:
+    ```shell
+        supabase db dump --db-url "$REMOTE_DB_URL" -f roles.sql --role-only
+        supabase db dump --db-url "$REMOTE_DB_URL" -f schema.sql
+        supabase db dump --db-url "$REMOTE_DB_URL" -f data.sql --use-copy --data-only
+    ```
+    ***Note**: change $REMOTE_DB_URL to your supabase remote db url access (similar to `postgresql://postgres.[YOUR-PROJECT]:[YOUR-PASSWORD]@aws-0-eu-west-2.pooler.supabase.com:[PORT]/postgres`)*
+
+2. Run the outcome of this SQL files in your supabase local dashboard SQL Editor to load schemas, roles, data and more.

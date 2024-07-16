@@ -1,4 +1,4 @@
-const DEFAULT_SUPABASE_COOKIES = "sb-127-auth-token";
+import { DEFAULT_SUPABASE_COOKIES } from "./constants";
 
 export const getClientUser = (): string | null => {
   const rawCookie = getCookie(process.env.NEXT_PUBLIC_SUPABASE_COOKIES ?? DEFAULT_SUPABASE_COOKIES);

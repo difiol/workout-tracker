@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supa:start": "supabase start",
+    "supa:status": "supabase status",
+    "supa:stop": "supabase stop"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.1",

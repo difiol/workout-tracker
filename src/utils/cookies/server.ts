@@ -1,10 +1,9 @@
 import { cookies } from "next/headers";
-
-const SUPABASE_COOKIES_NAME = "sb-iklssztmeskqgmwifeqq-auth-token";
+import { DEFAULT_SUPABASE_COOKIES } from "./constants";
 
 export const getServerUser = (): string | null => {
   const cookieStore = cookies();
-  const rawCookie = cookieStore.get(SUPABASE_COOKIES_NAME);
+  const rawCookie = cookieStore.get(process.env.NEXT_PUBLIC_SUPABASE_COOKIES ?? DEFAULT_SUPABASE_COOKIES);
   if (!rawCookie) return null;
   const decodedCookies = decodeURIComponent(rawCookie.value);
   const cookie = JSON.parse(decodedCookies);
