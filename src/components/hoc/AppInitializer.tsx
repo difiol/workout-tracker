@@ -18,7 +18,7 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import dayjs from "dayjs";
 
 type Props = {
-  user: AuthUser | null;
+  user?: AuthUser | null;
   preferences?: Preferences;
   workouts?: Workout[];
   exercises?: Exercise[] | null;

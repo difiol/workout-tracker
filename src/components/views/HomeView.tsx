@@ -59,6 +59,7 @@ export function HomeView({ className }: Props) {
 
   useEffect(() => {
     setTodo(generateTodoExercises(activeWorkout?.exercises ?? [], done));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWorkout]);
 
   return (

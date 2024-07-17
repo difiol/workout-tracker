@@ -105,6 +105,7 @@ export const AutoComplete = ({
         inputRef?.current?.blur();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [open, options, onValueChange]
   );
 
@@ -116,7 +117,7 @@ export const AutoComplete = ({
   const handleBlur = useCallback(() => {
     setOpen(false);
     if (!clearAfterSubmit) setInputValue(selected?.label ?? "");
-  }, [selected]);
+  }, [selected, clearAfterSubmit]);
 
   const handleSelectOption = useCallback(
     (selectedOption: Option) => {
@@ -134,7 +135,7 @@ export const AutoComplete = ({
         inputRef?.current?.blur();
       }, 0);
     },
-    [onValueChange]
+    [onValueChange, clearAfterSubmit]
   );
 
   const handleButtonClick = () => {

@@ -1,11 +1,9 @@
-"use client";
+export const dynamic = "force-dynamic";
 
 export default function NotFound() {
   return (
-    <html lang="en">
-      <body>
-        <h1>Not Found</h1>
-      </body>
-    </html>
+    <main>
+      <h1>Not Found</h1>
+    </main>
   );
 }

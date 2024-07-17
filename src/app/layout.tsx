@@ -31,12 +31,24 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  const messages = await getMessages();
   const supabaseClient = createSSRClient();
-  const { data, error } = await supabaseClient.auth.getUser();
+  // Obtain messages for translations and user data if has a session
+  const [messagesResponse, userResponse] = await Promise.allSettled([
+    getMessages(),
+    supabaseClient.auth.getUser(),
+  ]);
+
+  const messages =
+    messagesResponse.status === "fulfilled"
+      ? messagesResponse.value
+      : undefined;
+  const user =
+    userResponse.status === "fulfilled" ? userResponse.value : undefined;
+
   let preferences, workouts, exercises, doneExercises;
 
-  if (!error) {
+  // Fetch user data if logged in to initialize App
+  if (!user?.error) {
     const [
       preferencesResponse,
       workoutsResponse,
@@ -68,37 +80,36 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <AppInitializer
-        user={data.user}
-        preferences={preferences}
-        workouts={workouts}
-        exercises={exercises}
-        doneExercises={doneExercises}
+      <NextIntlClientProvider
+        messages={messages}
+        locale={preferences?.language}
       >
-        <NextIntlClientProvider
-          messages={messages}
-          locale={preferences?.language}
+        <AppInitializer
+          user={user?.data?.user}
+          preferences={preferences}
+          workouts={workouts}
+          exercises={exercises}
+          doneExercises={doneExercises}
         >
           {children}
-        </NextIntlClientProvider>
+          <Toaster
+            toastOptions={{
+              classNames: {
+                default:
+                  "dark:text-white dark:bg-slate-700/90 border-slate-100/90 dark:border-slate-700/90",
+                error:
+                  "text-red-500 dark:text-red-300 bg-red-100 dark:bg-red-700/30",
+                success:
+                  "text-green-700 dark:text-green-200 bg-green-200 dark:bg-green-800/40",
 
-        <Toaster
-          toastOptions={{
-            classNames: {
-              default:
-                "dark:text-white dark:bg-slate-700/90 border-slate-100/90 dark:border-slate-700/90",
-              error:
-                "text-red-500 dark:text-red-300 bg-red-100 dark:bg-red-700/30",
-              success:
-                "text-green-700 dark:text-green-200 bg-green-200 dark:bg-green-800/40",
-
-              warning:
-                "text-yellow-500 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-800/40",
-              info: "text-blue-500 dark:text-blue-200 bg-blue-100 dark:bg-blue-800/40",
-            },
-          }}
-        />
-      </AppInitializer>
+                warning:
+                  "text-yellow-500 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-800/40",
+                info: "text-blue-500 dark:text-blue-200 bg-blue-100 dark:bg-blue-800/40",
+              },
+            }}
+          />
+        </AppInitializer>
+      </NextIntlClientProvider>
     </html>
   );
 }

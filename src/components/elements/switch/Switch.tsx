@@ -37,7 +37,6 @@ export function Switch({
     );
     if (selectedOption) {
       const index = options.indexOf(selectedOption);
-      const option = options[index];
       selectorRef.current?.style.setProperty(
         "left",
         `${index * (100 / options.length)}%`
@@ -47,6 +46,7 @@ export function Switch({
         `calc(100% / ${options.length})`
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedValue]);
 
   return (
