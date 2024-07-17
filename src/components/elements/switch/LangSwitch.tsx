@@ -15,7 +15,6 @@ export function LangSwitch() {
 
   const handleChangeTheme = (value: string) => {
     const newLocale = value as Languages;
-    if (newLocale === lang) return;
     setLang(newLocale);
     router.replace(
       // @ts-expect-error -- TypeScript will validate that only known `params`

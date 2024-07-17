@@ -20,6 +20,8 @@ export function Switch({
 }: Readonly<Props>) {
   const selectorRef = useRef<HTMLSpanElement>(null);
   const handleClick = (e: MouseEvent<HTMLButtonElement>, value: string) => {
+    if (selectedValue === value) return;
+
     selectorRef.current?.style.setProperty(
       "left",
       `${e.currentTarget.offsetLeft}px`

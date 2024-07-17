@@ -22,7 +22,7 @@ const supabaseClient = createClient();
 
 export const usePreferences = create<PreferencesStore>()((set, state) => ({
   id: undefined,
-  theme: "light",
+  theme: getPreferredTheme(),
   weightUnit: "kg",
 
   changeTheme: (theme) => {
