@@ -623,7 +623,7 @@ d893dc0b-9f7d-403a-8fe6-7e41be3ebaf6	ab046161-d7e2-48ce-a57c-ae54b8a3f8c3	2535b8
 -- Data for Name: preferences; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "public"."preferences" ("id", "theme", "lang", "weight_unit", "created_at", "updated_at", "user_id") FROM stdin;
+COPY "public"."preferences" ("id", "theme", "weight_unit", "created_at", "updated_at", "user_id") FROM stdin;
 9b0f654e-a9a4-41f8-a9a5-e41eb5202640	dark	\N	\N	2024-06-25 17:29:56.732031+00	2024-06-25 17:29:56.732031+00	b631b924-877c-4c34-b246-ca064f208056
 bd7792b9-a6df-4577-bbf4-f4ba952ded65	dark	es	kg	2024-06-27 09:48:28.791293+00	2024-06-27 09:48:28.791293+00	c832b0e5-1d98-440d-8a94-2f44d9b637ed
 \.

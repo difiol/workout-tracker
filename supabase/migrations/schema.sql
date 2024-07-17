@@ -88,7 +88,6 @@ COMMENT ON COLUMN "public"."exercises"."last_weight" IS 'Last weight value recor
 CREATE TABLE IF NOT EXISTS "public"."preferences" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "theme" "text",
-    "lang" "text",
     "weight_unit" "text",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,

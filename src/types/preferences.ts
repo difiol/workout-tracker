@@ -4,7 +4,6 @@ export type WeightUnits = "kg" | "lb";
 
 export type Preferences = {
   id: string;
-  lang: Languages;
   theme: Themes;
   weightUnit: WeightUnits;
 };

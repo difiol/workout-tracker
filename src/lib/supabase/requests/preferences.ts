@@ -18,11 +18,10 @@ export const getSupabaseUserPreferences = async (
 
 export const updateSupabaseUserPreferences = async (
   client: SupabaseClient<SupabaseDatabase>,
-  { id, lang, theme, weightUnit }: UpdatePreferences
+  { id, theme, weightUnit }: UpdatePreferences
 ) => {
   const { error } = await client.from(PREFERENCES_TABLE).upsert({
     id,
-    lang,
     theme,
     weight_unit: weightUnit,
   });
