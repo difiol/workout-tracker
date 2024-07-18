@@ -12,10 +12,7 @@ import { getPreferredTheme } from "@/utils/theme";
 import { AuthUser } from "@supabase/supabase-js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
-
-import relativeTime from "dayjs/plugin/relativeTime";
-import updateLocale from "dayjs/plugin/updateLocale";
-import dayjs from "dayjs";
+import { DayjsManager } from "./DayjsManager";
 
 type Props = {
   user?: AuthUser | null;
@@ -27,26 +24,6 @@ type Props = {
 };
 
 const queryClient = new QueryClient();
-
-dayjs.extend(relativeTime);
-dayjs.extend(updateLocale);
-dayjs.updateLocale("es", {
-  relativeTime: {
-    future: "en %s",
-    past: "hace %s",
-    s: "hace unos segundos",
-    m: "un minuto",
-    mm: "%d minutos",
-    h: "an hora",
-    hh: "%d horas",
-    d: "a día",
-    dd: "%d días",
-    M: "un mes",
-    MM: "%d meses",
-    y: "un año",
-    yy: "%d años",
-  },
-});
 
 export function AppInitializer({
   user,
@@ -68,11 +45,15 @@ export function AppInitializer({
 
   useEffect(() => {
     if (!preferences?.theme) {
-      //If user is not logged in, or does not have any theme preferences yet, use the browser's theme
+      //If user is not logged in, use the browser's theme
+      const theme = getPreferredTheme();
       usePreferences.setState({
-        theme: getPreferredTheme(),
+        theme,
       });
+      document.body.className = theme === "dark" ? "dark" : "";
     }
+
+    // Add or remove "dark" class when state changes
     usePreferences.subscribe((state) => {
       document.body.className = state.theme === "dark" ? "dark" : "";
     });
@@ -80,7 +61,11 @@ export function AppInitializer({
 
   return (
     <body className={cn({ dark: preferences?.theme === "dark" })}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <DayjsManager>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </DayjsManager>
     </body>
   );
 }

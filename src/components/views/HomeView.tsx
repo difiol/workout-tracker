@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
@@ -24,7 +23,7 @@ export function HomeView({ className }: Props) {
   const { done, activeWorkout, addExerciseToDone, removeExerciseFromDone } =
     useWorkouts();
 
-  const [todoExercises, setTodo] = useState<WorkoutExercise[]>([]);
+  const [todoExercises, setTodoExercises] = useState<WorkoutExercise[]>([]);
 
   const addExercise = ({ id, name }: Exercise) => {
     const exerciseToAdd: WorkoutExercise = {
@@ -34,31 +33,33 @@ export function HomeView({ className }: Props) {
       createdAt: new Date().toISOString(),
     };
 
-    setTodo((prev) => [...prev, exerciseToAdd]);
+    setTodoExercises((prev) => [...prev, exerciseToAdd]);
   };
 
   const updateExercise = (exercise: WorkoutExercise) => {
-    setTodo((prev) =>
+    setTodoExercises((prev) =>
       prev.map((ex) => (ex.id === exercise.id ? exercise : ex))
     );
   };
 
   const removeExercise = ({ id }: WorkoutExercise) => {
-    setTodo((prev) => prev.filter((exercise) => exercise.id !== id));
+    setTodoExercises((prev) => prev.filter((exercise) => exercise.id !== id));
   };
 
   const markAsDone = (exercise: WorkoutExercise) => {
-    setTodo((prev) => prev.filter(({ id }) => id !== exercise.id));
+    setTodoExercises((prev) => prev.filter(({ id }) => id !== exercise.id));
     addExerciseToDone({ ...exercise, order: done.length }, activeWorkout?.id);
   };
 
   const markAsUndone = (exercise: WorkoutExercise) => {
-    setTodo((prev) => [exercise, ...prev]);
+    setTodoExercises((prev) => [exercise, ...prev]);
     removeExerciseFromDone(exercise.logId ?? exercise.id);
   };
 
   useEffect(() => {
-    setTodo(generateTodoExercises(activeWorkout?.exercises ?? [], done));
+    setTodoExercises(
+      generateTodoExercises(activeWorkout?.exercises ?? [], done)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWorkout]);
 
