@@ -15,9 +15,8 @@ export const getSupabaseUserWorkouts = async (
   client: SupabaseClient<SupabaseDatabase>
 ) => {
   const { data, error } = await client
-    .from(WORKOUT_EXERCISES_TABLE)
-    .select("order,workouts(*),exercises(*)")
-    .order("order", { ascending: false })
+    .from(WORKOUTS_TABLE)
+    .select("*,workout_exercises(*, exercises(*))")
     .returns<SupabaseWorkoutsData>();
 
   if (error) throw error;

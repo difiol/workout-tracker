@@ -1,7 +1,6 @@
 import { Workout } from "@/types/workout";
 import {
   SupabaseExercise,
-  SupabaseWorkout,
   SupabaseWorkoutsData,
 } from "../types/entity.types";
 import { WorkoutExercise } from "@/types/exercise";
@@ -9,33 +8,18 @@ import { WorkoutExercise } from "@/types/exercise";
 export const mapSupabaseWorkoutsWithExercises = (
   supabaseData: SupabaseWorkoutsData
 ): Workout[] => {
-  const mappedWorkouts = supabaseData?.reduce((acc: Workout[], curr) => {
-    const existingWorkout = acc.find(
-      (workout) => workout.id === curr.workouts.id
+  const mappedWorkouts: Workout[] = supabaseData.map((workout) => {
+    const exercises = workout.workout_exercises.map((exercise) =>
+      mapSupabaseWorkoutExercise(exercise.exercises)
     );
-    const mappedExercise = mapSupabaseWorkoutExercise(curr.exercises);
-    if (existingWorkout) {
-      existingWorkout.exercises.push(mappedExercise);
-      return acc;
-    } else {
-      acc.push(mapSupabaseWorkout(curr.workouts, curr.exercises));
-    }
-
-    return acc;
-  }, []);
+    return {
+      id: workout.id,
+      name: workout.name,
+      createdAt: workout.created_at,
+      exercises,
+    };
+  });
   return mappedWorkouts;
-};
-
-export const mapSupabaseWorkout = (
-  { id, name, created_at }: SupabaseWorkout,
-  exercise?: SupabaseExercise
-): Workout => {
-  return {
-    id,
-    name,
-    createdAt: created_at,
-    exercises: exercise ? [mapSupabaseWorkoutExercise(exercise)] : [],
-  };
 };
 
 export const mapSupabaseWorkoutExercise = ({

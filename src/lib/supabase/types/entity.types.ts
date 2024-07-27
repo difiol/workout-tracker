@@ -9,11 +9,9 @@ export type SupabaseWorkoutExercises =
 export type SupabaseExerciseLogs =
   Database["public"]["Tables"]["exercise_logs"]["Row"];
 
-export type SupabaseWorkoutsData = {
-  order: number;
-  workouts: SupabaseWorkout;
-  exercises: SupabaseExercise;
-}[];
+export type SupabaseWorkoutsData = (SupabaseWorkout & {
+  workout_exercises: SupabaseExerciseLogs & {exercises: SupabaseExercise}[];
+})[];
 export type SupabaseExerciseLogsData = Omit<SupabaseExerciseLogs, "user_id"> & {
   exercises: Omit<SupabaseExercise, "user_id">;
 };

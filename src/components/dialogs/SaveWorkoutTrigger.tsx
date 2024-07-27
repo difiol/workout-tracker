@@ -1,7 +1,6 @@
-import React, { ChangeEventHandler, use, useState } from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -19,6 +18,10 @@ import { ActionAlertDialog } from "../elements/alerts/ActionAlertDialog";
 
 type Props = {
   exercisesToSave: WorkoutExercise[];
+  children?: React.ReactNode;
+  title?: string;
+  description?: string;
+  defaultValue?: string;
   className?: string;
 };
 
@@ -26,7 +29,14 @@ interface SaveWorkoutInputs {
   workoutName: string;
 }
 
-export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
+export function SaveWorkoutTrigger({
+  children,
+  exercisesToSave,
+  title,
+  description,
+  defaultValue,
+  className,
+}: Props) {
   const t = useTranslations();
   const { register, handleSubmit } = useForm<SaveWorkoutInputs>();
   const { workouts, activeWorkout, addWorkout, updateWorkoutExercises } =
@@ -80,22 +90,23 @@ export function SaveWorkoutTrigger({ exercisesToSave, className }: Props) {
           className
         )}
       >
-        {t("Actions.save-workout")}
+        {children ?? t("Actions.save-new-workout")}
       </DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
           <DialogTitle className="text-2xl">
-            {t("Actions.save-workout-as")}
+            {title ?? t("Actions.save-workout-as")}
           </DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(onSaveWorkout)}
-          className="max-w-80 m-auto flex flex-col w-full gap-8 py-4"
+          className="max-w-80 m-auto flex flex-col w-full gap-8 py-2"
         >
           <InputText
             name="workoutName"
             type="text"
-            defaultValue={activeWorkout?.name}
+            defaultValue={defaultValue}
             register={register}
             onChange={checkIfWorkoutNameExists}
           />

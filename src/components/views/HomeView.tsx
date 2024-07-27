@@ -5,6 +5,7 @@ import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
 import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { useWorkouts } from "@/store/useWorkouts";
+import { useTranslations } from "next-intl";
 type Props = {
   className?: string;
 };
@@ -20,9 +21,9 @@ const generateTodoExercises = (
 };
 
 export function HomeView({ className }: Props) {
+  const t = useTranslations("Actions");
   const { done, activeWorkout, addExerciseToDone, removeExerciseFromDone } =
     useWorkouts();
-
   const [todoExercises, setTodoExercises] = useState<WorkoutExercise[]>([]);
 
   const addExercise = ({
@@ -88,7 +89,11 @@ export function HomeView({ className }: Props) {
         className="m-auto"
       />
       <div className="w-full flex justify-center mt-auto mt-6 mb-32">
-        <SaveWorkoutTrigger exercisesToSave={[...todoExercises, ...done]} />
+        <SaveWorkoutTrigger
+          exercisesToSave={[...todoExercises, ...done]}
+          description={t("save-workout-as-description")}
+          defaultValue={activeWorkout?.name}
+        />
       </div>
     </section>
   );
