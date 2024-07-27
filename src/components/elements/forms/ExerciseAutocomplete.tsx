@@ -44,13 +44,13 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
       onValueChange={handleValueChange}
       classes={{
         container: cn(
-          "w-full  rounded-lg p-2 border-2 border-slate-200 bg-slate-100 shadow-lg",
+          "w-full rounded-lg p-2 border-2 border-slate-200 bg-slate-100 shadow-lg",
           "dark:bg-slate-800 dark:border-slate-700",
           className
         ),
         input: cn(
           "w-full text-center text-xl font-semibold border-none",
-          "max-w-[calc(100%-90px)] ml-[45px]"
+          "max-w-[calc(100%-90px)] ml-[40px]"
         ),
         item: "text-lg capitalize-first",
       }}
@@ -60,7 +60,7 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
       inputIcon={false}
       onFocus={onFocus}
       inputButton={
-        <div className="h-fit absolute top-0 bottom-0 right-2 m-auto underline text-blue-400">
+        <div className="h-fit underline text-blue-400">
           {t("Actions.create")}
         </div>
       }

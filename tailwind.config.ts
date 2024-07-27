@@ -46,7 +46,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), capitalizeFirst],
+  plugins: [require("tailwindcss-animate"), require('autoprefixer'), capitalizeFirst],
 } satisfies Config;
 
 export default config;

@@ -154,13 +154,18 @@ export const AutoComplete = ({
           onFocus={handleFocus}
           placeholder={placeholder}
           disabled={disabled}
-          className={cn("text-base border-b-2", classes?.input)}
+          className={cn("text-base border-b-2 grow", classes?.input)}
           noBorder={noBorder}
           icon={inputIcon}
         />
 
         {inputButton && inputValue !== "" && (
-          <button onClick={handleButtonClick}>{inputButton}</button>
+          <button
+            onClick={handleButtonClick}
+            className="absolute top-0 bottom-0 m-auto right-2"
+          >
+            {inputButton}
+          </button>
         )}
       </div>
       <div className={cn("relative mt-1")}>

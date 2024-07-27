@@ -30,3 +30,4 @@ export type ExerciseLog = WorkoutExercise & {
 };
 
 export type AddExerciseLog = Omit<ExerciseLog, "id" | "name" | "createdAt">;
+export type UpdateExercise = Partial<Omit<Exercise, "id" | "createdAt">> & { id: string };

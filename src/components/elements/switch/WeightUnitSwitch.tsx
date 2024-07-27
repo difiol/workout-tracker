@@ -14,7 +14,7 @@ export function WeightUnitSwitch() {
     <Switch
       options={[
         { label: "kg", value: "kg" },
-        { label: "lb", value: "lb" },
+        { label: "lbs", value: "lbs" },
       ]}
       selectedValue={weightUnit}
       onChange={handleChangeTheme}

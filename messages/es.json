@@ -15,7 +15,7 @@
     "no-properties": "No hay más propiedades"
   },
   "ExerciseLogs": {
-    "last-logs": "Últimos registros",
+    "last-logs": "Últimos registros del ejercicio",
     "no-logs": "No hay registros aún"
   },
   "Workout": {
@@ -63,5 +63,8 @@
   "Success": {
     "workout-created": "Rutina creada correctamente",
     "workout-deleted": "Rutina eliminada correctamente"
+  },
+  "Dates": {
+    "created-on": "Creado el {date}"
   }
 }

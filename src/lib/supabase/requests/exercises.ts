@@ -1,21 +1,25 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { AddExerciseLog, Exercise } from "@/types/exercise";
-import { mapSupabaseExercise, mapSupabaseExerciseLogs } from "../adapters/exercises";
+import { AddExerciseLog, UpdateExercise } from "@/types/exercise";
+import { mapSupabaseExerciseWithLogs, mapSupabaseExerciseLogs, mapSupabaseExercise } from "../adapters/exercises";
 import dayjs from "dayjs";
 
 export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
 
 export const getSupabaseExercises = async (client: SupabaseClient<SupabaseDatabase>) => {
-  const exercises = await client.from(EXERCISES_TABLE).select();
-  return exercises.data as Exercise[];
+  const {data, error} = await client.from(EXERCISES_TABLE).select();
+
+  if (error) 
+    throw error;
+  
+  return data.map(mapSupabaseExercise);
 };
 
 export const getSupabaseExercise = async (client: SupabaseClient<SupabaseDatabase>, id: string) => {
   const {data, error} = await client.from(EXERCISES_TABLE).select('*, exercise_logs(*)').eq('id', id).single();
   if (error) throw error;
 
-  return mapSupabaseExercise(data);
+  return mapSupabaseExerciseWithLogs(data);
 };
 
 export const createSupabaseExercise = async (
@@ -29,6 +33,19 @@ export const createSupabaseExercise = async (
     .single();
   return response.data;
 };
+
+export const updateSupabaseExercise = async (client: SupabaseClient<SupabaseDatabase>,
+  updatedExercise: UpdateExercise) => {
+  const { id, ...rest } = updatedExercise;
+  const {data, error} = await client
+    .from(EXERCISES_TABLE)
+    .update(rest)
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+  };
 
 export const deleteSupabaseExercise = async (
   client: SupabaseClient<SupabaseDatabase>,
@@ -114,10 +131,26 @@ export const deleteSupabaseExerciseLogs = async (
   return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", logIds);
 };
 
+export const getExerciseLogs = async (
+  client: SupabaseClient<SupabaseDatabase>,
+  exerciseId:string,
+  start?: Date
+) => {
+  const {data, error} = await client.from(EXERCISE_LOGS_TABLE)
+  .select("*, exercises(id, name)")
+  .eq('exercise_id',exerciseId)
+  .gte("created_at", start?.toISOString())
+  .order("created_at", { ascending: false });
+  if (error) {
+    throw error;
+  }
+  return mapSupabaseExerciseLogs(data);
+}
+
 export const getLastExerciseLogs = async (
   client: SupabaseClient<SupabaseDatabase>,
   exerciseId:string,
-  limit:number = 3
+  limit: number = 3
 ) => {
   const {data, error} = await client.from(EXERCISE_LOGS_TABLE).select("*, exercises(id, name)").eq('exercise_id',exerciseId).order("created_at", { ascending: false }).limit(limit);
   if (error) {

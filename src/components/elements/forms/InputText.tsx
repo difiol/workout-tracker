@@ -31,8 +31,8 @@ export default function InputText({
     <input
       type={type}
       className={cn(
-        "border border-neutral-400 rounded-md px-2",
-        "dark:bg-slate-700"
+        "border border-neutral-400 rounded-md px-2 bg-neutral-100 autofill:shadow-[inset_0_0_0px_1000px] autofill:shadow-neutral-100",
+        "dark:bg-slate-700 dark:autofill:shadow-slate-300"
       )}
       {...(register && {
         ...register(name, {
@@ -49,8 +49,8 @@ export default function InputText({
     input
   ) : (
     <div className={cn("flex flex-col gap-1", className)}>
-      {input}
       <label className="font-semibold">{label}</label>
+      {input}
     </div>
   );
 }

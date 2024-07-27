@@ -63,5 +63,8 @@
   "Success": {
     "workout-created": "Workout created successfully",
     "workout-deleted": "Workout deleted successfully"
+  },
+  "Dates": {
+    "created-on": "Created on {date}"
   }
 }

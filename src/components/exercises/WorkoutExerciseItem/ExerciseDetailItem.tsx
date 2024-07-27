@@ -1,4 +1,3 @@
-import { useContentEditable } from "@/hooks/useContentEditable";
 import { cn } from "@/lib/utils";
 import { ExerciseLog } from "@/types/exercise";
 import React, { ReactNode } from "react";
@@ -14,16 +13,21 @@ type Props = {
   unit?: string;
   exerciseLogs?: ExerciseLog[];
   hide?: boolean;
-  onChange?: (value: string | number) => void;
+  onChange?: (value: string) => void;
   className?: string;
+  type?: "number" | "text";
 };
 
-const fallbackValue = "-";
+const fallbackValues = {
+  number: "0",
+  text: "-",
+};
 
 export function ExerciseDetailItem({
   icon,
   property,
   value,
+  type = "number",
   unit,
   exerciseLogs = [],
   hide = false,
@@ -31,14 +35,27 @@ export function ExerciseDetailItem({
   className,
 }: Props) {
   const t = useTranslations("Exercise");
-  const contentEditableProps = useContentEditable(
-    (value) => onChange && onChange(value ?? fallbackValue),
-    { isEditable: !!onChange, isMultiline: false }
-  );
-
-  const checkValue = value && value !== fallbackValue;
+  const fallbackValue = fallbackValues[type];
 
   if (hide) return null;
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (!newValue) {
+      e.target.value = fallbackValue;
+      onChange?.(fallbackValue);
+    } else onChange?.(newValue);
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.select();
+  };
+
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.currentTarget.blur();
+    }
+  };
 
   return (
     <div
@@ -52,20 +69,16 @@ export function ExerciseDetailItem({
         <h5 className="font-semibold">{t(property)}</h5>
       </span>
       <span className="w-full flex gap-1 justify-end">
-        <p {...contentEditableProps} className="w-fit">
-          {value ?? fallbackValue}
-        </p>
-        {checkValue && unit && <p>{unit}</p>}
+        <input
+          type={type}
+          className="w-fit bg-transparent [field-sizing:content]"
+          defaultValue={value ?? fallbackValue}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          onKeyDown={handleEnterKey}
+        />
+        {unit && <p>{unit}</p>}
       </span>
-      <div className="absolute top-0 -right-3 ">
-        <ExerciseLastLogsDropdown
-          exerciseLogs={exerciseLogs}
-          exerciseProperty={property}
-          unit={unit}
-        >
-          <MdHistory size={12} className="align-bottom text-green-500" />
-        </ExerciseLastLogsDropdown>
-      </div>
     </div>
   );
 }

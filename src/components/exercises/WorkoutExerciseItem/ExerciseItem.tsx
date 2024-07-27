@@ -13,8 +13,9 @@ import { getLastExerciseLogs } from "@/lib/supabase/requests/exercises";
 import { createClient } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
+import { usePreferences } from "@/store/usePreferences";
+import { convertWeightFrom } from "@/utils/wieght";
 import Link from "next/link";
-
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdSportsMartialArts } from "react-icons/md";
 import { BsArrowRepeat } from "react-icons/bs";
@@ -22,6 +23,8 @@ import { ImAlarm } from "react-icons/im";
 import { BiDumbbell } from "react-icons/bi";
 import { IoIosAdd } from "react-icons/io";
 import { CgDetailsMore } from "react-icons/cg";
+import { GoGraph } from "react-icons/go";
+import { ExerciseChartTrigger } from "@/components/dialogs/ExerciseChartTrigger";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -52,6 +55,7 @@ export function ExerciseItem({
   isDone = false,
   className,
 }: Props) {
+  const { weightUnit } = usePreferences();
   const pathname = usePathname();
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
@@ -193,9 +197,14 @@ export function ExerciseItem({
                 property="weight"
                 icon={<FaWeightHanging />}
                 value={weight}
-                unit="kg"
+                unit={weightUnit}
                 exerciseLogs={lastLogs}
-                onChange={(value) => handleUpdateValue("weight", value ?? 0)}
+                onChange={(value) =>
+                  handleUpdateValue(
+                    "weight",
+                    convertWeightFrom(Number(value), weightUnit)
+                  )
+                }
                 hide={!detailsToShow.includes("weight")}
               />
               <ExerciseDetailItem
@@ -203,7 +212,7 @@ export function ExerciseItem({
                 icon={<MdSportsMartialArts size={24} />}
                 value={reps}
                 exerciseLogs={lastLogs}
-                onChange={(value) => handleUpdateValue("reps", value ?? 0)}
+                onChange={(value) => handleUpdateValue("reps", Number(value))}
                 hide={!detailsToShow.includes("reps")}
               />
               <ExerciseDetailItem
@@ -211,7 +220,7 @@ export function ExerciseItem({
                 icon={<BsArrowRepeat size={24} />}
                 value={sets}
                 exerciseLogs={lastLogs}
-                onChange={(value) => handleUpdateValue("sets", value ?? 0)}
+                onChange={(value) => handleUpdateValue("sets", Number(value))}
                 hide={!detailsToShow.includes("sets")}
               />
               <ExerciseDetailItem
@@ -220,17 +229,16 @@ export function ExerciseItem({
                 value={time}
                 unit="min"
                 exerciseLogs={lastLogs}
-                onChange={(value) => handleUpdateValue("time", value ?? 0)}
+                onChange={(value) => handleUpdateValue("time", Number(value))}
                 hide={!detailsToShow.includes("time")}
               />
               <ExerciseDetailItem
                 property="material"
+                type="text"
                 icon={<BiDumbbell size={24} />}
                 value={material}
                 exerciseLogs={lastLogs}
-                onChange={(value) =>
-                  handleUpdateValue("material", value ?? "-")
-                }
+                onChange={(value) => handleUpdateValue("material", value)}
                 hide={!detailsToShow.includes("material")}
               />
             </div>
@@ -242,6 +250,9 @@ export function ExerciseItem({
                 }
               )}
             >
+              <ExerciseChartTrigger exerciseId={exercise.id}>
+                <GoGraph />
+              </ExerciseChartTrigger>
               <Link href={`${pathname}/exercises/${id}`}>
                 <CgDetailsMore />
               </Link>

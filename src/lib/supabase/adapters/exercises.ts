@@ -1,4 +1,4 @@
-import { Exercise, ExerciseLog } from "@/types/exercise";
+import { Exercise, ExerciseLog, UpdateExercise } from "@/types/exercise";
 import { SupabaseExercise, SupabaseExerciseLogsData } from "../types/entity.types";
 
 export const mapSupabaseExerciseLogs = (
@@ -17,17 +17,19 @@ export const mapSupabaseExerciseLogs = (
   );
 
 
-export const mapSupabaseExercise = (exercise: SupabaseExercise & {exercise_logs: SupabaseExerciseLogsData[]}):Exercise & {
-  logs: ExerciseLog[]} => {
-  return {
-    id: exercise.id,
-    name: exercise.name,
-    createdAt: exercise.created_at,
-    maxWeight: exercise.max_weight,
-    lastWeight: exercise.last_weight,
-    lastReps: exercise.last_reps,
-    lastSets: exercise.last_sets,
-    lastTime: exercise.last_time,
+export const mapSupabaseExerciseWithLogs = (exercise: SupabaseExercise & {exercise_logs: SupabaseExerciseLogsData[]}):Exercise & {
+  logs: ExerciseLog[]} => ({
+    ...mapSupabaseExercise(exercise),
     logs: mapSupabaseExerciseLogs(exercise.exercise_logs)
-  }
-  }
+  });
+
+export const mapSupabaseExercise = (exercise: SupabaseExercise): Exercise => ({
+  id: exercise.id,
+  name: exercise.name,
+  createdAt: exercise.created_at,
+  maxWeight: exercise.max_weight,
+  lastWeight: exercise.last_weight,
+  lastReps: exercise.last_reps,
+  lastSets: exercise.last_sets,
+  lastTime: exercise.last_time,
+});

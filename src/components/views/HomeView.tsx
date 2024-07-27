@@ -25,12 +25,23 @@ export function HomeView({ className }: Props) {
 
   const [todoExercises, setTodoExercises] = useState<WorkoutExercise[]>([]);
 
-  const addExercise = ({ id, name }: Exercise) => {
+  const addExercise = ({
+    id,
+    name,
+    lastWeight,
+    lastReps,
+    lastSets,
+    lastTime,
+  }: Exercise) => {
     const exerciseToAdd: WorkoutExercise = {
       id,
       name,
       order: (todoExercises.at(-1)?.order ?? todoExercises.length) + 1,
       createdAt: new Date().toISOString(),
+      weight: lastWeight,
+      reps: lastReps,
+      sets: lastSets,
+      time: lastTime,
     };
 
     setTodoExercises((prev) => [...prev, exerciseToAdd]);

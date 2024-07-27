@@ -45,8 +45,8 @@ type WorkoutStore = {
 const supabaseClient = createClient();
 
 export const useWorkouts = create<WorkoutStore>()((set) => ({
-  workouts: defaultWorkouts,
-  activeWorkout: defaultWorkouts[0],
+  workouts: [],
+  activeWorkout: null,
   done: [],
   addWorkout: async ({ name, exercises }, options) => {
     //Create the workout in the database only if it doesn't exist

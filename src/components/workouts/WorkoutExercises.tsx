@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { AddExerciseLog, Exercise, WorkoutExercise } from "@/types/exercise";
+import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
 import { ExerciseAutocomplete } from "../elements/forms/ExerciseAutocomplete";
 import { useTranslations } from "next-intl";
