@@ -6,8 +6,8 @@ const conversionFactor: Record<WeightUnits, number> = {
 }
 
 export function convertWeightTo(value: number, to: WeightUnits) {
-  return (value * conversionFactor[to]).toFixed(2)
+  return Number((value * conversionFactor[to]).toFixed(2))
 }
 export function convertWeightFrom(value: number, from: WeightUnits) {
-  return (value / conversionFactor[from])
+  return Number((value / conversionFactor[from]).toFixed(2))
 }

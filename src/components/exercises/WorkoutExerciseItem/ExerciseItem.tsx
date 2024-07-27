@@ -14,7 +14,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { usePreferences } from "@/store/usePreferences";
-import { convertWeightFrom } from "@/utils/wieght";
+import { convertWeightFrom, convertWeightTo } from "@/utils/wieght";
 import Link from "next/link";
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdSportsMartialArts } from "react-icons/md";
@@ -192,11 +192,11 @@ export function ExerciseItem({
         </button>
         {isActive && (
           <div>
-            <div className="grid grid-cols-3 align-top gap-6 p-2 md:px-8 md:pt-2">
+            <div className="flex flex-wrap justify-evenly w-fit max-w-md m-auto align-top gap-6 p-2 px-8 md:pt-2">
               <ExerciseDetailItem
                 property="weight"
                 icon={<FaWeightHanging />}
-                value={weight}
+                value={convertWeightTo(Number(weight), weightUnit)}
                 unit={weightUnit}
                 exerciseLogs={lastLogs}
                 onChange={(value) =>

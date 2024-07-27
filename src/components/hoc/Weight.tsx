@@ -9,7 +9,7 @@ type Props = {
 export default function Weight({ children, showUnit = false }: Props) {
   const { weightUnit } = usePreferences();
   return (
-    Number(convertWeightTo(Number(children), weightUnit)) +
+    convertWeightTo(Number(children), weightUnit) +
     (showUnit ? ` ${weightUnit}` : "")
   );
 }

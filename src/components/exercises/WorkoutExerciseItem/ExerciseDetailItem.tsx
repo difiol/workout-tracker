@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ExerciseLog } from "@/types/exercise";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { ExerciseLastLogsDropdown } from "./DropdownExerciseLastLogs";
 import { useTranslations } from "next-intl";
 
@@ -36,8 +36,17 @@ export function ExerciseDetailItem({
 }: Props) {
   const t = useTranslations("Exercise");
   const fallbackValue = fallbackValues[type];
+  const [inputValue, setInputValue] = useState(value ?? fallbackValue);
+
+  useEffect(() => {
+    setInputValue(value ?? fallbackValue);
+  }, [value]);
 
   if (hide) return null;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -59,10 +68,7 @@ export function ExerciseDetailItem({
 
   return (
     <div
-      className={cn(
-        "relative w-fit mx-auto flex flex-col gap-2 text-md",
-        className
-      )}
+      className={cn("relative w-fit flex flex-col gap-2 text-md", className)}
     >
       <span className="flex items-center gap-2">
         {icon}
@@ -72,7 +78,8 @@ export function ExerciseDetailItem({
         <input
           type={type}
           className="w-fit bg-transparent [field-sizing:content]"
-          defaultValue={value ?? fallbackValue}
+          value={inputValue}
+          onChange={handleChange}
           onBlur={handleBlur}
           onFocus={handleFocus}
           onKeyDown={handleEnterKey}
