@@ -77,7 +77,7 @@ export function HomeView({ className }: Props) {
 
   return (
     <section className={className}>
-      <WorkoutsSlider className="mt-2" />
+      <WorkoutsSlider className="mt-2 px-5" />
       <WorkoutExercises
         todo={todoExercises}
         done={done}
@@ -86,7 +86,7 @@ export function HomeView({ className }: Props) {
         markAsDone={markAsDone}
         markAsUndone={markAsUndone}
         removeExercise={removeExercise}
-        className="m-auto"
+        className="m-auto px-5"
       />
       <div className="w-full flex justify-center mt-auto mt-6 mb-32">
         <SaveWorkoutTrigger

@@ -1,12 +1,20 @@
 import React from "react";
 import AccountAvatar from "../user/AccountAvatar";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
-export default function Navbar({}: Props) {
+export default function Navbar({ className }: Props) {
   return (
-    <nav className="flex items-center justify-between w-full max-w-xl m-auto">
+    <nav
+      className={cn(
+        "flex items-center justify-between w-full max-w-xl m-auto",
+        className
+      )}
+    >
       <Link href="/" className="text-2xl font-bold">
         Workout Tracker
       </Link>

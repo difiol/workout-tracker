@@ -29,7 +29,7 @@ export function WorkoutsSlider({ className }: Props) {
       <div className="w-fit flex gap-2 mx-auto py-3">
         <SaveWorkoutTrigger
           exercisesToSave={[]}
-          className="rounded-full w-fit h-fit p-3 self-center"
+          className="rounded-full w-fit h-fit p-3 self-center mr-2"
           title={t("Actions.create-new-workout")}
           description={t("Actions.create-new-workout-description")}
         >
