@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import InputText from "@/components/elements/forms/InputText";
+import { InputText } from "@/components/elements/inputs/InputText";
 import { useUser } from "@/store/useUser";
 import { usePreferences } from "@/store/usePreferences";
 import { useWorkouts } from "@/store/useWorkouts";

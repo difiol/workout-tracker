@@ -14,9 +14,12 @@ export type WorkoutExercise = {
   name: string;
   maxWeight?: number | null;
   weight?: number | null;
+  pyramidWeight?: number[] | null;
   reps?: number | null;
+  pyramidReps?: number[] | null;
   sets?: number | null;
   time?: number | null;
+  pyramidTime?: number[] | null;
   material?: string | null;
   logId?: string | null;
   order?: number | null;

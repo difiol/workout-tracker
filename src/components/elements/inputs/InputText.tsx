@@ -14,7 +14,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
 };
 
-export default function InputText({
+export function InputText({
   name,
   type,
   label,

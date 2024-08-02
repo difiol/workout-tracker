@@ -10,7 +10,7 @@ import {
 import { WorkoutExercise } from "@/types/exercise";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import InputText from "../elements/forms/InputText";
+import { InputText } from "../elements/inputs/InputText";
 import { useForm } from "react-hook-form";
 import { useWorkouts } from "@/store/useWorkouts";
 import { Button, buttonVariants } from "@/components/elements/shadcn/button";
@@ -39,8 +39,7 @@ export function SaveWorkoutTrigger({
 }: Props) {
   const t = useTranslations();
   const { register, handleSubmit } = useForm<SaveWorkoutInputs>();
-  const { workouts, activeWorkout, addWorkout, updateWorkoutExercises } =
-    useWorkouts();
+  const { workouts, addWorkout, updateWorkoutExercises } = useWorkouts();
   const [open, setOpen] = useState(false);
   const [alertIsDisabled, setAlertIsDisabled] = useState(false);
 

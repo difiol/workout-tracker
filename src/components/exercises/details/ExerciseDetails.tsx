@@ -1,4 +1,4 @@
-import { EditableText } from "@/components/elements/forms/EditableText";
+import { EditableText } from "@/components/elements/inputs/EditableText";
 import { createClient } from "@/lib/supabase/client";
 import { updateSupabaseExercise } from "@/lib/supabase/requests/exercises";
 import { cn } from "@/lib/utils";

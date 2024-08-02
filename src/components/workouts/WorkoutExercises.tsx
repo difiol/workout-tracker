@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { ExerciseItem } from "../exercises/WorkoutExerciseItem/ExerciseItem";
-import { ExerciseAutocomplete } from "../elements/forms/ExerciseAutocomplete";
+import { ExerciseAutocomplete } from "../elements/inputs/ExerciseAutocomplete";
 import { useTranslations } from "next-intl";
 
 type Props = {

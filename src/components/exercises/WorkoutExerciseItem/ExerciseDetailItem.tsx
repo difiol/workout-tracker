@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 import { ExerciseLog } from "@/types/exercise";
-import React, { ReactNode, useEffect, useState } from "react";
-import { ExerciseLastLogsDropdown } from "./DropdownExerciseLastLogs";
+import React, { ReactNode } from "react";
 import { useTranslations } from "next-intl";
-
-import { MdHistory } from "react-icons/md";
+import InputField from "../fields/InputField";
+import { InputTimer } from "@/components/elements/inputs/InputTimer";
+import { convertNumberToTime } from "@/utils/time";
 
 type Props = {
   icon: ReactNode;
@@ -15,12 +15,13 @@ type Props = {
   hide?: boolean;
   onChange?: (value: string) => void;
   className?: string;
-  type?: "number" | "text";
+  type?: "number" | "text" | "time";
 };
 
 const fallbackValues = {
   number: "0",
   text: "-",
+  time: "0",
 };
 
 export function ExerciseDetailItem({
@@ -29,63 +30,63 @@ export function ExerciseDetailItem({
   value,
   type = "number",
   unit,
-  exerciseLogs = [],
   hide = false,
   onChange,
   className,
 }: Props) {
   const t = useTranslations("Exercise");
   const fallbackValue = fallbackValues[type];
-  const [inputValue, setInputValue] = useState(value ?? fallbackValue);
-
-  useEffect(() => {
-    setInputValue(value ?? fallbackValue);
-  }, [value]);
 
   if (hide) return null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const handleChange = (value: string) => {
+    onChange?.(value);
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    if (!newValue) {
-      e.target.value = fallbackValue;
-      onChange?.(fallbackValue);
-    } else onChange?.(newValue);
-  };
-
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.select();
-  };
-
-  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.currentTarget.blur();
-    }
+  const fields = {
+    text: (
+      <InputField
+        type="text"
+        className="w-fit bg-transparent [field-sizing:content]"
+        value={value ?? fallbackValue}
+        fallbackValue={fallbackValue}
+        onChange={handleChange}
+      />
+    ),
+    number: (
+      <InputField
+        type="number"
+        className="w-fit bg-transparent [field-sizing:content]"
+        value={value ?? fallbackValue}
+        onChange={handleChange}
+        unit={unit}
+      />
+    ),
+    time: (
+      <InputTimer
+        initialValue={convertNumberToTime(Number(value))}
+        onChange={(value) => onChange?.(value.toString())}
+        classes={{
+          container: "w-fit justify-center",
+          input: "text-right",
+        }}
+      />
+    ),
   };
 
   return (
     <div
-      className={cn("relative w-fit flex flex-col gap-2 text-md", className)}
+      className={cn(
+        "relative w-fit flex flex-col text-md",
+        { "gap-2": type !== "time" },
+        className
+      )}
     >
       <span className="flex items-center gap-2">
         {icon}
         <h5 className="font-semibold">{t(property)}</h5>
       </span>
-      <span className="w-full flex gap-1 justify-end">
-        <input
-          type={type}
-          className="w-fit bg-transparent [field-sizing:content]"
-          value={inputValue}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
-          onKeyDown={handleEnterKey}
-        />
-        {unit && <p>{unit}</p>}
-      </span>
+      <span className="w-full flex gap-1 justify-end">{fields[type]}</span>
     </div>
   );
 }

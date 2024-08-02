@@ -22,6 +22,9 @@ export type Database = {
           time: number | null
           weight: number | null
           workout_id: string | null
+          pyramid_weight: number[] | null
+          pyramid_reps: number[] | null
+          pyramid_time: number[] | null
         }
         Insert: {
           created_at?: string
@@ -35,6 +38,9 @@ export type Database = {
           time?: number | null
           weight?: number | null
           workout_id?: string | null
+          pyramid_weight?: number[] | null
+          pyramid_reps?: number[] | null
+          pyramid_time?: number[] | null
         }
         Update: {
           created_at?: string
@@ -48,6 +54,9 @@ export type Database = {
           time?: number | null
           weight?: number | null
           workout_id?: string | null
+          pyramid_weight: number[] | null
+          pyramid_reps: number[] | null
+          pyramid_time: number[] | null
         }
         Relationships: [
           {

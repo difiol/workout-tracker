@@ -1,11 +1,11 @@
-import { Exercise, ExerciseLog, UpdateExercise } from "@/types/exercise";
+import { Exercise, ExerciseLog } from "@/types/exercise";
 import { SupabaseExercise, SupabaseExerciseLogsData } from "../types/entity.types";
 
 export const mapSupabaseExerciseLogs = (
   logs: SupabaseExerciseLogsData[]
 ): ExerciseLog[] =>
   logs.map(
-    ({ id, created_at, exercise_id, exercises, workout_id, ...logData }) => ({
+    ({ id, created_at, exercise_id, exercises, workout_id, pyramid_weight, pyramid_reps, pyramid_time, ...logData }) => ({
       ...logData,
       id: exercises?.id,
       logId: id,
@@ -13,6 +13,9 @@ export const mapSupabaseExerciseLogs = (
       exerciseId: exercise_id,
       workoutId: workout_id,
       createdAt: created_at,
+      pyramidWeight: pyramid_weight,
+      pyramidReps: pyramid_reps,
+      pyramidTime: pyramid_time,
     })
   );
 

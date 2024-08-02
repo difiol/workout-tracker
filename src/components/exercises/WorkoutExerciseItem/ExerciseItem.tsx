@@ -25,6 +25,7 @@ import { IoIosAdd } from "react-icons/io";
 import { CgDetailsMore } from "react-icons/cg";
 import { GoGraph } from "react-icons/go";
 import { ExerciseChartTrigger } from "@/components/dialogs/ExerciseChartTrigger";
+import { InputTimer } from "@/components/elements/inputs/InputTimer";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -225,6 +226,7 @@ export function ExerciseItem({
               />
               <ExerciseDetailItem
                 property="time"
+                type="time"
                 icon={<ImAlarm size={18} />}
                 value={time}
                 unit="min"
