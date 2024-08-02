@@ -169,12 +169,12 @@ export function ExerciseItem({
   return (
     <div
       className={cn(
-        "relative w-full h-full flex items-stretch rounded-lg border-2 border-slate-200 bg-slate-100 shadow-lg overflow-hidden",
+        "relative w-full h-full py-1 flex items-stretch rounded-lg border-2 border-slate-200 bg-slate-100 shadow-lg overflow-hidden",
         "dark:bg-slate-700 dark:border-slate-600",
         isDone
           ? "bg-green-300 dark:bg-green-300 dark:bg-opacity-80"
           : "hover:bg-slate-200 transition-colors duration-200 ease-in-out",
-        isActive && "border-slate-300",
+        { "border-slate-300": isActive },
         className
       )}
     >
@@ -187,16 +187,16 @@ export function ExerciseItem({
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          className="w-full p-3 text-2xl font-bold self-center capitalize-first"
+          className="w-full p-3 text-xl xs:text-2xl font-bold self-center capitalize-first"
         >
           {name}
         </button>
         {isActive && (
           <div>
-            <div className="flex flex-wrap justify-evenly w-fit max-w-md m-auto align-top gap-6 p-2 px-8 md:pt-2">
+            <div className="w-full flex flex-wrap justify-start w-fit max-w-md m-auto align-top gap-6 p-2 px-4 sm:px-8 md:pt-2 text-md">
               <ExerciseDetailItem
                 property="weight"
-                icon={<FaWeightHanging />}
+                icon={<FaWeightHanging size={14} />}
                 value={convertWeightTo(Number(weight), weightUnit)}
                 unit={weightUnit}
                 exerciseLogs={lastLogs}
@@ -210,7 +210,7 @@ export function ExerciseItem({
               />
               <ExerciseDetailItem
                 property="reps"
-                icon={<MdSportsMartialArts size={24} />}
+                icon={<MdSportsMartialArts size={20} />}
                 value={reps}
                 exerciseLogs={lastLogs}
                 onChange={(value) => handleUpdateValue("reps", Number(value))}
@@ -218,7 +218,7 @@ export function ExerciseItem({
               />
               <ExerciseDetailItem
                 property="sets"
-                icon={<BsArrowRepeat size={24} />}
+                icon={<BsArrowRepeat size={18} />}
                 value={sets}
                 exerciseLogs={lastLogs}
                 onChange={(value) => handleUpdateValue("sets", Number(value))}
@@ -227,7 +227,7 @@ export function ExerciseItem({
               <ExerciseDetailItem
                 property="time"
                 type="time"
-                icon={<ImAlarm size={18} />}
+                icon={<ImAlarm size={16} />}
                 value={time}
                 unit="min"
                 exerciseLogs={lastLogs}
@@ -237,7 +237,7 @@ export function ExerciseItem({
               <ExerciseDetailItem
                 property="material"
                 type="text"
-                icon={<BiDumbbell size={24} />}
+                icon={<BiDumbbell size={20} />}
                 value={material}
                 exerciseLogs={lastLogs}
                 onChange={(value) => handleUpdateValue("material", value)}

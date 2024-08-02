@@ -49,7 +49,7 @@ export function ExerciseAutocomplete({ onSubmit, onFocus, className }: Props) {
           className
         ),
         input: cn(
-          "w-full text-center text-xl font-semibold border-none",
+          "w-full text-center text-md xs:text-lg sm:text-xl font-semibold border-none",
           "max-w-[calc(100%-90px)] ml-[40px]"
         ),
         item: "text-lg capitalize-first",
