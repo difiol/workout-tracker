@@ -110,9 +110,12 @@ export const createSupabaseExerciseLogs = async (
   client: SupabaseClient<SupabaseDatabase>,
   params: AddExerciseLog[]
 ) => {
-  const mappedLogs = params.map(({ workoutId, exerciseId, ...logData }) => ({
+  const mappedLogs = params.map(({ workoutId, exerciseId, pyramidWeight, pyramidReps, pyramidTime, ...logData }) => ({
     workout_id: workoutId,
     exercise_id: exerciseId,
+    pyramid_weight: pyramidWeight,
+    pyramid_reps: pyramidReps,
+    pyramid_time: pyramidTime,
     ...logData,
   }));
 

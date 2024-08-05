@@ -33,8 +33,6 @@ export function InputTimer({ initialValue, onChange, classes }: Props) {
 
   const handleChange = (key: string, value: number) => {
     let newTime = { ...time };
-
-    console.log(key, value);
     if (key === "seconds") {
       if (value >= 60) {
         const minutesToAdd = Math.floor(value / 60);

@@ -136,15 +136,19 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
     });
   },
   addExerciseToDone: async (exercise, workoutId) => {
+    const { id, weight, pyramidWeight, reps, pyramidReps, sets, time, pyramidTime, material, order } = exercise;
     const exerciseLog = {
-      exerciseId: exercise.id,
+      exerciseId: id,
       workoutId,
-      weight: exercise.weight,
-      reps: exercise.reps,
-      sets: exercise.sets,
-      time: exercise.time,
-      material: exercise.material,
-      order: exercise.order,
+      weight,
+      pyramidWeight,
+      reps,
+      pyramidReps,
+      sets,
+      time,
+      pyramidTime,
+      material,
+      order
     };
     let logId: string;
     if (getClientUser()) {

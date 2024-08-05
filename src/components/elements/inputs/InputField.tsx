@@ -1,29 +1,34 @@
-import { cn } from "@/lib/utils";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  value: string | number;
-  onChange: (value: string) => void;
-  fallbackValue?: string;
+  value?: string | number | null;
   unit?: string;
-  type?: "number" | "text";
   min?: number;
   max?: number;
+  onChange: (value: string) => void;
   className?: string;
+  type?: "number" | "text";
 };
 
-export default function InputField({
+const fallbackValues = {
+  number: "0",
+  text: "-",
+};
+
+export function InputField({
   value,
-  onChange,
-  fallbackValue,
-  unit,
   type = "number",
-  min = 0,
+  unit,
+  min,
   max,
+  onChange,
   className,
 }: Props) {
+  const fallbackValue = fallbackValues[type];
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    onChange(e.target.value ?? fallbackValue);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -44,11 +49,11 @@ export default function InputField({
   };
 
   return (
-    <>
+    <span className="flex gap-1">
       <input
         type={type}
         className={cn("w-fit bg-transparent [field-sizing:content]", className)}
-        value={value}
+        value={value ?? fallbackValue}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -57,6 +62,6 @@ export default function InputField({
         max={max}
       />
       {unit && <p>{unit}</p>}
-    </>
+    </span>
   );
 }

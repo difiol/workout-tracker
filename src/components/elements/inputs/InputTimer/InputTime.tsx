@@ -1,6 +1,5 @@
 import React, { InputHTMLAttributes, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 type Props = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -66,35 +65,27 @@ export function InputTime({
   };
 
   useEffect(() => {
-    setInputValue(value || 0o0);
+    setInputValue(value || 0);
   }, [value]);
 
   return (
-    <div className={cn("flex flex-col gap-[2px]", classes?.container)}>
-      <button onClick={increment} className={cn({ hidden: !active })}>
-        <IoIosArrowUp className="m-auto text-xs" />
-      </button>
-      <input
-        type="number"
-        value={setLeadingZeros(inputValue, leadingZeros)}
-        max={max}
-        min={min}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        className={cn(
-          "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-          "px-1 text-center border border-neutral-400 rounded-md bg-transparent",
-          "[field-sizing:content]",
-          "dark:autofill:shadow-slate-300",
-          { "border-none p-1": !active },
-          classes?.input
-        )}
-        {...rest}
-      />
-      <button onClick={decrement} className={cn({ hidden: !active })}>
-        <IoIosArrowDown className="m-auto text-xs" />
-      </button>
-    </div>
+    <input
+      type="number"
+      value={setLeadingZeros(inputValue, leadingZeros)}
+      max={max}
+      min={min}
+      onChange={handleChange}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      className={cn(
+        "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+        "px-[1px] text-center border border-neutral-400 rounded-md bg-transparent",
+        "[field-sizing:content]",
+        "dark:autofill:shadow-slate-300",
+        { "border-transparent": !active },
+        classes?.input
+      )}
+      {...rest}
+    />
   );
 }
