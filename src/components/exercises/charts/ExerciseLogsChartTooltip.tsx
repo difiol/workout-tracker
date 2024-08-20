@@ -5,12 +5,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/elements/layout/Separator";
 import Weight from "@/components/hoc/Weight";
 
-export const ExerciseLogsChartTooltip = ({
-  active,
-  payload,
-  label,
-  yKey,
-}: {
+interface Props {
   active?: boolean;
   payload?: {
     value: number;
@@ -18,7 +13,22 @@ export const ExerciseLogsChartTooltip = ({
   }[];
   label?: string;
   yKey: "weight" | "reps" | "sets" | "time";
-}) => {
+  size?: "sm" | "md" | "lg";
+}
+
+const timeFormat = {
+  sm: "D MMM",
+  md: "D MMMM - HH:mm",
+  lg: "D MMMM YYYY - HH:mm",
+};
+
+export const ExerciseLogsChartTooltip = ({
+  active,
+  payload,
+  label,
+  yKey,
+  size = "md",
+}: Props) => {
   const t = useTranslations("Exercise");
 
   if (!active || !payload?.length) return null;
@@ -26,11 +36,11 @@ export const ExerciseLogsChartTooltip = ({
   const { weight, reps, sets, time } = payload[0].payload;
 
   return (
-    <div className="flex flex-col gap-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
+    <div className="z-50 flex flex-col gap-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
       <h5 className="font-semibold text-lg">
-        {dayjs(label).format("D MMMM - HH:mm")}
+        {dayjs(label).format(timeFormat[size])}
       </h5>
-      <Separator className="mb-3" />
+      <Separator className="mt-0" />
       {!!weight && (
         <span
           className={cn("flex gap-2 text-xs", {

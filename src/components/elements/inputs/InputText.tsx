@@ -40,6 +40,7 @@ export function InputText({
           maxLength,
           pattern: regExp,
           validate,
+          required,
         }),
       })}
       {...rest}

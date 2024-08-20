@@ -72,8 +72,8 @@ CREATE TABLE IF NOT EXISTS "public"."exercises" (
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "name" "text" NOT NULL,
     "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "max_weight" smallint,
-    "last_weight" smallint,
+    "max_weight" real,
+    "last_weight" real,
     "last_reps" smallint,
     "last_sets" smallint,
     "last_time" integer

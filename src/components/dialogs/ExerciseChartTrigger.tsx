@@ -27,7 +27,7 @@ export function ExerciseChartTrigger({
   const [open, setOpen] = useState(false);
   const { data: logs } = useQuery({
     queryKey: ["exerciseLogs"],
-    queryFn: () => getLastExerciseLogs(client, exerciseId),
+    queryFn: () => getLastExerciseLogs(client, exerciseId, 5),
   });
 
   return (

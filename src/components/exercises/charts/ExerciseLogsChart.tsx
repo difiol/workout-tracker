@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { convertWeightTo } from "@/utils/wieght";
 import { usePreferences } from "@/store/usePreferences";
 import { ExerciseLogsChartTooltip } from "./ExerciseLogsChartTooltip";
+import { useState } from "react";
 
 const chartConfig = {} satisfies ChartConfig;
 
@@ -30,6 +31,7 @@ export function ExerciseLogsChart({
 }: Props) {
   const t = useTranslations("ExerciseLogs");
   const { weightUnit } = usePreferences();
+  const [isActive, setIsActive] = useState(false);
 
   const checkKey = (key: YKeys): YKeys => {
     switch (key) {
@@ -58,7 +60,9 @@ export function ExerciseLogsChart({
         margin={{
           left: 4,
           right: 4,
+          top: 4,
         }}
+        onClick={() => setIsActive(true)}
       >
         <CartesianGrid vertical={false} />
         {showYAxis && (
@@ -84,7 +88,8 @@ export function ExerciseLogsChart({
         />
         <ChartTooltip
           cursor={false}
-          content={<ExerciseLogsChartTooltip yKey={checkKey(yKey)} />}
+          content={<ExerciseLogsChartTooltip yKey={checkKey(yKey)} size="sm" />}
+          active={isActive}
         />
         <defs>
           <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
@@ -98,6 +103,8 @@ export function ExerciseLogsChart({
           fill="url(#fill)"
           fillOpacity={0.4}
           stroke="green"
+          animationDuration={800}
+          animationEasing="ease-in-out"
           dot={true}
         />
       </AreaChart>

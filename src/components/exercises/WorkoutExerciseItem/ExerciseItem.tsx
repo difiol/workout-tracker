@@ -24,6 +24,7 @@ import { IoIosAdd } from "react-icons/io";
 import { CgDetailsMore } from "react-icons/cg";
 import { GoGraph } from "react-icons/go";
 import { ExercisePyramidField } from "../fields/ExercisePyramidField";
+import { capitalize } from "@/utils/text/capitalize";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -74,9 +75,16 @@ export function ExerciseItem({
   };
 
   const handleUpdateValue = (
-    args: Record<string, string | number | string[] | number[] | null>
+    property: string,
+    value: string | number | string[] | number[]
   ) => {
-    updateExercise?.({ ...exercise, ...args });
+    if (Array.isArray(value)) {
+      const properties = {
+        [property]: value[0],
+        ...(value.length > 1 && { [`pyramid${capitalize(property)}`]: value }),
+      };
+      updateExercise?.({ ...exercise, ...properties });
+    } else updateExercise?.({ ...exercise, [property]: value });
   };
 
   const handleTouchStart = (e: TouchEvent) => {
@@ -193,27 +201,17 @@ export function ExerciseItem({
                 property="weight"
                 type="number"
                 icon={<FaWeightHanging size={14} />}
-                value={convertWeightTo(Number(weight), weightUnit)}
+                value={convertWeightTo(Number(weight ?? 0), weightUnit)}
                 unit={weightUnit}
                 hide={!detailsToShow.includes("weight")}
                 sets={sets ?? 1}
                 onChange={(values) => {
-                  const weight = convertWeightFrom(
-                    Number(values[0]),
-                    weightUnit
+                  handleUpdateValue(
+                    "weight",
+                    values.map((value) =>
+                      convertWeightFrom(Number(value), weightUnit)
+                    )
                   );
-                  if (values.length === 1)
-                    handleUpdateValue({
-                      weight,
-                      pyramidWeight: null,
-                    });
-                  else
-                    handleUpdateValue({
-                      weight,
-                      pyramidWeight: values.map((value) =>
-                        convertWeightFrom(Number(value), weightUnit)
-                      ),
-                    });
                 }}
               />
               <ExercisePyramidField
@@ -224,24 +222,14 @@ export function ExerciseItem({
                 hide={!detailsToShow.includes("reps")}
                 sets={sets ?? 1}
                 onChange={(values) => {
-                  const reps = Number(values[0]);
-                  if (values.length === 1)
-                    handleUpdateValue({
-                      reps,
-                      pyramidReps: null,
-                    });
-                  else
-                    handleUpdateValue({
-                      reps,
-                      pyramidReps: values.map(Number),
-                    });
+                  handleUpdateValue("reps", values.map(Number));
                 }}
               />
               <ExerciseField
                 property="sets"
                 icon={<BsArrowRepeat size={18} />}
                 value={sets}
-                onChange={(value) => handleUpdateValue({ sets: Number(value) })}
+                onChange={(value) => handleUpdateValue("sets", Number(value))}
                 hide={!detailsToShow.includes("sets")}
               />
               <ExercisePyramidField
@@ -252,17 +240,7 @@ export function ExerciseItem({
                 hide={!detailsToShow.includes("time")}
                 sets={sets ?? 1}
                 onChange={(values) => {
-                  const time = Number(values[0]);
-                  if (values.length === 1)
-                    handleUpdateValue({
-                      time,
-                      pyramidTime: null,
-                    });
-                  else
-                    handleUpdateValue({
-                      time,
-                      pyramidTime: values.map(Number),
-                    });
+                  handleUpdateValue("time", values.map(Number));
                 }}
               />
               <ExerciseField
@@ -270,10 +248,10 @@ export function ExerciseItem({
                 type="text"
                 icon={<BiDumbbell size={20} />}
                 value={material}
-                onChange={(value) =>
-                  handleUpdateValue({ material: value.toString() })
-                }
                 hide={!detailsToShow.includes("material")}
+                onChange={(value) => {
+                  handleUpdateValue("material", value);
+                }}
               />
             </div>
             <div
