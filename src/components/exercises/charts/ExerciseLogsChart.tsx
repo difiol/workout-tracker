@@ -10,7 +10,8 @@ import { useTranslations } from "next-intl";
 import { convertWeightTo } from "@/utils/wieght";
 import { usePreferences } from "@/store/usePreferences";
 import { ExerciseLogsChartTooltip } from "./ExerciseLogsChartTooltip";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 const chartConfig = {} satisfies ChartConfig;
 
@@ -32,6 +33,9 @@ export function ExerciseLogsChart({
   const t = useTranslations("ExerciseLogs");
   const { weightUnit } = usePreferences();
   const [isActive, setIsActive] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useClickOutside(ref, () => setIsActive(false));
 
   const checkKey = (key: YKeys): YKeys => {
     switch (key) {
@@ -49,7 +53,7 @@ export function ExerciseLogsChart({
   if (!logs.length) return <p className="w-fit p-10 m-auto">{t("no-logs")}</p>;
 
   return (
-    <ChartContainer config={chartConfig} className={className}>
+    <ChartContainer config={chartConfig} className={className} ref={ref}>
       <AreaChart
         accessibilityLayer
         data={logs.map((log) => ({
