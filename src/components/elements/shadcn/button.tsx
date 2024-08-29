@@ -18,7 +18,7 @@ export const buttonVariants = cva(
         danger:
           "bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
         outline:
-          "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+          "border-2 border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900 dark:bg-transparent dark:border-slate-500 dark:hover:bg-slate-700 dark:hover:text-slate-50",
         ghost:
           "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         link: "text-blue-500 underline-offset-4 hover:underline",

@@ -16,7 +16,7 @@ interface Props {
   size?: "sm" | "md" | "lg";
 }
 
-const timeFormat = {
+const dateFormat = {
   sm: "D MMM",
   md: "D MMMM - HH:mm",
   lg: "D MMMM YYYY - HH:mm",
@@ -33,12 +33,13 @@ export const ExerciseLogsChartTooltip = ({
 
   if (!active || !payload?.length) return null;
 
-  const { weight, reps, sets, time } = payload[0].payload;
+  const { weight, reps, sets, time, pyramidWeight, pyramidReps, pyramidTime } =
+    payload[0].payload;
 
   return (
     <div className="z-50 flex flex-col gap-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg">
       <h5 className="font-semibold text-lg">
-        {dayjs(label).format(timeFormat[size])}
+        {dayjs(label).format(dateFormat[size])}
       </h5>
       <Separator className="mt-0" />
       {!!weight && (
@@ -49,7 +50,7 @@ export const ExerciseLogsChartTooltip = ({
         >
           <div>{t("weight")}:</div>
           <p>
-            <Weight showUnit>{weight}</Weight>
+            <Weight showUnit>{pyramidWeight ?? weight}</Weight>
           </p>
         </span>
       )}
@@ -60,7 +61,7 @@ export const ExerciseLogsChartTooltip = ({
           })}
         >
           <div>{t("reps")}:</div>
-          <p>{reps}</p>
+          <p>{pyramidReps?.join(", ") ?? reps}</p>
         </span>
       )}
       {!!sets && (

@@ -32,6 +32,7 @@
     "save-new-workout": "Nueva rutina",
     "save-workout-as": "Guardar rutina como",
     "save-workout-as-description": "Se guardarán dentro de esta rutina los ejercicios que aparecen en pantalla.",
+    "update-workout": "Actualizar rutina",
     "save": "Guardar",
     "create": "Crear",
     "confirm": "Confirmar",
@@ -56,6 +57,10 @@
     "remove-workout": {
       "title": "Eliminar rutina",
       "description": "Esta acción eliminará la rutina de forma permanente. No se borrarán los registros de ejercicios relacionados con esta rutina."
+    },
+    "update-workout": {
+      "title": "Actualizar rutina",
+      "description": "Esta acción actualizará la rutina con los cambios realizados. ¿Estás seguro de que quieres continuar?"
     }
   },
   "Errors": {

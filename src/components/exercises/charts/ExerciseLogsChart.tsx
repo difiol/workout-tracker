@@ -7,7 +7,7 @@ import {
 import { ExerciseLog } from "@/types/exercise";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { convertWeightTo } from "@/utils/wieght";
+import { convertWeightTo } from "@/utils/weight";
 import { usePreferences } from "@/store/usePreferences";
 import { ExerciseLogsChartTooltip } from "./ExerciseLogsChartTooltip";
 import { useRef, useState } from "react";

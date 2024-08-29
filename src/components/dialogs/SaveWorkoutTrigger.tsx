@@ -38,7 +38,7 @@ export function SaveWorkoutTrigger({
   className,
 }: Props) {
   const t = useTranslations();
-  const { register, handleSubmit } = useForm<SaveWorkoutInputs>();
+  const { register, handleSubmit, formState } = useForm<SaveWorkoutInputs>();
   const { workouts, addWorkout, updateWorkoutExercises } = useWorkouts();
   const [open, setOpen] = useState(false);
   const [alertIsDisabled, setAlertIsDisabled] = useState(false);
@@ -108,6 +108,7 @@ export function SaveWorkoutTrigger({
             defaultValue={defaultValue}
             register={register}
             onChange={checkIfWorkoutNameExists}
+            required
           />
           <span className="flex justify-evenly">
             <ActionAlertDialog
@@ -116,7 +117,9 @@ export function SaveWorkoutTrigger({
               disabled={alertIsDisabled}
               onConfirm={handleSubmit(onSaveWorkout)}
             >
-              <Button type="button">{t("Actions.save")}</Button>
+              <Button type="button" disabled={!formState.isValid}>
+                {t("Actions.save")}
+              </Button>
             </ActionAlertDialog>
           </span>
         </form>

@@ -32,6 +32,7 @@
     "save-workout-as": "Save workout as",
     "save-workout-as-description": "The exercises shown on screen will be saved inside this workout.",
     "save-new-workout": "New workout",
+    "update-workout": "Update workout",
     "save": "Save",
     "create": "Create",
     "confirm": "Confirm",
@@ -56,6 +57,10 @@
     "remove-workout": {
       "title": "Delete workout",
       "description": "This action will permanently delete the workout. The exercise records related to this workout will not be deleted."
+    },
+    "update-workout": {
+      "title": "Update workout",
+      "description": "This action will update the workout with the new exercises. The previous exercises will be deleted."
     }
   },
   "Errors": {

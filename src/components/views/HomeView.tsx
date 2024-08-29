@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
-import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
 import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { useWorkouts } from "@/store/useWorkouts";
 import { useTranslations } from "next-intl";
+import { UpdateWorkoutTrigger } from "../dialogs/UpdateWorkoutTrigger";
 type Props = {
   className?: string;
 };
@@ -88,11 +88,10 @@ export function HomeView({ className }: Props) {
         removeExercise={removeExercise}
         className="m-auto px-5"
       />
-      <div className="w-full flex justify-center mt-auto mt-6 mb-32">
-        <SaveWorkoutTrigger
+      <div className="w-full flex justify-center gap-4 mt-auto mt-6 mb-32">
+        <UpdateWorkoutTrigger
           exercisesToSave={[...todoExercises, ...done]}
-          description={t("save-workout-as-description")}
-          defaultValue={activeWorkout?.name}
+          workout={activeWorkout}
         />
       </div>
     </section>
