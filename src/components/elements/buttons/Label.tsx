@@ -2,14 +2,12 @@ import { cn } from "@/lib/utils";
 import React, { MouseEvent, ReactNode } from "react";
 
 type Props = {
-  text: string;
+  children: ReactNode;
   onClick: (e: MouseEvent<HTMLElement>) => void;
-  onRemove?: () => void;
-  labelButton?: ReactNode;
   className?: string;
 };
 
-export function Label({ text, onClick, labelButton, className }: Props) {
+export function Label({ children, onClick, className }: Props) {
   return (
     <button
       onClick={onClick}
@@ -19,8 +17,7 @@ export function Label({ text, onClick, labelButton, className }: Props) {
         className
       )}
     >
-      <p className="capitalize-first">{text}</p>
-      {labelButton}
+      {children}
     </button>
   );
 }

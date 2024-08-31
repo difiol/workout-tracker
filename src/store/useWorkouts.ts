@@ -11,6 +11,7 @@ import {
   getSupabaseUserWorkouts,
   removeAllSupabaseExercisesFromWorkout,
   removeSupabaseWorkout,
+  updateSupabaseWorkout,
 } from "@/lib/supabase/requests/workouts";
 import { createClient } from "@/lib/supabase/client";
 import { getClientUser } from "@/utils/cookies/client";
@@ -34,6 +35,7 @@ type WorkoutStore = {
   activeWorkout: Workout | null;
   done: WorkoutExercise[];
   addWorkout: (params: CreateWorkout, options?: Options) => void;
+  updateWorkout: (workout: Omit<Partial<Workout>, "exercises"> & {id: string}, options?: Options) => void;
   updateWorkoutExercises: (params: UpdateWorkoutExercises) => void;
   deleteWorkout: (id: string, options?: Options) => void;
   selectWorkout: (id: string) => void;
@@ -68,6 +70,25 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       workouts: [newWorkout, ...state.workouts],
       activeWorkout: newWorkout,
     }));
+  },
+  updateWorkout: async (workout,options) => {
+    if (getClientUser()) {
+      const updatedWorkout = await updateSupabaseWorkout(supabaseClient, workout);
+      if(!updatedWorkout){
+        options?.messages?.error && toast.error(options.messages.error);
+        return;
+        }
+        else
+          options?.messages?.success && toast.success(options.messages.success);
+      }
+    set((state) => {
+      const updatedWorkouts = state.workouts.map((existingWorkout) =>
+        existingWorkout.id === workout.id ? { ...existingWorkout, ...workout } : existingWorkout
+      );
+      return {
+        workouts: updatedWorkouts,
+      };
+    });
   },
 
   updateWorkoutExercises: async ({ workoutId, exercises }) => {

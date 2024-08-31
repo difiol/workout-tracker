@@ -7,7 +7,7 @@ export const EXERCISES_TABLE = "exercises";
 export const EXERCISE_LOGS_TABLE = "exercise_logs";
 
 export const getSupabaseExercises = async (client: SupabaseClient<SupabaseDatabase>) => {
-  const {data, error} = await client.from(EXERCISES_TABLE).select();
+  const {data, error} = await client.from(EXERCISES_TABLE).select().order("name", { ascending: true });
 
   if (error) 
     throw error;

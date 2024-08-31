@@ -24,6 +24,8 @@ import { CgDetailsMore } from "react-icons/cg";
 import { GoGraph } from "react-icons/go";
 import { ExercisePyramidField } from "../fields/ExercisePyramidField";
 import { capitalize } from "@/utils/text/capitalize";
+import { EditableText } from "@/components/elements/inputs/EditableText";
+import { useExercises } from "@/store/useExercises";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -58,6 +60,7 @@ export function ExerciseItem({
   const [touchStartX, setTouchStartX] = useState(0);
   const removeRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
+  const { updateExercise: updateExerciseName } = useExercises();
 
   const { id, name, weight, reps, sets, time, material } = exercise;
   const hideEmptyDetails = !!(weight || reps || sets || time || material);
@@ -69,8 +72,13 @@ export function ExerciseItem({
       : ["weight", "reps", "sets", "time", "material"]
   );
 
-  const handleOnClick: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleOnClick: MouseEventHandler = () => {
     onClick?.(id);
+  };
+
+  const handleChangeName = (name: string) => {
+    updateExerciseName?.({ id, name });
+    updateExercise?.({ ...exercise, name });
   };
 
   const handleUpdateValue = (
@@ -90,7 +98,7 @@ export function ExerciseItem({
     setTouchStartX(e.changedTouches[0].screenX);
   };
 
-  const handleMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleMouseDown: MouseEventHandler = (e) => {
     setTouchStartX(e.screenX);
   };
 
@@ -113,7 +121,7 @@ export function ExerciseItem({
     }
   };
 
-  const handleMouseMove: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleMouseMove: MouseEventHandler = (e) => {
     const offset = e.screenX - touchStartX;
     if (e.buttons) {
       if (offset > 0 && offset < offsetLimit) {
@@ -151,7 +159,7 @@ export function ExerciseItem({
     doneRef.current?.style.setProperty("transform", "translateX(0)");
   };
 
-  const handleMouseUp: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleMouseUp: MouseEventHandler = (e) => {
     const offset = e.screenX - touchStartX;
 
     // Swipe right
@@ -180,7 +188,7 @@ export function ExerciseItem({
       )}
     >
       <div className="w-full ">
-        <button
+        <div
           onClick={handleOnClick}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -188,10 +196,20 @@ export function ExerciseItem({
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          className="flex w-full p-3 text-xl xs:text-2xl font-bold self-center"
+          className="flex w-full p-3 self-center"
         >
-          <h2 className="w-full capitalize-first">{name}</h2>
-        </button>
+          <EditableText
+            nonEditable={!isActive}
+            notAllowNewLine
+            classes={{
+              container: "m-auto",
+              text: "text-xl xs:text-2xl font-bold",
+            }}
+            onChange={handleChangeName}
+          >
+            {capitalize(name)}
+          </EditableText>
+        </div>
 
         {isActive && (
           <div>

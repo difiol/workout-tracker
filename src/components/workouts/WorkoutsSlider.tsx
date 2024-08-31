@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils";
 import React, { MouseEvent } from "react";
 import { useTranslations } from "next-intl";
 import { useWorkouts } from "@/store/useWorkouts";
-import WorkoutLabel from "./WorkoutLabel";
-import { FaPlus } from "react-icons/fa6";
+import { WorkoutLabel } from "./WorkoutLabel";
 import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
+import { cn } from "@/lib/utils";
+import { FaPlus } from "react-icons/fa6";
 
 type Props = {
   className?: string;
@@ -12,8 +12,13 @@ type Props = {
 
 export function WorkoutsSlider({ className }: Props) {
   const t = useTranslations();
-  const { workouts, activeWorkout, selectWorkout, deleteWorkout } =
-    useWorkouts();
+  const {
+    workouts,
+    activeWorkout,
+    selectWorkout,
+    updateWorkout,
+    deleteWorkout,
+  } = useWorkouts();
 
   const handleClickWorkoutLabel = (e: MouseEvent<HTMLElement>, id: string) => {
     selectWorkout(id);
@@ -22,6 +27,27 @@ export function WorkoutsSlider({ className }: Props) {
       block: "end",
       inline: "end",
     });
+  };
+
+  const handleRemoveWorkout = (id: string) =>
+    deleteWorkout(id, {
+      messages: {
+        success: t("Success.workout-deleted"),
+        error: t("Errors.workout-not-deleted"),
+      },
+    });
+
+  const handleChangeName = (name: string) => {
+    if (activeWorkout)
+      updateWorkout(
+        { id: activeWorkout.id, name },
+        {
+          messages: {
+            success: t("Success.workout-updated"),
+            error: t("Errors.workout-not-updated"),
+          },
+        }
+      );
   };
 
   return (
@@ -46,14 +72,8 @@ export function WorkoutsSlider({ className }: Props) {
               name={name}
               onClick={(e) => handleClickWorkoutLabel(e, id)}
               isActive={activeWorkout?.id === id}
-              onRemove={() =>
-                deleteWorkout(id, {
-                  messages: {
-                    success: t("Success.workout-deleted"),
-                    error: t("Errors.workout-not-deleted"),
-                  },
-                })
-              }
+              onEdit={handleChangeName}
+              onRemove={() => handleRemoveWorkout(id)}
             />
           ))
         )}

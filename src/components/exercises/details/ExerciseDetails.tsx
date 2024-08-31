@@ -6,7 +6,6 @@ import { Exercise, ExerciseLog, UpdateExercise } from "@/types/exercise";
 import { capitalize } from "@/utils/text/capitalize";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import React from "react";
 import { toast } from "sonner";
 
 type Props = {
@@ -20,22 +19,25 @@ const client = createClient();
 
 export function ExerciseDetails({ exercise, className }: Props) {
   const t = useTranslations("Dates");
-  const { mutate } = useMutation({
+  const { mutate: updateName } = useMutation({
     mutationFn: (data: UpdateExercise) => updateSupabaseExercise(client, data),
     onSuccess: () => {
       toast.success("Exercise updated");
     },
   });
 
-  const handleChangeTitle = (name: string) => {
-    mutate({ id: exercise.id, name });
+  const handleChangeName = (name: string) => {
+    updateName({ id: exercise.id, name });
   };
 
   return (
     <section className={cn("max-w-4xl m-auto", className)}>
       <EditableText
-        classes={{ text: "capitalize-first text-2xl font-bold" }}
-        onChange={handleChangeTitle}
+        classes={{
+          text: "capitalize-first text-2xl font-bold",
+          container: "mt-10",
+        }}
+        onChange={handleChangeName}
       >
         {capitalize(exercise.name)}
       </EditableText>

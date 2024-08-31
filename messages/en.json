@@ -70,11 +70,13 @@
     "empty-field": "This field can't be empty",
     "exercise-not-found": "Exercise not found",
     "workout-not-created": "Something went wrong while saving the workout",
+    "workout-not-updated": "Something went wrong while updating the workout",
     "workout-not-deleted": "Something went wrong while deleting the workout",
     "workout-exists": "A workout with this name already exists"
   },
   "Success": {
     "workout-created": "Workout created successfully",
+    "workout-updated": "Workout updated successfully",
     "workout-deleted": "Workout deleted successfully"
   },
   "Dates": {

@@ -41,7 +41,7 @@ export const createSupabaseWorkout = async (
 
 export const updateSupabaseWorkout = async (
   client: SupabaseClient<SupabaseDatabase>,
-  workout: Omit<Workout, "exercises">
+  workout: Omit<Partial<Workout>, "exercises"> & {id: string}
 ) => {
   return client.from(WORKOUTS_TABLE).update(workout).eq("id", workout.id);
 };

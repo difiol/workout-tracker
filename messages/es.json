@@ -70,11 +70,13 @@
     "empty-field": "Este campo no puede estar vacío",
     "exercise-not-found": "Ejercicio no encontrado",
     "workout-not-created": "No se pudo crear la rutina correctamente",
+    "workout-not-updated": "No se pudo actualizar la rutina correctamente",
     "workout-not-deleted": "No se pudo borrar la rutina correctamente",
     "workout-exists": "Ya existe una rutina con este nombre"
   },
   "Success": {
     "workout-created": "Rutina creada correctamente",
+    "workout-updated": "Rutina actualizada correctamente",
     "workout-deleted": "Rutina eliminada correctamente"
   },
   "Dates": {

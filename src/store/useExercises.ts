@@ -1,18 +1,28 @@
 import { create } from "zustand";
 
 import { createClient } from "@/lib/supabase/client";
-import { Exercise, WorkoutExercise } from "@/types/exercise";
+import { Exercise } from "@/types/exercise";
 import {
   createSupabaseExercise,
   deleteSupabaseExercise,
   getSupabaseExercises,
+  updateSupabaseExercise,
 } from "@/lib/supabase/requests/exercises";
 import { getClientUser } from "@/utils/cookies/client";
+import { toast } from "sonner";
+
+interface Options {
+  messages?: {
+    success: string;
+    error: string;
+  };
+}
 
 type ExercisesStore = {
   exercises: Exercise[];
-  createExercise: (name: string) => Promise<Exercise>;
-  deleteExercise: (id: string) => void;
+  createExercise: (name: string, options?: Options) => Promise<Exercise>;
+  updateExercise: (exercise: Partial<Exercise> & {id: string}, options?: Options) => void;
+  deleteExercise: (id: string, options?: Options) => void;
   loadExercises: () => void;
 };
 
@@ -37,6 +47,22 @@ export const useExercises = create<ExercisesStore>()((set) => ({
 
     set((state) => ({ exercises: [...state.exercises, exercise] }));
     return exercise as Exercise;
+  },
+  updateExercise: async (exercise, options) => {
+    if(getClientUser()){
+      const updatedExercise = await updateSupabaseExercise(supabaseClient, exercise)
+      if(!updatedExercise){
+        options?.messages?.error && toast.error(options.messages.error);
+        return;
+        }
+        else
+          options?.messages?.success && toast.success(options.messages.success);
+      }
+    set((state) => ({
+      exercises: state.exercises.map((ex) =>
+        ex.id === exercise.id ? { ...ex, ...exercise } : ex
+      ),
+    }));
   },
   deleteExercise: async (id) => {
     await deleteSupabaseExercise(supabaseClient, id);
