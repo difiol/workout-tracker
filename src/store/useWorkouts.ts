@@ -4,7 +4,6 @@ import {
   UpdateWorkoutExercises,
   Workout,
 } from "@/types/workout";
-import { defaultWorkouts } from "./data/workouts";
 import {
   addSupabaseExercisesToWorkout,
   createSupabaseWorkout,
@@ -36,7 +35,7 @@ type WorkoutStore = {
   done: WorkoutExercise[];
   addWorkout: (params: CreateWorkout, options?: Options) => void;
   updateWorkout: (workout: Omit<Partial<Workout>, "exercises"> & {id: string}, options?: Options) => void;
-  updateWorkoutExercises: (params: UpdateWorkoutExercises) => void;
+  updateWorkoutExercises: (params: UpdateWorkoutExercises, options?: Options) => void;
   deleteWorkout: (id: string, options?: Options) => void;
   selectWorkout: (id: string) => void;
   loadWorkouts: () => void;
@@ -91,15 +90,21 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
     });
   },
 
-  updateWorkoutExercises: async ({ workoutId, exercises }) => {
+  updateWorkoutExercises: async ({ workoutId, exercises },options) => {
     if (getClientUser()) {
       //Remove all workout exercises
-      await removeAllSupabaseExercisesFromWorkout(supabaseClient, workoutId);
+      const removeRes = await removeAllSupabaseExercisesFromWorkout(supabaseClient, workoutId);
       //Add new workout exercises
-      await addSupabaseExercisesToWorkout(supabaseClient, {
+      const addRes = await addSupabaseExercisesToWorkout(supabaseClient, {
         workoutId,
         exercises,
       });
+      if (!removeRes || !addRes) {
+        options?.messages?.error && toast.error(options.messages.error);
+        return;
+      }
+      else
+        options?.messages?.success && toast.success(options.messages.success);
     }
 
     set((state) => {

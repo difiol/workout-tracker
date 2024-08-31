@@ -1,4 +1,3 @@
-import React from "react";
 import { WorkoutExercise } from "@/types/exercise";
 import { useTranslations } from "next-intl";
 import { useWorkouts } from "@/store/useWorkouts";

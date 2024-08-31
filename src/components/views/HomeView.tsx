@@ -4,24 +4,12 @@ import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { useWorkouts } from "@/store/useWorkouts";
-import { useTranslations } from "next-intl";
 import { UpdateWorkoutTrigger } from "../dialogs/UpdateWorkoutTrigger";
 type Props = {
   className?: string;
 };
 
-const generateTodoExercises = (
-  workoutExercises: WorkoutExercise[],
-  done: WorkoutExercise[]
-) => {
-  const result = workoutExercises.filter(
-    (exercise) => !done.find((doneExercise) => doneExercise.id === exercise.id)
-  );
-  return result;
-};
-
 export function HomeView({ className }: Props) {
-  const t = useTranslations("Actions");
   const { done, activeWorkout, addExerciseToDone, removeExerciseFromDone } =
     useWorkouts();
   const [todoExercises, setTodoExercises] = useState<WorkoutExercise[]>([]);
@@ -59,24 +47,32 @@ export function HomeView({ className }: Props) {
   };
 
   const markAsDone = (exercise: WorkoutExercise) => {
-    setTodoExercises((prev) => prev.filter(({ id }) => id !== exercise.id));
     addExerciseToDone({ ...exercise, order: done.length }, activeWorkout?.id);
   };
 
   const markAsUndone = (exercise: WorkoutExercise) => {
-    setTodoExercises((prev) => [exercise, ...prev]);
     removeExerciseFromDone(exercise.logId ?? exercise.id);
   };
 
+  const isWorkoutModified = () => {
+    if (!activeWorkout) return false;
+
+    const { exercises } = activeWorkout;
+    if (exercises.length !== todoExercises.length) return true;
+
+    return exercises.some((exercise, index) => {
+      const modified = todoExercises[index];
+      return exercise.id !== modified.id;
+    });
+  };
+
   useEffect(() => {
-    setTodoExercises(
-      generateTodoExercises(activeWorkout?.exercises ?? [], done)
-    );
+    setTodoExercises(activeWorkout?.exercises ?? []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWorkout]);
 
   return (
-    <section className={className}>
+    <div className={className}>
       <WorkoutsSlider className="mt-2 px-5" />
       <WorkoutExercises
         todo={todoExercises}
@@ -89,11 +85,13 @@ export function HomeView({ className }: Props) {
         className="m-auto px-5"
       />
       <div className="w-full flex justify-center gap-4 mt-auto mt-6 mb-32">
-        <UpdateWorkoutTrigger
-          exercisesToSave={[...todoExercises, ...done]}
-          workout={activeWorkout}
-        />
+        {isWorkoutModified() && (
+          <UpdateWorkoutTrigger
+            exercisesToSave={todoExercises}
+            workout={activeWorkout}
+          />
+        )}
       </div>
-    </section>
+    </div>
   );
 }

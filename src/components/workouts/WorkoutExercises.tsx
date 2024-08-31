@@ -92,19 +92,23 @@ export function WorkoutExercises({
         className
       )}
     >
-      {todo.map((exercise) => (
-        <ExerciseItem
-          key={exercise.id}
-          exercise={exercise}
-          onClick={handleClick}
-          swipeRightElement={markDoneExerciseSwipeElement}
-          onSwipeRight={markAsDone}
-          swipeLeftElement={removeExerciseSwipeElement}
-          onSwipeLeft={removeExercise}
-          updateExercise={updateExercise}
-          isActive={active === exercise.id}
-        />
-      ))}
+      {todo.map((exercise) => {
+        if (done.some((doneExercise) => doneExercise.id === exercise.id))
+          return null;
+        return (
+          <ExerciseItem
+            key={exercise.id}
+            exercise={exercise}
+            onClick={handleClick}
+            swipeRightElement={markDoneExerciseSwipeElement}
+            onSwipeRight={markAsDone}
+            swipeLeftElement={removeExerciseSwipeElement}
+            onSwipeLeft={removeExercise}
+            updateExercise={updateExercise}
+            isActive={active === exercise.id}
+          />
+        );
+      })}
       <ExerciseAutocomplete
         onSubmit={handleAddExercise}
         onFocus={clearActiveExercise}

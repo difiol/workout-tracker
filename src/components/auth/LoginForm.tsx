@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -53,10 +52,6 @@ export function LoginForm({ className, onAfterLogin }: Props) {
     error?.name === "AuthApiError"
       ? t("error-credentials")
       : t("error-general");
-
-  useEffect(() => {
-    console.log("error", { ...error });
-  }, [error]);
 
   return (
     <form
