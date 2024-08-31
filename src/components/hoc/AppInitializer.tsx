@@ -13,6 +13,7 @@ import { AuthUser } from "@supabase/supabase-js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
 import { DayjsManager } from "./DayjsManager";
+import { AlertActionDialog } from "../elements/alerts/AlertActionDialog";
 
 type Props = {
   user?: AuthUser | null;
@@ -66,6 +67,7 @@ export function AppInitializer({
           {children}
         </QueryClientProvider>
       </DayjsManager>
+      <AlertActionDialog />
     </body>
   );
 }

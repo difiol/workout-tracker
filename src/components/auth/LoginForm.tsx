@@ -49,24 +49,35 @@ export function LoginForm({ className, onAfterLogin }: Props) {
     });
   };
 
+  const errorMessage =
+    error?.name === "AuthApiError"
+      ? t("error-credentials")
+      : t("error-general");
+
+  useEffect(() => {
+    console.log("error", { ...error });
+  }, [error]);
+
   return (
     <form
       onSubmit={handleSubmit(onLogin)}
-      className={cn("w-full flex flex-col items-center gap-4", className)}
+      className={cn("w-full flex flex-col items-center gap-3", className)}
     >
       <InputText
         name="email"
         label={t("email")}
         type="text"
         register={register}
+        hideErrorMessageSpace
       />
       <InputText
         name="password"
         label={t("password")}
         type="password"
         register={register}
+        hideErrorMessageSpace
       />
-      <p className="text-red-500">{error?.message}</p>
+      <p className="text-red-500 text-sm">{error && errorMessage}</p>
       <Button type="submit" disabled={isPending}>
         {t("login")}
       </Button>

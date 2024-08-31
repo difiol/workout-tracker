@@ -28,7 +28,7 @@ export function LoginTrigger({ children, className, onAfterLogin }: Props) {
       <DialogTrigger className={className}>{children}</DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
-          <DialogTitle className="text-2xl">{t("login")}</DialogTitle>
+          <DialogTitle className="text-2xl">{t("welcome")}</DialogTitle>
         </DialogHeader>
         <LoginForm onAfterLogin={handleAfterLogin} />
       </DialogContent>
