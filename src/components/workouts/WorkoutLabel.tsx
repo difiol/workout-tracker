@@ -1,11 +1,11 @@
 import React, { MouseEvent } from "react";
 import { Label } from "@/components/elements/buttons/Label";
-import { ActionAlertDialog } from "@/components/elements/alerts/ActionAlertDialog";
 import { IoCloseOutline } from "react-icons/io5";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { EditableText } from "../elements/inputs/EditableText";
 import { capitalize } from "@/utils/text/capitalize";
+import { useAlert } from "@/store/useAlert";
 
 type Props = {
   name: string;
@@ -23,6 +23,15 @@ export function WorkoutLabel({
   onRemove,
 }: Props) {
   const t = useTranslations("Alerts.remove-workout");
+  const { displayAlert } = useAlert();
+
+  const handleClick = () => {
+    displayAlert({
+      title: t("Alerts.update-workout.title"),
+      description: t("Alerts.update-workout.description"),
+      onConfirm: onRemove,
+    });
+  };
   return (
     <Label
       onClick={onClick}
@@ -38,14 +47,10 @@ export function WorkoutLabel({
       >
         {capitalize(name)}
       </EditableText>
-      {isActive && onRemove && (
-        <ActionAlertDialog
-          title={t("title")}
-          description={t("description")}
-          onConfirm={onRemove}
-        >
+      {isActive && (
+        <button onClick={handleClick}>
           <IoCloseOutline size={18} />
-        </ActionAlertDialog>
+        </button>
       )}
     </Label>
   );
