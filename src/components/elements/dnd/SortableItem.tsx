@@ -24,7 +24,7 @@ export function SortableItem({ id, children, classes }: Props) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    touchAction: "none",
+    ...(isDragging && { touchAction: "none" }),
   };
 
   return (
