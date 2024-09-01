@@ -209,7 +209,7 @@ export function ExerciseItem({
             notAllowNewLine
             classes={{
               container: "m-auto",
-              text: "text-xl xs:text-2xl font-bold",
+              text: "text-xl xs:text-2xl font-bold select-none",
             }}
             onChange={handleChangeName}
           >
