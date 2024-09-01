@@ -1,5 +1,7 @@
 "use client";
 
+import { AuthUser } from "@supabase/supabase-js";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { useExercises } from "@/store/useExercises";
 import { usePreferences } from "@/store/usePreferences";
@@ -9,8 +11,6 @@ import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { Preferences } from "@/types/preferences";
 import { Workout } from "@/types/workout";
 import { getPreferredTheme } from "@/utils/theme";
-import { AuthUser } from "@supabase/supabase-js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
 import { DayjsManager } from "./DayjsManager";
 import { AlertActionDialog } from "../elements/alerts/AlertActionDialog";

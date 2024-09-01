@@ -37,6 +37,7 @@ type Props = {
   updateExercise?: (exercise: WorkoutExercise) => void;
   isActive?: boolean;
   isDone?: boolean;
+  isDragging?: boolean;
   className?: string;
 };
 
@@ -53,6 +54,7 @@ export function ExerciseItem({
   updateExercise,
   isActive = false,
   isDone = false,
+  isDragging = false,
   className,
 }: Props) {
   const { weightUnit } = usePreferences();
@@ -190,13 +192,17 @@ export function ExerciseItem({
       <div className="w-full ">
         <div
           onClick={handleOnClick}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
+          {...(!isDragging && {
+            onTouchStart: handleTouchStart,
+            onTouchMove: handleTouchMove,
+            onTouchEnd: handleTouchEnd,
+            onMouseDown: handleMouseDown,
+            onMouseMove: handleMouseMove,
+            onMouseUp: handleMouseUp,
+          })}
           className="flex w-full p-3 self-center"
+          tabIndex={0}
+          role="button"
         >
           <EditableText
             nonEditable={!isActive}

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
@@ -77,6 +78,7 @@ export function HomeView({ className }: Props) {
       <WorkoutExercises
         todo={todoExercises}
         done={done}
+        setTodo={setTodoExercises}
         addExercise={addExercise}
         updateExercise={updateExercise}
         markAsDone={markAsDone}
