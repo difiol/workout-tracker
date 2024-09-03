@@ -5,6 +5,8 @@ import { WorkoutLabel } from "./WorkoutLabel";
 import { SaveWorkoutTrigger } from "../dialogs/SaveWorkoutTrigger";
 import { cn } from "@/lib/utils";
 import { FaPlus } from "react-icons/fa6";
+import { Workout } from "@/types/workout";
+import { DragAndDropSortableList } from "../elements/dnd/DragAndDropSortableList";
 
 type Props = {
   className?: string;
@@ -17,6 +19,7 @@ export function WorkoutsSlider({ className }: Props) {
     activeWorkout,
     selectWorkout,
     updateWorkout,
+    updateWorkouts,
     deleteWorkout,
   } = useWorkouts();
 
@@ -50,6 +53,10 @@ export function WorkoutsSlider({ className }: Props) {
       );
   };
 
+  const handleDragEnd = (resortedWorkouts: Workout[]) => {
+    updateWorkouts(resortedWorkouts);
+  };
+
   return (
     <div className={cn("w-full overflow-x-auto", className)}>
       <div className="w-fit flex gap-2 mx-auto py-3">
@@ -66,16 +73,22 @@ export function WorkoutsSlider({ className }: Props) {
             {t("Workout.no-workouts")}
           </p>
         ) : (
-          workouts.map(({ id, name }) => (
-            <WorkoutLabel
-              key={id}
-              name={name}
-              onClick={(e) => handleClickWorkoutLabel(e, id)}
-              isActive={activeWorkout?.id === id}
-              onEdit={handleChangeName}
-              onRemove={() => handleRemoveWorkout(id)}
-            />
-          ))
+          <DragAndDropSortableList
+            direction="horizontal"
+            items={workouts}
+            renderItem={({ id, name }: Workout) => (
+              <WorkoutLabel
+                key={id}
+                name={name}
+                onClick={(e) => handleClickWorkoutLabel(e, id)}
+                isActive={activeWorkout?.id === id}
+                onEdit={handleChangeName}
+                onRemove={() => handleRemoveWorkout(id)}
+              />
+            )}
+            onDragEnd={handleDragEnd}
+            draggingClass="rounded-full"
+          />
         )}
       </div>
     </div>

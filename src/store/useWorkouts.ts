@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import {
   CreateWorkout,
+  UpdateWorkout,
   UpdateWorkoutExercises,
   Workout,
 } from "@/types/workout";
@@ -11,6 +12,7 @@ import {
   removeAllSupabaseExercisesFromWorkout,
   removeSupabaseWorkout,
   updateSupabaseWorkout,
+  updateSupabaseWorkouts,
 } from "@/lib/supabase/requests/workouts";
 import { createClient } from "@/lib/supabase/client";
 import { getClientUser } from "@/utils/cookies/client";
@@ -34,7 +36,8 @@ type WorkoutStore = {
   activeWorkout: Workout | null;
   done: WorkoutExercise[];
   addWorkout: (params: CreateWorkout, options?: Options) => void;
-  updateWorkout: (workout: Omit<Partial<Workout>, "exercises"> & {id: string}, options?: Options) => void;
+  updateWorkout: (workout:UpdateWorkout , options?: Options) => void;
+  updateWorkouts: (workouts: UpdateWorkout[], options?: Options) => void;
   updateWorkoutExercises: (params: UpdateWorkoutExercises, options?: Options) => void;
   deleteWorkout: (id: string, options?: Options) => void;
   selectWorkout: (id: string) => void;
@@ -50,8 +53,9 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
   activeWorkout: null,
   done: [],
   addWorkout: async ({ name, exercises }, options) => {
-    //Create the workout in the database only if it doesn't exist
-    const workout = await createSupabaseWorkout(supabaseClient, name);
+    // Create the workout in the database only if it doesn't exist
+    // The -1 order ensure that the workout will appear first until the user reorders it
+    const workout = await createSupabaseWorkout(supabaseClient, {name, order: -1});
     if (!workout) {
       options?.messages?.error && toast.error(options.messages.error);
       return;
@@ -88,6 +92,33 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
         workouts: updatedWorkouts,
       };
     });
+  },
+  updateWorkouts: async (workouts, options) => {
+    let updatedWorkouts: Workout[] = [];
+    set((state) => {
+      updatedWorkouts = workouts.reduce((acc: Workout[], workout, index) => {
+        const existingWorkout = state.workouts.find(
+          (existingWorkout) => existingWorkout.id === workout.id
+        );
+        if (existingWorkout) {
+          acc.push({ ...existingWorkout, ...workout, order: index });
+        }
+        return acc;
+      }, [] as Workout[]);
+      
+      return {
+        workouts: updatedWorkouts,
+      };
+    });
+
+        if (getClientUser()) {
+          const updateWorkoutsRes = await updateSupabaseWorkouts(supabaseClient, updatedWorkouts);
+          if (!updateWorkoutsRes) {
+            options?.messages?.error && toast.error(options.messages.error);
+            return;
+          } else 
+            options?.messages?.success && toast.success(options.messages.success);
+        }
   },
 
   updateWorkoutExercises: async ({ workoutId, exercises },options) => {

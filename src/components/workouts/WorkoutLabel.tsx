@@ -22,7 +22,7 @@ export function WorkoutLabel({
   onEdit,
   onRemove,
 }: Props) {
-  const t = useTranslations("Alerts.remove-workout");
+  const t = useTranslations();
   const { displayAlert } = useAlert();
 
   const handleClick = () => {

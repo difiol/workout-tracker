@@ -200,7 +200,7 @@ export function ExerciseItem({
             onMouseMove: handleMouseMove,
             onMouseUp: handleMouseUp,
           })}
-          className="flex w-full p-3 self-center"
+          className={"flex w-full p-3 self-center"}
           tabIndex={0}
           role="button"
         >

@@ -15,6 +15,7 @@ export const mapSupabaseWorkoutsWithExercises = (
     return {
       id: workout.id,
       name: workout.name,
+      order: workout.order,
       createdAt: workout.created_at,
       exercises,
     };

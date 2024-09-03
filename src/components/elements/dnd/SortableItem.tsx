@@ -6,12 +6,10 @@ import { cn } from "@/lib/utils";
 type Props = {
   id: string;
   children: React.ReactNode;
-  classes?: {
-    dragging?: string;
-  };
+  draggingClass?: string;
 };
 
-export function SortableItem({ id, children, classes }: Props) {
+export function SortableItem({ id, children, draggingClass }: Props) {
   const {
     attributes,
     listeners,
@@ -22,7 +20,7 @@ export function SortableItem({ id, children, classes }: Props) {
   } = useSortable({ id });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
     ...(isDragging && { touchAction: "none" }),
   };
@@ -34,7 +32,7 @@ export function SortableItem({ id, children, classes }: Props) {
       {...attributes}
       {...listeners}
       className={cn("w-full list-none", {
-        [`${classes?.dragging}`]: isDragging,
+        [`${draggingClass}`]: isDragging,
       })}
     >
       {children}
