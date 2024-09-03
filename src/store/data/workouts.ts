@@ -5,6 +5,7 @@ export const defaultWorkouts: Workout[] = [
   {
     id: uuidv4(),
     name: "Full body",
+    order: 0,
     exercises: [
       {
         id: uuidv4(),
@@ -72,6 +73,7 @@ export const defaultWorkouts: Workout[] = [
   {
     id: uuidv4(),
     name: "Upper body",
+    order: 1,
     exercises: [
       {
         id: uuidv4(),
@@ -119,6 +121,7 @@ export const defaultWorkouts: Workout[] = [
   {
     id: uuidv4(),
     name: "Lower body",
+    order: 2,
     exercises: [
       {
         id: uuidv4(),
@@ -146,6 +149,7 @@ export const defaultWorkouts: Workout[] = [
   {
     id: uuidv4(),
     name: "Core",
+    order: 3,
     exercises: [
       {
         id: "6",
@@ -163,6 +167,7 @@ export const defaultWorkouts: Workout[] = [
   {
     id: "5",
     name: "Cardio",
+    order: 4,
     exercises: [
       {
         id: "7",
