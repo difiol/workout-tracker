@@ -39,6 +39,14 @@ export function WorkoutExercises({
   const [active, setActive] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
 
+  const filteredTodo = useMemo(
+    () =>
+      todo.filter((exercise) => {
+        return !done.some((doneExercise) => doneExercise.id === exercise.id);
+      }),
+    [done, todo]
+  );
+
   const removeExerciseSwipeElement = useMemo(
     () => (
       <span
@@ -99,7 +107,12 @@ export function WorkoutExercises({
   };
 
   const handleDragEnd = (resortedTodo: WorkoutExercise[]) => {
-    const resortedTodoWithNewOrders = resortedTodo.map((e, i) => ({
+    // Created new Todos using resorted todos and original todo exercises that were filtered out in the beginning
+    const newResortedTodo = [
+      ...resortedTodo,
+      ...todo.filter((e) => !resortedTodo.includes(e)),
+    ];
+    const resortedTodoWithNewOrders = newResortedTodo.map((e, i) => ({
       ...e,
       order: i,
     }));
@@ -115,24 +128,20 @@ export function WorkoutExercises({
       )}
     >
       <DragAndDropSortableList
-        items={todo}
-        renderItem={(exercise) => {
-          if (done.some((doneExercise) => doneExercise.id === exercise.id))
-            return null;
-          return (
-            <ExerciseItem
-              exercise={exercise}
-              onClick={handleClick}
-              swipeRightElement={markDoneExerciseSwipeElement}
-              onSwipeRight={markAsDone}
-              swipeLeftElement={removeExerciseSwipeElement}
-              onSwipeLeft={removeExercise}
-              updateExercise={updateExercise}
-              isActive={active === exercise.id}
-              isDragging={isDragging}
-            />
-          );
-        }}
+        items={filteredTodo}
+        renderItem={(exercise) => (
+          <ExerciseItem
+            exercise={exercise}
+            onClick={handleClick}
+            swipeRightElement={markDoneExerciseSwipeElement}
+            onSwipeRight={markAsDone}
+            swipeLeftElement={removeExerciseSwipeElement}
+            onSwipeLeft={removeExercise}
+            updateExercise={updateExercise}
+            isActive={active === exercise.id}
+            isDragging={isDragging}
+          />
+        )}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         draggingClass="rounded-md"
