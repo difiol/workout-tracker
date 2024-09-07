@@ -23,6 +23,7 @@ import {
   getSupabaseDoneExercisesBySession,
 } from "@/lib/supabase/requests/exercises";
 import { toast } from "sonner";
+import { allEqual } from "@/utils/common";
 
 interface Options {
   messages?: {
@@ -198,14 +199,15 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       exerciseId: id,
       workoutId,
       weight,
-      pyramidWeight,
       reps,
-      pyramidReps,
       sets,
       time,
-      pyramidTime,
       material,
-      order
+      order,
+      // Only add pyramid field if values are not all equal
+      ...(pyramidWeight && !allEqual(pyramidWeight) && {pyramidWeight}),
+      ...(pyramidReps && !allEqual(pyramidReps) && {pyramidReps}),
+      ...(pyramidTime && !allEqual(pyramidTime) && {pyramidTime})
     };
     let logId: string;
     if (getClientUser()) {
