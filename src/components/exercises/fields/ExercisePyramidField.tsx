@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { convertNumberToTime } from "@/utils/time";
 import { InputTimer } from "@/components/elements/inputs/InputTimer";
 import { InputField } from "../../elements/inputs/InputField";
-import { set } from "react-hook-form";
 
 type InputProps = {
   property: "weight" | "reps" | "time" | "sets" | "material";
@@ -16,6 +15,7 @@ type InputProps = {
   unit?: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
   className?: string;
 };
 
@@ -33,6 +33,7 @@ const genInput = ({
   unit,
   min,
   max,
+  disabled,
   className,
 }: InputProps) => {
   switch (type) {
@@ -41,6 +42,7 @@ const genInput = ({
         <InputTimer
           initialValue={convertNumberToTime(Number(value))}
           onChange={(value) => onChange(value.toString())}
+          disabled={disabled}
           classes={{
             container: "w-fit justify-center",
             input: "text-right",
@@ -56,6 +58,7 @@ const genInput = ({
           min={min}
           max={max}
           onChange={onChange}
+          disabled={disabled}
           className={cn(
             "w-fit bg-transparent [field-sizing:content]",
             className
@@ -81,6 +84,7 @@ export function ExercisePyramidField({
   max,
   sets = 1,
   hide = false,
+  disabled,
   className,
 }: Props) {
   const t = useTranslations("Exercise");
@@ -93,6 +97,10 @@ export function ExercisePyramidField({
     const newValues = [...values];
     newValues[i] = value;
     setValues(newValues);
+  };
+
+  const handleToggle = () => {
+    setIsToggled((prev) => !prev);
   };
 
   useEffect(() => {
@@ -114,9 +122,7 @@ export function ExercisePyramidField({
     >
       <span className="flex items-center gap-3">
         <button
-          onClick={() => {
-            setIsToggled((prev) => !prev);
-          }}
+          onClick={handleToggle}
           className={cn("self-start mt-1", { hidden: sets <= 1 })}
         >
           {isToggled ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -131,6 +137,7 @@ export function ExercisePyramidField({
               unit,
               min,
               max,
+              disabled,
               className,
             })
           )}

@@ -8,13 +8,19 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 type Props = {
   initialValue?: Time;
   onChange?: (value: number) => void;
+  disabled?: boolean;
   classes?: {
     container?: string;
     input?: string;
   };
 };
 
-export function InputTimer({ initialValue, onChange, classes }: Props) {
+export function InputTimer({
+  initialValue,
+  onChange,
+  disabled,
+  classes,
+}: Props) {
   const [time, setTime] = useState<Time>(
     initialValue ?? {
       hours: 0,
@@ -94,6 +100,7 @@ export function InputTimer({ initialValue, onChange, classes }: Props) {
         max={99}
         min={0}
         leadingZeros={2}
+        disabled={disabled}
       />
       <span>:</span>
       <InputTime
@@ -102,6 +109,7 @@ export function InputTimer({ initialValue, onChange, classes }: Props) {
         onChange={(value) => handleChange("minutes", value)}
         active={isFocused}
         leadingZeros={2}
+        disabled={disabled}
       />
       <span>:</span>
       <InputTime
@@ -110,6 +118,7 @@ export function InputTimer({ initialValue, onChange, classes }: Props) {
         onChange={(value) => handleChange("seconds", value)}
         active={isFocused}
         leadingZeros={2}
+        disabled={disabled}
       />
     </div>
   );

@@ -14,11 +14,12 @@ type Props = {
   unit?: string;
   min?: number;
   max?: number;
-  className?: string;
   icon: ReactNode;
   isPyramid?: boolean;
   sets?: number;
   hide?: boolean;
+  disabled?: boolean;
+  className?: string;
 };
 
 export function ExerciseField({
@@ -31,6 +32,7 @@ export function ExerciseField({
   min = 0,
   max,
   hide = false,
+  disabled,
   className,
 }: Props) {
   const t = useTranslations("Exercise");
@@ -42,6 +44,7 @@ export function ExerciseField({
       <InputTimer
         initialValue={convertNumberToTime(Number(value))}
         onChange={(value) => onChange(value.toString())}
+        disabled={disabled}
         classes={{
           container: "w-fit justify-center",
           input: "text-right",
@@ -55,6 +58,7 @@ export function ExerciseField({
         min={min}
         max={max}
         onChange={onChange}
+        disabled={disabled}
         className={cn("w-fit bg-transparent [field-sizing:content]", className)}
       />
     );

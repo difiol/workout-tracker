@@ -156,7 +156,9 @@ export function WorkoutExercises({
           key={exercise.id}
           exercise={exercise}
           swipeLeftElement={markUndoneExerciseSwipeElement}
+          onClick={handleClick}
           onSwipeLeft={markAsUndone}
+          isActive={active === exercise.id}
           isDone
         />
       ))}

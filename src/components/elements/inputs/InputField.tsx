@@ -9,6 +9,7 @@ type Props = {
   onChange: (value: string) => void;
   className?: string;
   type?: "number" | "text";
+  disabled?: boolean;
 };
 
 const fallbackValues = {
@@ -22,6 +23,7 @@ export function InputField({
   unit,
   min,
   max,
+  disabled,
   onChange,
   className,
 }: Props) {
@@ -60,6 +62,7 @@ export function InputField({
         onKeyDown={handleEnterKey}
         min={min}
         max={max}
+        disabled={disabled}
       />
       {unit && <p>{unit}</p>}
     </span>

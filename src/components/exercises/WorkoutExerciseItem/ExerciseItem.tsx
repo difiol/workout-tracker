@@ -205,7 +205,7 @@ export function ExerciseItem({
           role="button"
         >
           <EditableText
-            nonEditable={!isActive}
+            nonEditable={!isActive || isDone}
             notAllowNewLine
             classes={{
               container: "m-auto",
@@ -217,80 +217,85 @@ export function ExerciseItem({
           </EditableText>
         </div>
 
-        {isActive && (
-          <div>
-            <div className="w-full flex flex-wrap justify-evenly max-w-md m-auto align-top gap-6 p-2 px-4 sm:px-8 md:pt-2 text-md">
-              <ExercisePyramidField
-                property="weight"
-                type="number"
-                icon={<FaWeightHanging size={14} />}
-                value={convertWeightTo(Number(weight ?? 0), weightUnit)}
-                unit={weightUnit}
-                hide={!detailsToShow.includes("weight")}
-                sets={sets ?? 1}
-                onChange={(values) => {
-                  handleUpdateValue(
-                    "weight",
-                    values.map((value) =>
-                      convertWeightFrom(Number(value), weightUnit)
-                    )
-                  );
-                }}
-              />
-              <ExercisePyramidField
-                property="reps"
-                type="number"
-                icon={<MdSportsMartialArts size={20} />}
-                value={reps}
-                hide={!detailsToShow.includes("reps")}
-                sets={sets ?? 1}
-                onChange={(values) => {
-                  handleUpdateValue("reps", values.map(Number));
-                }}
-              />
-              <ExerciseField
-                property="sets"
-                icon={<BsArrowRepeat size={18} />}
-                value={sets}
-                onChange={(value) => handleUpdateValue("sets", Number(value))}
-                hide={!detailsToShow.includes("sets")}
-              />
-              <ExercisePyramidField
-                property="time"
-                type="time"
-                icon={<ImAlarm size={16} />}
-                value={time}
-                hide={!detailsToShow.includes("time")}
-                sets={sets ?? 1}
-                onChange={(values) => {
-                  handleUpdateValue("time", values.map(Number));
-                }}
-              />
-              <ExerciseField
-                property="material"
-                type="text"
-                icon={<BiDumbbell size={20} />}
-                value={material}
-                hide={!detailsToShow.includes("material")}
-                onChange={(value) => {
-                  handleUpdateValue("material", value);
-                }}
-              />
-            </div>
-            <div
-              className={cn(
-                "w-full flex justify-end items-center gap-2 mt-2 pb-5 px-5 text-lg",
-                {
-                  hidden: !isActive,
-                }
-              )}
-            >
-              <ExerciseChartTrigger exerciseId={exercise.id}>
-                <GoGraph />
-              </ExerciseChartTrigger>
-              <Link href={`${pathname}/exercises/${id}`}>
-                <CgDetailsMore />
-              </Link>
+        <div className={cn({ hidden: !isActive })}>
+          <div className="w-full flex flex-wrap justify-evenly max-w-md m-auto align-top gap-6 p-2 px-4 sm:px-8 md:pt-2 text-md">
+            <ExercisePyramidField
+              property="weight"
+              type="number"
+              icon={<FaWeightHanging size={14} />}
+              value={convertWeightTo(Number(weight ?? 0), weightUnit)}
+              unit={weightUnit}
+              hide={!detailsToShow.includes("weight")}
+              sets={sets ?? 1}
+              onChange={(values) => {
+                handleUpdateValue(
+                  "weight",
+                  values.map((value) =>
+                    convertWeightFrom(Number(value), weightUnit)
+                  )
+                );
+              }}
+              disabled={isDone}
+            />
+            <ExercisePyramidField
+              property="reps"
+              type="number"
+              icon={<MdSportsMartialArts size={20} />}
+              value={reps}
+              hide={!detailsToShow.includes("reps")}
+              sets={sets ?? 1}
+              onChange={(values) => {
+                handleUpdateValue("reps", values.map(Number));
+              }}
+              disabled={isDone}
+            />
+            <ExerciseField
+              property="sets"
+              icon={<BsArrowRepeat size={18} />}
+              value={sets}
+              onChange={(value) => handleUpdateValue("sets", Number(value))}
+              hide={!detailsToShow.includes("sets")}
+              disabled={isDone}
+            />
+            <ExercisePyramidField
+              property="time"
+              type="time"
+              icon={<ImAlarm size={16} />}
+              value={time}
+              hide={!detailsToShow.includes("time")}
+              sets={sets ?? 1}
+              onChange={(values) => {
+                handleUpdateValue("time", values.map(Number));
+              }}
+              disabled={isDone}
+            />
+            <ExerciseField
+              property="material"
+              type="text"
+              icon={<BiDumbbell size={20} />}
+              value={material}
+              hide={!detailsToShow.includes("material")}
+              onChange={(value) => {
+                handleUpdateValue("material", value);
+              }}
+              disabled={isDone}
+            />
+          </div>
+          <div
+            className={cn(
+              "w-full flex justify-end items-center gap-2 mt-2 pb-5 px-5 text-lg",
+              {
+                hidden: !isActive,
+              }
+            )}
+          >
+            <ExerciseChartTrigger exerciseId={exercise.id}>
+              <GoGraph />
+            </ExerciseChartTrigger>
+            <Link href={`${pathname}/exercises/${id}`}>
+              <CgDetailsMore />
+            </Link>
+            {!isDone && (
               <AddPropertyDropdown
                 displayedProperties={detailsToShow}
                 onSelect={(value) =>
@@ -299,9 +304,9 @@ export function ExerciseItem({
               >
                 <IoIosAdd />
               </AddPropertyDropdown>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
       <div
         className={cn("absolute w-[120%] h-full top-0 right-full")}
