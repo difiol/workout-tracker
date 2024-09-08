@@ -23,6 +23,7 @@ type Props = Omit<InputProps, "onChange"> & {
   icon: ReactNode;
   sets?: number;
   hide?: boolean;
+  defaultValues?: (string | number)[] | null;
   onChange: (values: string[]) => void;
 };
 
@@ -77,6 +78,7 @@ export function ExercisePyramidField({
   icon,
   property,
   value,
+  defaultValues,
   onChange,
   type = "number",
   unit,
@@ -89,9 +91,13 @@ export function ExercisePyramidField({
 }: Props) {
   const t = useTranslations("Exercise");
   const [isToggled, setIsToggled] = useState(false);
-  const [values, setValues] = useState<string[]>([
-    value?.toString() ?? fallbackValues[type],
-  ]);
+  const [values, setValues] = useState<string[]>(
+    defaultValues
+      ? defaultValues.map((v) => v.toString())
+      : Array.from({ length: sets }).map(
+          () => value?.toString() ?? fallbackValues[type]
+        )
+  );
 
   const handleChange = (value: string, i: number) => {
     const newValues = [...values];
@@ -106,11 +112,6 @@ export function ExercisePyramidField({
   useEffect(() => {
     onChange(values);
   }, [values]);
-
-  useEffect(() => {
-    if (isToggled) setValues(Array.from({ length: sets }).map(() => values[0]));
-    else setValues([values[0]]);
-  }, [isToggled]);
 
   if (hide) return null;
 

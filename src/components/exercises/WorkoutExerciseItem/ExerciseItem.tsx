@@ -64,7 +64,18 @@ export function ExerciseItem({
   const doneRef = useRef<HTMLDivElement>(null);
   const { updateExercise: updateExerciseName } = useExercises();
 
-  const { id, name, weight, reps, sets, time, material } = exercise;
+  const {
+    id,
+    name,
+    weight,
+    reps,
+    sets,
+    time,
+    material,
+    pyramidWeight,
+    pyramidReps,
+    pyramidTime,
+  } = exercise;
   const hideEmptyDetails = !!(weight || reps || sets || time || material);
   const [detailsToShow, setDetailsToShow] = useState(
     hideEmptyDetails
@@ -224,6 +235,9 @@ export function ExerciseItem({
               type="number"
               icon={<FaWeightHanging size={14} />}
               value={convertWeightTo(Number(weight ?? 0), weightUnit)}
+              defaultValues={pyramidWeight?.map((value) =>
+                convertWeightTo(Number(value ?? 0), weightUnit)
+              )}
               unit={weightUnit}
               hide={!detailsToShow.includes("weight")}
               sets={sets ?? 1}
@@ -242,6 +256,7 @@ export function ExerciseItem({
               type="number"
               icon={<MdSportsMartialArts size={20} />}
               value={reps}
+              defaultValues={pyramidReps}
               hide={!detailsToShow.includes("reps")}
               sets={sets ?? 1}
               onChange={(values) => {
@@ -262,6 +277,7 @@ export function ExerciseItem({
               type="time"
               icon={<ImAlarm size={16} />}
               value={time}
+              defaultValues={pyramidTime}
               hide={!detailsToShow.includes("time")}
               sets={sets ?? 1}
               onChange={(values) => {
