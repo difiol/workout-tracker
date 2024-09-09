@@ -9,12 +9,14 @@ type Props = {
   exercisesToSave: WorkoutExercise[];
   children?: React.ReactNode;
   workout: Workout | null;
+  className?: string;
 };
 
 export function UpdateWorkoutTrigger({
   children,
   exercisesToSave,
   workout,
+  className,
 }: Props) {
   const t = useTranslations();
   const { updateWorkoutExercises } = useWorkouts();
@@ -46,7 +48,7 @@ export function UpdateWorkoutTrigger({
   };
 
   return (
-    <Button variant="outline" onClick={handleClick}>
+    <Button variant="outline" onClick={handleClick} className={className}>
       {children ?? t("Actions.update-workout")}
     </Button>
   );

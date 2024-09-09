@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { WorkoutExercises } from "@/components/workouts/WorkoutExercises";
 import { WorkoutsSlider } from "@/components/workouts/WorkoutsSlider";
 import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { useWorkouts } from "@/store/useWorkouts";
 import { UpdateWorkoutTrigger } from "../dialogs/UpdateWorkoutTrigger";
+import { autoAnimateBouncy } from "@/utils/autoanimate/bouncy";
+
 type Props = {
   className?: string;
 };
@@ -14,6 +16,7 @@ export function HomeView({ className }: Props) {
   const { done, activeWorkout, addExerciseToDone, removeExerciseFromDone } =
     useWorkouts();
   const [todoExercises, setTodoExercises] = useState<WorkoutExercise[]>([]);
+  const buttonContainerRef = useRef(null);
 
   const addExercise = ({
     id,
@@ -55,7 +58,7 @@ export function HomeView({ className }: Props) {
     removeExerciseFromDone(exercise.logId ?? exercise.id);
   };
 
-  const isWorkoutModified = () => {
+  const isWorkoutModified = useCallback(() => {
     if (!activeWorkout) return false;
 
     const { exercises } = activeWorkout;
@@ -65,12 +68,18 @@ export function HomeView({ className }: Props) {
       const modified = todoExercises[index];
       return exercise.id !== modified.id;
     });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todoExercises]);
 
   useEffect(() => {
     setTodoExercises(activeWorkout?.exercises ?? []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWorkout]);
+
+  useEffect(() => {
+    //Adds enter and exit animation to the button container
+    buttonContainerRef.current && autoAnimateBouncy(buttonContainerRef.current);
+  }, [buttonContainerRef]);
 
   return (
     <div className={className}>
@@ -86,7 +95,7 @@ export function HomeView({ className }: Props) {
         removeExercise={removeExercise}
         className="m-auto px-5"
       />
-      <div className="w-full flex justify-center gap-4 mt-auto mt-6 mb-32">
+      <div ref={buttonContainerRef} className="flex justify-center">
         {isWorkoutModified() && (
           <UpdateWorkoutTrigger
             exercisesToSave={todoExercises}
