@@ -7,6 +7,7 @@ type Props = {
   onAfterLogout?: () => void;
   className?: string;
 } & ButtonVariants;
+
 export function LogoutButton({ variant, onAfterLogout, className }: Props) {
   const t = useTranslations("Auth");
   const { logout } = useUser();

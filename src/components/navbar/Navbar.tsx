@@ -5,9 +5,10 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
+  hideAvatar?: boolean;
 };
 
-export default function Navbar({ className }: Props) {
+export default function Navbar({ className, hideAvatar = false }: Props) {
   return (
     <nav
       className={cn(
@@ -18,11 +19,13 @@ export default function Navbar({ className }: Props) {
       <Link href="/" className="text-2xl font-bold">
         Workout Tracker
       </Link>
-      <ul className="flex space-x-4 items-center">
-        <li>
-          <AccountAvatar />
-        </li>
-      </ul>
+      {!hideAvatar && (
+        <ul className="flex space-x-4 items-center">
+          <li>
+            <AccountAvatar />
+          </li>
+        </ul>
+      )}
     </nav>
   );
 }

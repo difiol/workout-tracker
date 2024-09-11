@@ -40,13 +40,21 @@
   },
   "Auth": {
     "welcome": "Access your account",
+    "hello": "Hello {name}!",
+    "welcome-login": "Welcome to your Workout Tracker!",
     "login": "Login",
+    "change-password": "Change password",
     "logout": "Logout",
     "register": "Register",
     "email": "Email",
     "password": "Password",
+    "change-password-message": "Update your password to access your account",
+    "confirm-password": "Confirm your password",
+    "expired-link": "The link has expired, contact the administrator to get a new one",
     "error-credentials": "Invalid credentials",
-    "error-general": "An error occurred"
+    "error-general": "An error occurred",
+    "error-password-short": "Password must be at least {length} characters long",
+    "error-password-match": "Passwords don't match"
   },
   "Alerts": {
     "action-title": "Continue with this action?",

@@ -7,6 +7,7 @@ import { Exercise, WorkoutExercise } from "@/types/exercise";
 import { useWorkouts } from "@/store/useWorkouts";
 import { UpdateWorkoutTrigger } from "../dialogs/UpdateWorkoutTrigger";
 import { autoAnimateBouncy } from "@/utils/autoanimate/bouncy";
+import Navbar from "../navbar/Navbar";
 
 type Props = {
   className?: string;
@@ -83,6 +84,7 @@ export function HomeView({ className }: Props) {
 
   return (
     <div className={className}>
+      <Navbar className="px-5" />
       <WorkoutsSlider className="mt-2 px-5" />
       <WorkoutExercises
         todo={todoExercises}

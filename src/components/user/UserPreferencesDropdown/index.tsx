@@ -17,6 +17,7 @@ import { ThemeSwitch } from "../../elements/switch/ThemeSwitch";
 import { LangSwitch } from "../../elements/switch/LangSwitch";
 import { WeightUnitSwitch } from "../../elements/switch/WeightUnitSwitch";
 import { PreferencesDropdownItem } from "./PreferencesDropdownItem";
+import { useRouter } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -30,9 +31,12 @@ export default function UserPreferencesDropdown({ children, classes }: Props) {
   const { isLoggedIn } = useUser();
   const t = useTranslations();
   const [open, setOpen] = useState(false);
+  const { push } = useRouter();
 
   const handleClose = () => {
     setOpen(false);
+    // Redirect to login page
+    push("/login");
   };
 
   return (
