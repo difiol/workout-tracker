@@ -211,7 +211,7 @@ export function ExerciseItem({
             onMouseMove: handleMouseMove,
             onMouseUp: handleMouseUp,
           })}
-          className={"flex w-full p-3 self-center"}
+          className="flex w-full p-3 self-center"
           tabIndex={0}
           role="button"
         >
@@ -229,7 +229,7 @@ export function ExerciseItem({
         </div>
 
         <div className={cn({ hidden: !isActive })}>
-          <div className="w-full flex flex-wrap justify-evenly max-w-md m-auto align-top gap-6 p-2 px-4 sm:px-8 md:pt-2 text-md">
+          <div className="w-full flex flex-wrap justify-evenly max-w-md m-auto align-top gap-2 p-2 px-4 sm:px-8 md:pt-2 text-md">
             <ExercisePyramidField
               property="weight"
               type="number"
@@ -250,6 +250,7 @@ export function ExerciseItem({
                 );
               }}
               disabled={isDone}
+              className="w-1/4"
             />
             <ExercisePyramidField
               property="reps"
@@ -263,6 +264,7 @@ export function ExerciseItem({
                 handleUpdateValue("reps", values.map(Number));
               }}
               disabled={isDone}
+              className="w-1/4"
             />
             <ExerciseField
               property="sets"
@@ -271,6 +273,7 @@ export function ExerciseItem({
               onChange={(value) => handleUpdateValue("sets", Number(value))}
               hide={!detailsToShow.includes("sets")}
               disabled={isDone}
+              className="w-1/4"
             />
             <ExercisePyramidField
               property="time"
@@ -284,6 +287,7 @@ export function ExerciseItem({
                 handleUpdateValue("time", values.map(Number));
               }}
               disabled={isDone}
+              className="w-1/4"
             />
             <ExerciseField
               property="material"
@@ -295,6 +299,7 @@ export function ExerciseItem({
                 handleUpdateValue("material", value);
               }}
               disabled={isDone}
+              className="w-1/4"
             />
           </div>
           <div

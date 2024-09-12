@@ -2,7 +2,7 @@ import { HomeView } from "@/components/views/HomeView";
 import { redirectIfNotAuthenticated } from "@/utils/server/redirect";
 
 export default async function Home() {
-  await redirectIfNotAuthenticated("/login");
+  // await redirectIfNotAuthenticated("/login");
 
   return (
     <main className="flex flex-col items-center justify-start dark:bg-slate-800 dark:text-white">

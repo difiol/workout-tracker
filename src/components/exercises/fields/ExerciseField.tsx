@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { cn } from "@/lib/utils";
 import { FieldLabel } from "./FieldLabel";
 import { useTranslations } from "next-intl";
 import { convertNumberToTime } from "@/utils/time";
@@ -59,7 +58,6 @@ export function ExerciseField({
         max={max}
         onChange={onChange}
         disabled={disabled}
-        className={cn("w-fit bg-transparent [field-sizing:content]", className)}
       />
     );
 
@@ -67,7 +65,10 @@ export function ExerciseField({
     <FieldLabel
       icon={icon}
       label={t(property)}
-      className="flex flex-col items-end gap-1"
+      classes={{
+        container: className,
+        input: "w-full",
+      }}
     >
       {input}
     </FieldLabel>

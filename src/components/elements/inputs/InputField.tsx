@@ -1,4 +1,3 @@
-import React from "react";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -7,7 +6,10 @@ type Props = {
   min?: number;
   max?: number;
   onChange: (value: string) => void;
-  className?: string;
+  classes?: {
+    container?: string;
+    input?: string;
+  };
   type?: "number" | "text";
   disabled?: boolean;
 };
@@ -25,7 +27,7 @@ export function InputField({
   max,
   disabled,
   onChange,
-  className,
+  classes,
 }: Props) {
   const fallbackValue = fallbackValues[type];
 
@@ -51,10 +53,13 @@ export function InputField({
   };
 
   return (
-    <span className="flex gap-1">
+    <span className={cn("flex gap-1", classes?.container)}>
       <input
         type={type}
-        className={cn("w-fit bg-transparent [field-sizing:content]", className)}
+        className={cn(
+          "bg-transparent text-right w-full [field-sizing:content]",
+          classes?.input
+        )}
         value={value ?? fallbackValue}
         onChange={handleChange}
         onFocus={handleFocus}

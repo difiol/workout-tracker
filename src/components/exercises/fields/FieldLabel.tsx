@@ -5,17 +5,26 @@ type Props = {
   children: ReactNode;
   icon: ReactNode;
   label: string;
-  className?: string;
+  classes?: {
+    container?: string;
+    label?: string;
+    input?: string;
+  };
 };
 
-export function FieldLabel({ children, icon, label, className }: Props) {
+export function FieldLabel({ children, icon, label, classes }: Props) {
   return (
-    <div className="relative w-fit flex flex-col items-end text-md gap-1">
-      <span className="flex items-center gap-2">
+    <div
+      className={cn(
+        "w-full relative flex flex-col items-end text-md gap-1",
+        classes?.container
+      )}
+    >
+      <span className={cn("flex items-center gap-2", classes?.label)}>
         {icon}
         <h5 className="font-semibold">{label}</h5>
       </span>
-      <span className={cn("w-full flex gap-1 justify-end", className)}>
+      <span className={cn("flex gap-1 justify-end", classes?.input)}>
         {children}
       </span>
     </div>

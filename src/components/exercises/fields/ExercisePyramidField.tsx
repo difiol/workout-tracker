@@ -35,7 +35,6 @@ const genInput = ({
   min,
   max,
   disabled,
-  className,
 }: InputProps) => {
   switch (type) {
     case "time":
@@ -60,10 +59,7 @@ const genInput = ({
           max={max}
           onChange={onChange}
           disabled={disabled}
-          className={cn(
-            "w-fit bg-transparent [field-sizing:content]",
-            className
-          )}
+          classes={{ container: "justify-end" }}
         />
       );
   }
@@ -119,15 +115,12 @@ export function ExercisePyramidField({
     <FieldLabel
       icon={icon}
       label={t(property)}
-      className="flex flex-col items-end gap-1"
+      classes={{
+        container: className,
+        input: "items-end gap-1",
+      }}
     >
-      <span className="flex items-center gap-3">
-        <button
-          onClick={handleToggle}
-          className={cn("self-start mt-1", { hidden: sets <= 1 })}
-        >
-          {isToggled ? <IoIosArrowUp /> : <IoIosArrowDown />}
-        </button>
+      <span className="flex items-end gap-1">
         <span>
           {Array.from({ length: isToggled ? sets : 1 }).map((_, i) =>
             genInput({
@@ -143,6 +136,12 @@ export function ExercisePyramidField({
             })
           )}
         </span>
+        <button
+          onClick={handleToggle}
+          className={cn("self-start mt-1", { hidden: sets <= 1 })}
+        >
+          {isToggled ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        </button>
       </span>
     </FieldLabel>
   );
