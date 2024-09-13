@@ -71,7 +71,8 @@ export function EditableText({
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
           className={cn(
-            "bg-transparent rounded-lg resize-none [field-sizing:content]",
+            "bg-transparent rounded-lg resize-none w-full",
+            "[field-sizing:content]",
             { "px-2 border-2 dark:border-slate-400": isEditing },
             classes?.text
           )}

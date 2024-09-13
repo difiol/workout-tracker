@@ -42,7 +42,7 @@ export function WorkoutLabel({
         notAllowNewLine
         onChange={onEdit}
         classes={{
-          text: "capitalize-first",
+          text: "capitalize-first h-6",
         }}
       >
         {capitalize(name)}
