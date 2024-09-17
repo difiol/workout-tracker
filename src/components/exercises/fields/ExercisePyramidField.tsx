@@ -68,6 +68,7 @@ const genInput = ({
 const fallbackValues: Record<string, string> = {
   number: "0",
   text: "-",
+  time: "0",
 };
 
 export function ExercisePyramidField({
