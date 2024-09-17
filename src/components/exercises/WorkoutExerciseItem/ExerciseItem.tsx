@@ -10,7 +10,7 @@ import React, {
 import Link from "next/link";
 import { ExerciseField } from "../fields/ExerciseField";
 import { ExerciseChartTrigger } from "@/components/dialogs/ExerciseChartTrigger";
-import { AddPropertyDropdown } from "./AddPropertyDropdown";
+import { AddPropertyDropdown, exerciseProperties } from "./AddPropertyDropdown";
 import { usePathname } from "next/navigation";
 import { usePreferences } from "@/store/usePreferences";
 import { convertWeightFrom, convertWeightTo } from "@/utils/weight";
@@ -80,9 +80,9 @@ export function ExerciseItem({
   const [detailsToShow, setDetailsToShow] = useState(
     hideEmptyDetails
       ? Object.entries(exercise)
-          .filter(([key, value]) => value)
+          .filter(([, value]) => value)
           .map(([key]) => key)
-      : ["weight", "reps", "sets", "time", "material"]
+      : exerciseProperties
   );
 
   const handleOnClick: MouseEventHandler = () => {
@@ -319,9 +319,14 @@ export function ExerciseItem({
             {!isDone && (
               <AddPropertyDropdown
                 displayedProperties={detailsToShow}
-                onSelect={(value) =>
-                  setDetailsToShow([...detailsToShow, value])
-                }
+                show={(property) => {
+                  setDetailsToShow([...detailsToShow, property]);
+                }}
+                hide={(property) => {
+                  setDetailsToShow((prev) =>
+                    prev.filter((p) => p !== property)
+                  );
+                }}
               >
                 <IoIosAdd />
               </AddPropertyDropdown>

@@ -8,24 +8,43 @@ import {
   DropdownMenuTrigger,
 } from "../../elements/shadcn/dropdown-menu";
 import { useTranslations } from "next-intl";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 
 type Props = {
   children: React.ReactNode;
   displayedProperties: string[];
-  onSelect: (value: string) => void;
+  show: (value: string) => void;
+  hide: (value: string) => void;
 };
 
-const properties = ["weight", "reps", "sets", "time", "material"];
+type Property = { name: string; visible: boolean };
+
+export const exerciseProperties = [
+  "weight",
+  "reps",
+  "sets",
+  "time",
+  "material",
+];
 
 export function AddPropertyDropdown({
   children,
   displayedProperties,
-  onSelect,
+  show,
+  hide,
 }: Props) {
   const t = useTranslations("Exercise");
 
-  const propertiesToDisplay = properties.filter(
-    (property) => !displayedProperties.includes(property)
+  const propertiesToDisplay = exerciseProperties.reduce(
+    (acc: Property[], property) => {
+      acc.push({
+        name: property,
+        visible: displayedProperties.includes(property),
+      });
+      return acc;
+    },
+    []
   );
 
   return (
@@ -33,23 +52,24 @@ export function AddPropertyDropdown({
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>{t("properties")}</DropdownMenuLabel>
-        {propertiesToDisplay.length ? (
-          propertiesToDisplay.map((property) => {
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup className="w-fit flex flex-col">
+          {propertiesToDisplay.map(({ name, visible }) => {
             return (
               <DropdownMenuItem
-                key={property}
-                onClick={() => onSelect(property)}
-                className="text-xs"
+                key={name}
+                onSelect={(e) => {
+                  e.preventDefault();
+                  visible ? hide(name) : show(name);
+                }}
+                className="flex gap-2 text-xs"
               >
-                {t(property)}
+                {visible ? <FiEye /> : <FiEyeOff />}
+                <p>{t(name)}</p>
               </DropdownMenuItem>
             );
-          })
-        ) : (
-          <DropdownMenuItem className="opacity-80">
-            {t("no-properties")}
-          </DropdownMenuItem>
-        )}
+          })}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
