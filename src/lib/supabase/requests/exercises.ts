@@ -51,7 +51,7 @@ export const deleteSupabaseExercise = async (
   client: SupabaseClient<SupabaseDatabase>,
   id: string
 ) => {
-  return client.from(EXERCISE_LOGS_TABLE).delete().eq("id", id);
+  return client.from(EXERCISES_TABLE).delete().eq("id", id);
 };
 
 export const getSupabaseDoneExercisesByDay = async (

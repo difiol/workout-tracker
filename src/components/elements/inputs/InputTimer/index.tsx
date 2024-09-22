@@ -93,7 +93,7 @@ export function InputTimer({
       ref={ref}
     >
       <InputTime
-        classes={{ input: cn("w-full", classes?.input) }}
+        classes={{ input: classes?.input }}
         value={time.hours}
         onChange={(value) => handleChange("hours", value)}
         active={isFocused}
@@ -104,7 +104,7 @@ export function InputTimer({
       />
       <span>:</span>
       <InputTime
-        classes={{ input: cn("w-full", classes?.input) }}
+        classes={{ input: classes?.input }}
         value={time.minutes}
         onChange={(value) => handleChange("minutes", value)}
         active={isFocused}
@@ -113,7 +113,7 @@ export function InputTimer({
       />
       <span>:</span>
       <InputTime
-        classes={{ input: cn("w-full", classes?.input) }}
+        classes={{ input: classes?.input }}
         value={time.seconds}
         onChange={(value) => handleChange("seconds", value)}
         active={isFocused}

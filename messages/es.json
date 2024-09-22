@@ -72,6 +72,10 @@
     "update-workout": {
       "title": "Actualizar rutina",
       "description": "Esta acción actualizará la rutina con los cambios realizados. ¿Estás seguro de que quieres continuar?"
+    },
+    "delete-exercise": {
+      "title": "Eliminar ejercicio",
+      "description": "Se eliminará el ejercicio y todos sus registros de forma permanente. ¿Estás seguro de que quieres continuar?"
     }
   },
   "Errors": {

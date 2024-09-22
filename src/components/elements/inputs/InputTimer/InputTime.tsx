@@ -39,14 +39,14 @@ export function InputTime({
     onChange(value);
   };
 
-  const increment = () => {
-    if (max !== undefined && inputValue >= max) updateValue(max);
-    else updateValue(inputValue + 1);
-  };
-  const decrement = () => {
-    if (min !== undefined && inputValue <= min) updateValue(min);
-    else updateValue(inputValue - 1);
-  };
+  // const increment = () => {
+  //   if (max !== undefined && inputValue >= max) updateValue(max);
+  //   else updateValue(inputValue + 1);
+  // };
+  // const decrement = () => {
+  //   if (min !== undefined && inputValue <= min) updateValue(min);
+  //   else updateValue(inputValue - 1);
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
@@ -80,7 +80,7 @@ export function InputTime({
       className={cn(
         "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
         "px-[1px] text-center border border-neutral-400 rounded-md bg-transparent",
-        "[field-sizing:content]",
+        "w-6 [field-sizing:content]",
         "dark:autofill:shadow-slate-300",
         { "border-transparent": !active },
         classes?.input

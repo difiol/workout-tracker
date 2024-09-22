@@ -37,7 +37,7 @@ type WorkoutStore = {
   activeWorkout: Workout | null;
   done: WorkoutExercise[];
   addWorkout: (params: CreateWorkout, options?: Options) => void;
-  updateWorkout: (workout:UpdateWorkout , options?: Options) => void;
+  updateWorkout: (workout: UpdateWorkout , options?: Options) => void;
   updateWorkouts: (workouts: UpdateWorkout[], options?: Options) => void;
   updateWorkoutExercises: (params: UpdateWorkoutExercises, options?: Options) => void;
   deleteWorkout: (id: string, options?: Options) => void;
@@ -183,15 +183,17 @@ export const useWorkouts = create<WorkoutStore>()((set) => ({
       getSupabaseUserWorkouts(supabaseClient),
       getSupabaseDoneExercisesBySession(supabaseClient),
     ]);
-    set({
+    set(state => ({
       workouts:
         workoutsResponse.status === "fulfilled" ? workoutsResponse.value : [],
       done: doneResponse.status === "fulfilled" ? doneResponse.value : [],
       activeWorkout:
-        workoutsResponse.status === "fulfilled"
-          ? workoutsResponse?.value?.at(0)
-          : null,
-    });
+        workoutsResponse.status === "fulfilled" ?
+        (state?.activeWorkout ?
+          workoutsResponse.value.find(
+            (workout) => workout.id === state.activeWorkout?.id
+          ): workoutsResponse?.value?.at(0)) : null,
+    }));
   },
   addExerciseToDone: async (exercise, workoutId) => {
     const { id, weight, pyramidWeight, reps, pyramidReps, sets, time, pyramidTime, material, order } = exercise;

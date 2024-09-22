@@ -72,6 +72,10 @@
     "update-workout": {
       "title": "Update workout",
       "description": "This action will update the workout with the new exercises. The previous exercises will be deleted."
+    },
+    "delete-exercise": {
+      "title": "Delete exercise",
+      "description": "This action will delete the exercise and all its records permanently. Are you sure you want to continue?"
     }
   },
   "Errors": {

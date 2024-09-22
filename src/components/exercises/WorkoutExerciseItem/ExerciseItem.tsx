@@ -14,6 +14,12 @@ import { AddPropertyDropdown, exerciseProperties } from "./AddPropertyDropdown";
 import { usePathname } from "next/navigation";
 import { usePreferences } from "@/store/usePreferences";
 import { convertWeightFrom, convertWeightTo } from "@/utils/weight";
+import { ExercisePyramidField } from "../fields/ExercisePyramidField";
+import { capitalize } from "@/utils/text/capitalize";
+import { EditableText } from "@/components/elements/inputs/EditableText";
+import { useExercises } from "@/store/useExercises";
+import { RemoveExerciseButton } from "../buttons/RemoveExerciseButton";
+
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdSportsMartialArts } from "react-icons/md";
 import { BsArrowRepeat } from "react-icons/bs";
@@ -22,10 +28,7 @@ import { BiDumbbell } from "react-icons/bi";
 import { IoIosAdd } from "react-icons/io";
 import { CgDetailsMore } from "react-icons/cg";
 import { GoGraph } from "react-icons/go";
-import { ExercisePyramidField } from "../fields/ExercisePyramidField";
-import { capitalize } from "@/utils/text/capitalize";
-import { EditableText } from "@/components/elements/inputs/EditableText";
-import { useExercises } from "@/store/useExercises";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 type Props = {
   exercise: WorkoutExercise;
@@ -84,6 +87,17 @@ export function ExerciseItem({
           .map(([key]) => key)
       : exerciseProperties
   );
+
+  const cleanExerciseWithoutHiddenProperties = () => {
+    const cleanExercise = { ...exercise };
+    exerciseProperties.forEach((property) => {
+      if (!detailsToShow.includes(property)) {
+        delete cleanExercise[property as keyof WorkoutExercise];
+        delete cleanExercise[`pyramid${property}` as keyof WorkoutExercise];
+      }
+    });
+    return cleanExercise;
+  };
 
   const handleOnClick: MouseEventHandler = () => {
     onClick?.(id);
@@ -160,7 +174,7 @@ export function ExerciseItem({
 
     // Swipe right
     if (offset > triggerRange) {
-      onSwipeRight?.(exercise);
+      onSwipeRight?.(cleanExerciseWithoutHiddenProperties());
     }
     // Swipe left
     if (offset < -triggerRange) {
@@ -229,7 +243,7 @@ export function ExerciseItem({
         </div>
 
         <div className={cn({ hidden: !isActive })}>
-          <div className="w-full flex flex-wrap justify-evenly max-w-md m-auto align-top gap-2 p-2 px-4 sm:px-8 md:pt-2 text-md">
+          <div className="w-full flex flex-wrap justify-evenly max-w-md m-auto align-top p-2 px-4 sm:px-8 md:pt-2 text-md">
             <ExercisePyramidField
               property="weight"
               type="number"
@@ -250,7 +264,7 @@ export function ExerciseItem({
                 );
               }}
               disabled={isDone}
-              className="w-1/4"
+              className="w-1/3"
             />
             <ExercisePyramidField
               property="reps"
@@ -264,7 +278,7 @@ export function ExerciseItem({
                 handleUpdateValue("reps", values.map(Number));
               }}
               disabled={isDone}
-              className="w-1/4"
+              className="w-1/3"
             />
             <ExerciseField
               property="sets"
@@ -273,7 +287,7 @@ export function ExerciseItem({
               onChange={(value) => handleUpdateValue("sets", Number(value))}
               hide={!detailsToShow.includes("sets")}
               disabled={isDone}
-              className="w-1/4"
+              className="w-1/3"
             />
             <ExercisePyramidField
               property="time"
@@ -287,7 +301,7 @@ export function ExerciseItem({
                 handleUpdateValue("time", values.map(Number));
               }}
               disabled={isDone}
-              className="w-1/4"
+              className="w-1/3"
             />
             <ExerciseField
               property="material"
@@ -299,7 +313,7 @@ export function ExerciseItem({
                 handleUpdateValue("material", value);
               }}
               disabled={isDone}
-              className="w-1/4"
+              className="w-1/3"
             />
           </div>
           <div
@@ -317,19 +331,24 @@ export function ExerciseItem({
               <CgDetailsMore />
             </Link>
             {!isDone && (
-              <AddPropertyDropdown
-                displayedProperties={detailsToShow}
-                show={(property) => {
-                  setDetailsToShow([...detailsToShow, property]);
-                }}
-                hide={(property) => {
-                  setDetailsToShow((prev) =>
-                    prev.filter((p) => p !== property)
-                  );
-                }}
-              >
-                <IoIosAdd />
-              </AddPropertyDropdown>
+              <>
+                <AddPropertyDropdown
+                  displayedProperties={detailsToShow}
+                  show={(property) => {
+                    setDetailsToShow([...detailsToShow, property]);
+                  }}
+                  hide={(property) => {
+                    setDetailsToShow((prev) =>
+                      prev.filter((p) => p !== property)
+                    );
+                  }}
+                >
+                  <IoIosAdd />
+                </AddPropertyDropdown>
+                <RemoveExerciseButton exercise={exercise}>
+                  <RiDeleteBinLine />
+                </RemoveExerciseButton>
+              </>
             )}
           </div>
         </div>
