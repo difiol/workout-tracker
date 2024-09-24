@@ -59,7 +59,7 @@ export function WorkoutsSlider({ className }: Props) {
 
   return (
     <div className={cn("w-full overflow-x-auto", className)}>
-      <div className="w-fit flex gap-2 mx-auto py-3">
+      <div className="w-full flex gap-2 mx-auto py-3">
         <SaveWorkoutTrigger
           exercisesToSave={[]}
           className="rounded-full w-fit h-fit p-3 self-center mr-2"
@@ -76,6 +76,7 @@ export function WorkoutsSlider({ className }: Props) {
           <DragAndDropSortableList
             direction="horizontal"
             items={workouts}
+            itemClass="w-fit"
             renderItem={({ id, name }: Workout) => (
               <WorkoutLabel
                 key={id}

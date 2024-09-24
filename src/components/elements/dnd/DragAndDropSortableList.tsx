@@ -33,6 +33,7 @@ const sortingStrategies = {
 type Props = {
   items: any[];
   direction?: "vertical" | "horizontal";
+  itemClass?: string;
   draggingClass?: string;
   renderItem: (item: any) => React.ReactNode;
   onDragEnd: (resortedItems: any[], event: DragEndEvent) => void;
@@ -45,6 +46,7 @@ type Props = {
 export function DragAndDropSortableList({
   items,
   direction = "vertical",
+  itemClass,
   draggingClass,
   renderItem,
   onDragEnd,
@@ -89,10 +91,11 @@ export function DragAndDropSortableList({
       onDragEnd={handleDragEnd}
     >
       <SortableContext items={items} strategy={sortingStrategies[direction]}>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <SortableItem
             key={item.id}
             id={item.id}
+            className={itemClass}
             draggingClass={cn(
               "opacity-80 outline-dashed outline-2 outline-slate-400 dark:outline-white",
               draggingClass

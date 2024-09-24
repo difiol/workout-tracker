@@ -115,7 +115,7 @@ export function ExerciseItem({
     if (Array.isArray(value)) {
       const properties = {
         [property]: value[0],
-        ...(value.length > 1 && { [`pyramid${capitalize(property)}`]: value }),
+        [`pyramid${capitalize(property)}`]: value.length > 1 ? value : null,
       };
       updateExercise?.({ ...exercise, ...properties });
     } else updateExercise?.({ ...exercise, [property]: value });
@@ -255,13 +255,13 @@ export function ExerciseItem({
               unit={weightUnit}
               hide={!detailsToShow.includes("weight")}
               sets={sets ?? 1}
-              onChange={(values) => {
-                handleUpdateValue(
-                  "weight",
-                  values.map((value) =>
-                    convertWeightFrom(Number(value), weightUnit)
-                  )
-                );
+              onChange={(values, toggled) => {
+                const valuesToSave = toggled
+                  ? values.map((value) =>
+                      convertWeightFrom(Number(value), weightUnit)
+                    )
+                  : [convertWeightFrom(Number(values[0]), weightUnit)];
+                handleUpdateValue("weight", valuesToSave);
               }}
               disabled={isDone}
               className="w-1/3"
@@ -274,8 +274,11 @@ export function ExerciseItem({
               defaultValues={pyramidReps}
               hide={!detailsToShow.includes("reps")}
               sets={sets ?? 1}
-              onChange={(values) => {
-                handleUpdateValue("reps", values.map(Number));
+              onChange={(values, toggled) => {
+                const valuesToSave = toggled
+                  ? values.map(Number)
+                  : [Number(values[0])];
+                handleUpdateValue("reps", valuesToSave);
               }}
               disabled={isDone}
               className="w-1/3"
@@ -297,8 +300,11 @@ export function ExerciseItem({
               defaultValues={pyramidTime}
               hide={!detailsToShow.includes("time")}
               sets={sets ?? 1}
-              onChange={(values) => {
-                handleUpdateValue("time", values.map(Number));
+              onChange={(values, toggled) => {
+                const valuesToSave = toggled
+                  ? values.map(Number)
+                  : [Number(values[0])];
+                handleUpdateValue("time", valuesToSave);
               }}
               disabled={isDone}
               className="w-1/3"

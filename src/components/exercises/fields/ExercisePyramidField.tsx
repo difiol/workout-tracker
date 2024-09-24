@@ -24,7 +24,7 @@ type Props = Omit<InputProps, "onChange"> & {
   sets?: number;
   hide?: boolean;
   defaultValues?: (string | number)[] | null;
-  onChange: (values: string[]) => void;
+  onChange: (values: string[], toggled: boolean) => void;
 };
 
 const genInput = ({
@@ -107,8 +107,8 @@ export function ExercisePyramidField({
   };
 
   useEffect(() => {
-    onChange(values);
-  }, [values]);
+    onChange(values, isToggled);
+  }, [values, isToggled]);
 
   if (hide) return null;
 

@@ -6,10 +6,16 @@ import { cn } from "@/lib/utils";
 type Props = {
   id: string;
   children: React.ReactNode;
+  className?: string;
   draggingClass?: string;
 };
 
-export function SortableItem({ id, children, draggingClass }: Props) {
+export function SortableItem({
+  id,
+  children,
+  className,
+  draggingClass,
+}: Props) {
   const {
     attributes,
     listeners,
@@ -31,7 +37,7 @@ export function SortableItem({ id, children, draggingClass }: Props) {
       style={style}
       {...attributes}
       {...listeners}
-      className={cn("w-full list-none", {
+      className={cn("w-full list-none", className, {
         [`${draggingClass}`]: isDragging,
       })}
     >
