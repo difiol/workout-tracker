@@ -11,9 +11,10 @@ import { ExerciseLogsChart } from "../exercises/charts/ExerciseLogsChart";
 import { useQuery } from "@tanstack/react-query";
 import { getLastExerciseLogs } from "@/lib/supabase/requests/exercises";
 import { createClient } from "@/lib/supabase/client";
+import { WorkoutExercise } from "@/types/exercise";
 type Props = {
   children: React.ReactNode;
-  exerciseId: string;
+  exercise: WorkoutExercise;
   className?: string;
 };
 const client = createClient();
@@ -21,13 +22,13 @@ const client = createClient();
 export function ExerciseChartTrigger({
   children,
   className,
-  exerciseId,
+  exercise: { id, name },
 }: Props) {
   const t = useTranslations("ExerciseLogs");
   const [open, setOpen] = useState(false);
   const { data: logs } = useQuery({
-    queryKey: ["exerciseLogs"],
-    queryFn: () => getLastExerciseLogs(client, exerciseId, 5),
+    queryKey: [`exerciseLogs${name}`],
+    queryFn: () => getLastExerciseLogs(client, id, 5),
   });
 
   return (

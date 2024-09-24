@@ -330,7 +330,7 @@ export function ExerciseItem({
               }
             )}
           >
-            <ExerciseChartTrigger exerciseId={exercise.id}>
+            <ExerciseChartTrigger exercise={exercise}>
               <GoGraph />
             </ExerciseChartTrigger>
             <Link href={`${pathname}/exercises/${id}`}>
