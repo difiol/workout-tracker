@@ -15,18 +15,23 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 
 const chartConfig = {} satisfies ChartConfig;
 
-type YKeys = "weight" | "reps" | "sets" | "time";
+export enum ExerciseLogsChartYKeys {
+  weight = "weight",
+  reps = "reps",
+  time = "time",
+  sets = "sets",
+}
 
 type Props = {
   logs: ExerciseLog[];
-  yKey?: YKeys;
+  yKey?: ExerciseLogsChartYKeys;
   showYAxis?: boolean;
   className?: string;
 };
 
 export function ExerciseLogsChart({
   logs,
-  yKey = "weight",
+  yKey = ExerciseLogsChartYKeys.weight,
   showYAxis = false,
   className,
 }: Props) {
@@ -37,14 +42,20 @@ export function ExerciseLogsChart({
 
   useClickOutside(ref, () => setIsActive(false));
 
-  const checkKey = (key: YKeys): YKeys => {
+  const checkKey = (key: ExerciseLogsChartYKeys): ExerciseLogsChartYKeys => {
     switch (key) {
-      case "weight":
-        return logs[0]?.weight ? "weight" : checkKey("reps");
-      case "reps":
-        return logs[0]?.reps ? "reps" : checkKey("time");
-      case "time":
-        return logs[0]?.time ? "time" : checkKey("weight");
+      case ExerciseLogsChartYKeys.weight:
+        return logs[0]?.weight
+          ? ExerciseLogsChartYKeys.weight
+          : checkKey(ExerciseLogsChartYKeys.reps);
+      case ExerciseLogsChartYKeys.reps:
+        return logs[0]?.reps
+          ? ExerciseLogsChartYKeys.reps
+          : checkKey(ExerciseLogsChartYKeys.time);
+      case ExerciseLogsChartYKeys.time:
+        return logs[0]?.time
+          ? ExerciseLogsChartYKeys.time
+          : checkKey(ExerciseLogsChartYKeys.weight);
       default:
         return key;
     }
